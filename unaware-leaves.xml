@@ -101,20 +101,28 @@
    When a routing protocol such as RPL is used to maintain reachability within a
    Non-Broadcast Multi-Access (NBMA) subnet, some nodes may act as routers and
    participate to the routing operations whereas others may be plain hosts.
-   In RPL terms, a plain host that does not participate to the routing protocol
-   is called a Leaf. It must be noted that a 6LN could participate to RPL and
-   inject DAO routes to self, but refrain from advertising DIO and get children.
-   In that case, the 6LN is still a host but not a Leaf.
+   In RPL terms, a plain host that does not contribute forwarding services
+   to the routing protocol is called a Leaf.
+   Such a 6LN would still contribute DAO routes to itself, but would refrain
+   from advertising DIOs, and will not have any children.
+</t>
+
+<t>
+   In the case where the 6LN does not contribute DAOs to inject routes
+   to itself, then the 6LN is a host but not a Leaf.
 </t>
 
 <t>
    This specification enables a RPL-Unaware Leaf (RUL) to announce itself as a
-   host and demand that the 6LR that accepts the registration also inject the
+   host and request that 6LRs that accepts the registration also inject the
    relevant routing information for the Registered Address in the RPL domain on
    its behalf.
    The unicast packet forwarding operation by the 6LR serving a Leaf 6LN is
    described in <xref target="I-D.ietf-roll-useofrplinfo">
    "When to use RFC 6553, 6554 and IPv6-in-IPv6"</xref>.
+</t>
+
+<t>
    This document adds the capability by a 6LR to advertise the Global,
    Unique-Local and Multicast IPv6 address(es) of the 6LN in the RPL protocol.
    </t>
@@ -168,7 +176,11 @@
    Networks"</xref> specification.
 </t>
 <t>
-   This document introduces the term RPL-Unaware Leaf (RUL) to refer to a node
+   This document uses the terms RPL-Unaware Leaf (RUL) and RPL Aware Node
+   (RAN) consistently with <xref target="I-D.ietf-roll-useofrplinfo" />.
+</t>
+<t>
+   The term RPL-Unaware Leaf (RUL) is used to refer to a node
    that uses a RPL router (without necessarily knowing it) as 6LR and depends on
    that router to obtain reachability for its addresses inside the RPL domain.
    On the contrary, the term RPL-Aware Leaf (RAL) is used to refer to a host
