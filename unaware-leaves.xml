@@ -294,10 +294,11 @@
     ]]></artwork>
     </figure>
    <t>
-   The 'R' flag that is set if the Registering
-   Node expects that the 6LR ensures reachability for the Registered Address,
-   e.g., by means of routing or proxying ND.
-   </t> <t>
+     This document specifies the use of the existing 'R' flag. It is to be set
+     if the Registering Node expects that the 6LR is to ensures reachability
+     for the Registered Address, e.g., by means of routing or proxying ND.
+   </t>
+   <t>
    The EARO also includes a sequence
    counter called Transaction ID (TID), which maps to the Path Sequence Field
    found in Transit Options in RPL DAO messages. It is a prerequisite for this
