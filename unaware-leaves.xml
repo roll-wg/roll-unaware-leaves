@@ -601,11 +601,11 @@
    at the registered address when there is no RPL Packet Information (RPI) in
    the packet, in which case the 6LR SHOULD add one to the packet.
    if the 'I' field is not zero, then the 6LR MUST consider that the Opaque
-   field is left to zero. If the Opaque field is not set to zero, then it should
+   field is zero. If the Opaque field is not set to zero, then it should
    carry a RPL InstanceID for the Instance suggested by the 6LN.
    If the 6LR does not participate to the associated Instance, then the 6LR MUST
-   consider that the Opaque field is left to zero.
-   If the Opaque field left to zero, the 6LR is free to use the default Instance
+   consider that the Opaque field is empty.
+   If the Opaque field is empty, the 6LR is free to use the default Instance
    (zero) for the registered address or to select an Instance of its choice;
    else, that is if the 6LR participates to the suggested Instance, then the
    6LR SHOULD use that Instance for the registered address.
