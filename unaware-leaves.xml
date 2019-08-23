@@ -462,7 +462,7 @@
         them anyway.
         Note that in Storing Mode the DAO ACK is generated from the parent that
         does not necessary wait for the grand parent to acknowledge, so the
-        DAO-ACK is no guarantee that the keep-alive EDAR succeeded. On the other
+        DAO-ACK is not a guarantee that the keep-alive EDAR has succeeded. On the other
         hand, the flows can be nested in Non-Storing Mode, and it is possible to
         carry information such as an updated lifetime from the 6LBR all the way
         to the 6LN.
