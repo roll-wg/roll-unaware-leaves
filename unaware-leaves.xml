@@ -849,6 +849,7 @@
     operation.
 	A trust model must be put in place to ensure that the right devices are
 	acting in these roles, so as to avoid threats such as black-holing,
+        (see <xref target="RFC7416" /> section 7)
 	or bombing attack whereby an impersonated 6LBR would destroy state in
 	the network by using the "Removed" Status code. This trust model could be
     at a minimum based on a Layer-2 access control, or could provide role
@@ -905,6 +906,7 @@
 	  <?rfc include="reference.RFC.6687"?>
 	  <?rfc include="reference.RFC.7102"?>
 	  <?rfc include="reference.RFC.7228"?>
+          <?rfc include="reference.RFC.7416"?>
 	  <?rfc include="reference.RFC.8025"?>
       <?rfc include='reference.I-D.ietf-roll-efficient-npdao.xml'?>
       <?rfc include='reference.I-D.ietf-roll-useofrplinfo'?>
