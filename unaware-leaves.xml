@@ -88,11 +88,11 @@
    RPL is designed to adapt to fuzzy connectivity, whereby the physical topology
    cannot be expected to reach a stable state, with a lazy control that creates
    routes proactively but only fixes them when they are used by actual traffic.
-   It results that RPL provides reachability for most of the LLN nodes, most of
-   the time, but does not really converge in the classical sense. RPL provides
+   The result is that RPL provides reachability for most of the LLN nodes, most of
+   the time, but may not really converge in the classical sense. RPL provides
    unicast and multicast routing services back to RPL-Aware nodes (RANs).
-   A RAN will inject routes to self using Destination Advertisement
-   Object (DAO) messages sent to either their parents in Storing Mode or to the
+   A RAN will inject routes to itself using Destination Advertisement
+   Object (DAO) messages sent to either parent-nodes in Storing Mode or to the
    Root indicating their parent in Non-Storing Mode.
    This process effectively forms a DODAG back to the device that is a subset of
    the DODAG to the Root with all links reversed.
