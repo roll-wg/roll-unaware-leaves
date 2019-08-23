@@ -259,7 +259,7 @@
    "Neighbor Discovery Optimizations for 6LoWPAN networks"</xref>
    (6LoWPAN ND) adapts IPv6 ND for operations over energy-constrained LLNs.
    In particular, 6LoWPAN ND introduces a unicast host address registration
-   mechanism that contributes to reduce the use of multicast messages that are
+   mechanism that contributes to reducing the use of multicast messages that are
    present in the classical IPv6 ND protocol. 6LoWPAN ND defines a new Address
    Registration Option (ARO) that is carried in the unicast
    Neighbor Solicitation (NS) and Neighbor Advertisement (NA) messages between
