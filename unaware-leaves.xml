@@ -660,7 +660,7 @@
    Upon reception of a DAO message that creates or updates an existing RPL state:
    <list style="symbols">
    <t>
-   the Root notifies the 6LBR using an internal API if they are collocated, or
+   the Root notifies the 6LBR using an internal API if they are co-located, or
    performs a keep-alive DAR/DAC exchange on behalf of the registering node if
    they are separated.
    </t><t>
