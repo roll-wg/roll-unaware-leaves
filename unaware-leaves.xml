@@ -444,7 +444,8 @@
     </t><t>
         From the perspective of the 6LN, the registration flow happens
         transparently; it is not delayed by the proxy RPL operation, so the
-        device does not need to wait more whether RPL proxy operation happens
+        device does not need to change the amount of time it waits based
+        upon whether RPL proxy operation happens
         or not. The flows below are RPL Non-Storing Mode examples.
         In Storing Mode, the DAO ACK may not be present, and the DAO messages
         cascade from child to parent all the way to the DODAG Root.
