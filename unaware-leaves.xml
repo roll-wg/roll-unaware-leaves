@@ -5,7 +5,7 @@
 ]>
       <?rfc include="reference.RFC.8300"?>
 
-<rfc ipr="trust200902" docName="draft-ietf-roll-unaware-leaves-02" category="std" updates="6550, 8505">
+<rfc ipr="trust200902" docName="draft-ietf-roll-unaware-leaves-03" category="std" updates="6550, 8505">
 
 <?rfc sortrefs="yes"?>
 <?rfc iprnotified="no"?>
