@@ -101,15 +101,21 @@
    When a routing protocol such as RPL is used to maintain reachability within a
    Non-Broadcast Multi-Access (NBMA) subnet, some nodes may act as routers and
    participate to the routing operations whereas others may be plain hosts.
-   In RPL terms, a plain host that does not contribute forwarding services
-   to the routing protocol is called a Leaf.
+   In <xref target="RFC6550"/> terms, a plain host that does not contribute
+   forwarding services to the routing protocol is called a Leaf.
    Such a 6LN would still contribute DAO routes to itself, but would refrain
    from advertising DIOs, and will not have any children.
 </t>
 
 <t>
-   In the case where the 6LN does not contribute DAOs to inject routes
-   to itself, then the 6LN is a host but not a Leaf.
+   Such a 6LN would still contribute DAO routes to itself, but would refrain
+   from advertising DIOs, and will not have any children.
+   <xref target="I-D.ietf-roll-useofrplinfo">
+   "When to use RFC 6553, 6554 and IPv6-in-IPv6"</xref> introduces the term
+   RPL-Aware-Leaf (RAL) for that type of 6LN. In contrast,
+   a RPL-Unaware Leaf (RUL) designates a leaf does not contribute to RPL but
+   is reachable over a RPL network. In that case, the 6LN is a plain host that
+   needs an interface to its RPL router to obtain routing services over the LLN.
 </t>
 
 <t>
@@ -931,12 +937,12 @@
         <figure title="Encapsulation to Parent in Storing Mode" anchor="rtghc">
         <artwork>
    <![CDATA[
-+-+ ... -+-+ ... +-+- ... -+-+- ... +-+-+-+ ... +-+-+ ... -+ ... +-...
-|11110001|SRH-6LoRH| RPI-  | IP-in-IP | NH=1      |11110CPP| UDP | UDP
-|Page 1  |Type1 S=0| 6LoRH |  6LoRH   |LOWPAN_IPHC| UDP    | hdr |Payld
-+-+ ... -+-+ ... +-+- ... -+-+-- ... -+-+-+ ... +-+-+ ... -+ ... +-...
-          <-4bytes->                    <-        RFC 6282      ->
-                                                No RPL artifact
++-+ ... -+-+ ... +-+- ... -+-+ ... -+-+-+ ... +-+-+ ... -+ ... +-...
+|11110001|SRH-6LoRH| RPI-  |IP-in-IP| NH=1      |11110CPP| UDP | UDP
+|Page 1  |Type1 S=0| 6LoRH | 6LoRH  |LOWPAN_IPHC| UDP    | hdr |Payld
++-+ ... -+-+ ... +-+- ... -+-+ ... -+-+-+ ... +-+-+ ... -+ ... +-...
+          <-4bytes->                 <-        RFC 6282      ->
+                                           No RPL artifact
         ]]></artwork></figure>
 
           </t>
