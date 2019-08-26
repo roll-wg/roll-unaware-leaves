@@ -74,7 +74,7 @@
 
 
 <t>The IETF produced the <xref target="RFC6550">"Routing Protocol for Low Power
-   and Lossy Networks"</xref> (RPL) to provide IPv6 <xref target="RFC8200"/> 
+   and Lossy Networks"</xref> (RPL) to provide IPv6 <xref target="RFC8200"/>
    routing services within such constraints.
    RPL is a Distance-Vector protocol, which, compared to link-state protocols,
    limits the amount of topological knowledge that needs to be installed and
@@ -331,7 +331,7 @@
    This document specifies a new behavior whereby a 6LR injects DAO messages
    for unicast addresses registered through the updated 6LoWPAN ND
    <xref target="RFC8505"/> on behalf of leaves that are not RPL-aware.
-</t>  
+</t>
 <t>
    <xref target="RFC8505"/> specifies the use of the 'R' flag in the EARO by the
    Registering Node. With that specification,
@@ -339,7 +339,7 @@
    ensure reachability for the Registered Address, e.g., by means of routing
    or proxying ND.
 </t>
-<t> 
+<t>
    Conversely, this document specifies the behavior of the RPL router depending
    on the setting of the 'R' flag. The 6LR advertises the Registered Address in
    DAO messages, if and only if it is triggered by an NS(EARO) that has the 'R'
@@ -370,7 +370,7 @@
    takes place between the 6LR and the 6LBR. It is triggered by a NS(EARO)
    message and is intended to create and then refresh the corresponding state in
    the 6LBR for a lifetime that is indicated by the 6LN. Conversely, RPL
-   <xref target="RFC6550"/> specifies a periodic DAO that maintains the routing 
+   <xref target="RFC6550"/> specifies a periodic DAO that maintains the routing
    state in the RPL network for a lifetime that is indicated by the source of
    the DAO. This means that there are two periodic messages that traverse the
    whole network to indicate that an address is still reachable, one to the root
@@ -384,11 +384,11 @@
    Upon the renewal of a 6LoWPAN ND registration, this specification changes the
    behavior of a RPL router acting as 6LR for the registration as follows: If
    the root indicates the capability to proxy the keep-alive EDAR/EDAC exchange,
-   then the 6LR refrains from sending an EDAR message. 
+   then the 6LR refrains from sending an EDAR message.
    If the root is separated from the 6LBR, it regenerates a keep-alive message
    to the 6LBR upon a DAO message. In that flow, the RPL Root acts as a proxy on
    behalf of the 6LR to refresh the state in the 6LBR, which saves the traversal
-   of the network by a second keep-alive message. 
+   of the network by a second keep-alive message.
    </t>
 <t>
    This document also specifies a keep-alive EDAR message that the RPL Root may
