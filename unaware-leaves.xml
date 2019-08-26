@@ -64,8 +64,8 @@
 
 
 <t>The IETF produced the <xref target="RFC6550">"Routing Protocol for Low Power
-   and Lossy Networks"</xref> (RPL) to provide routing services
-   within such constraints.
+   and Lossy Networks"</xref> (RPL) to provide IPv6 <xref target="RFC8200"/> 
+   routing services within such constraints.
    RPL is a Distance-Vector protocol, which, compared to link-state protocols,
    limits the amount of topological knowledge that needs to be installed and
    maintained in each node. In order to operate in constrained networks,
@@ -165,7 +165,7 @@
 
 <t>
    The Terminology used in this document is consistent with and incorporates
-   that described in <xref target="RFC7102">Terms Used in Routing for Low-Power
+   that described in <xref target="RFC7102"> Terms Used in Routing for Low-Power
    and Lossy Networks (LLNs).</xref>.
 </t><t>
    Other terms in use in LLNs are found in <xref target="RFC7228">
@@ -182,16 +182,16 @@
    Networks"</xref> specification.
 </t>
 <t>
-   This document uses the terms RPL-Unaware Leaf (RUL) and RPL Aware Node
-   (RAN) consistently with <xref target="I-D.ietf-roll-useofrplinfo" />.
+   This document uses the terms RPL-Unaware Leaf (RUL) and RPL Aware Leaf
+   (RAL) consistently with <xref target="I-D.ietf-roll-useofrplinfo" />.
 </t>
 <t>
    The term RPL-Unaware Leaf (RUL) is used to refer to a node
    that uses a RPL router (without necessarily knowing it) as 6LR and depends on
    that router to obtain reachability for its addresses inside the RPL domain.
-   On the contrary, the term RPL-Aware Leaf (RAL) is used to refer to a host
-   or a router that participates to RPL and advertises its addresses of prefixes
-   by itself.
+   On the contrary, the term RPL-Aware Node (RAN) is used to refer to a RAL
+   or a RPL router that participates to RPL and advertises its addresses of
+   prefixes by itself.
 </t>
 <t>
    Other terms in use in LLNs are found in <xref target="RFC7228">
@@ -239,8 +239,9 @@
        <t hangText="NS:">  Neighbor Solicitation  </t>
        <t hangText="RA:">  Router Advertisement  </t>
        <t hangText="ROVR:"> Registration Ownership Verifier (pronounced rover) </t>
-       <t hangText="RPI:"> RPL Packet Information (an Option in the Hop-By_Hop header)</t>
+       <t hangText="RPI:"> RPL Packet Information (an Option in the Hop-By_Hop Header)</t>
        <t hangText="RAL:"> RPL-Aware Leaf </t>
+       <t hangText="RAN:"> RPL-Aware Node, a RPL router or a RPL-Aware Leaf </t>
        <t hangText="RS:">  Router Solicitation  </t>
        <t hangText="RPL:"> IPv6 Routing Protocol for LLNs (pronounced ripple) </t>
        <t hangText="RUL:"> RPL-Unaware Leaf </t>
@@ -255,9 +256,9 @@
 <section anchor="lpnd" title="6LoWPAN Neighbor Discovery">
 
 <t>
-   The IPv6 <xref target="RFC8200"/>Neighbor Discovery (IPv6 ND) Protocol (NDP)
-   suite <xref target="RFC4861"/> <xref target="RFC4862"/> defined for fast
-   media such a Ethernet, relies heavily on multicast operations for address
+   The "IPv6 Neighbor Discovery (IPv6 ND) Protocol" (NDP) suite
+   <xref target="RFC4861"/> <xref target="RFC4862"/> was defined for transit
+   media such a Ethernet, and relies heavily on multicast operations for address
    discovery and duplicate address detection (DAD).
 </t>
 <t>
@@ -299,11 +300,7 @@
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     ]]></artwork>
     </figure>
-   <t>
-     This document specifies the use of the existing 'R' flag. It is to be set
-     if the Registering Node expects that the 6LR is to ensures reachability
-     for the Registered Address, e.g., by means of routing or proxying ND.
-   </t>
+
    <t>
    The EARO also includes a sequence
    counter called Transaction ID (TID), which maps to the Path Sequence Field
@@ -323,37 +320,67 @@
 <t>
    This document specifies a new behavior whereby a 6LR injects DAO messages
    for unicast addresses registered through the updated 6LoWPAN ND
-   <xref target="RFC8505"/> on behalf of 6LN nodes that are
-   not RPL-aware.
-</t><!--t>
+   <xref target="RFC8505"/> on behalf of leaves that are not RPL-aware.
+</t>  
+<t>
+   <xref target="RFC8505"/> specifies the use of the 'R' flag in the EARO by the
+   Registering Node. With that specification,
+   the Registering Node sets the 'R' flag to indicate whether the 6LR should
+   ensure reachability for the Registered Address, e.g., by means of routing
+   or proxying ND.
+</t>
+<t> 
+   Conversely, this document specifies the behavior of the RPL router depending
+   on the setting of the 'R' flag. The 6LR advertises the Registered Address in
+   DAO messages, if and only if it is triggered by an NS(EARO) that has the 'R'
+   flag set, indicating that the 6LN is a RUL.
+   If the 'R' flag is not set, then the Registering Node is expected to be a RAN
+   that handles the reachability of the Registered Address by itself.
+</t>
+<t>
+   As prescribed by <xref target="RFC8505"/>, a RPL router SHOULD NOT set the
+   'R' flag, unless it relies on the 6LR to generate the DAO messages on its
+   behalf.
+</t>
+
+<!--t>
    The External "E" flag is set to indicate that the source of
    the information is an alternate protocol. Information from the EARO option
    (TID, Lifetime) is mapped into equivalent information in the DAO that is
    proxy-generated. The Registered Address is indicated in the Target Option,
    and in Non-Storing Mode, the 6LR sets itself as the parent in the Transit
    Option.
-</t--><t>
-   Upon the renewal of a 6LoWPAN ND registration, this specification
-   changes the behavior of the 6LR as follows.
-   If the 'R' flag is set, the 6LR injects a DAO targeting the Registered
-   Address, and refrains from sending a DAR message.
-   the DAR/DAC exchange that refreshes the state in the 6LBR happens instead
-   between the RPL Root and the 6LBR. In that flow, the RPL Root acts as a
-   proxy on behalf of the 6LR upon the reception of the DAO propagation
-   initiated at the 6LR.
-   </t>
+</t-->
 </section>
 
 <section anchor="upd2" title="Updating RFC 8505">
 
 <t>
-   The behavior defined in this specification whereby the 6LR that processes the
-   registration advertises the Registered Address in DAO messages and bypasses
-   the DAR/DAC process for the renewal of a registration, is only triggered by
-   an NS(EARO) that has the 'R' flag set.
-   If the 'R' flag is not set, then the Registering Node is expected to be a RAN
-   router that handles the reachability of the Registered Address by itself.
-</t><t>
+   <xref target="RFC8505"/> specifies a periodic Extended DAR/DAR exchange that
+   takes place between the 6LR and the 6LBR. It is triggered by a NS(EARO)
+   message and is intended to create and then refresh the corresponding state in
+   the 6LBR for a lifetime that is indicated by the 6LN. Conversely, RPL
+   <xref target="RFC6550"/> specifies a periodic DAO that maintains the routing 
+   state in the RPL network for a lifetime that is indicated by the source of
+   the DAO. This means that there are two periodic messages that traverse the
+   whole network to indicate that an address is still reachable, one to the root
+   and one to the 6LBR.
+   This specification enables to synchronize the liveness monitoring at the root
+   and the 6LBR, which may or may not be the same node. A same value of lifetime
+   is used for both, and a single keep alive message, the RPL DAO, traverse the
+   RPL network.
+   </t>
+<t>
+   Upon the renewal of a 6LoWPAN ND registration, this specification changes the
+   behavior of a RPL router acting as 6LR for the registration as follows: If
+   the root indicates the capability to proxy the keep-alive EDAR/EDAC exchange,
+   then the 6LR refrains from sending an EDAR message. 
+   If the root is separated from the 6LBR, it regenerates a keep-alive message
+   to the 6LBR upon a DAO message. In that flow, the RPL Root acts as a proxy on
+   behalf of the 6LR to refresh the state in the 6LBR, which saves the traversal
+   of the network by a second keep-alive message. 
+   </t>
+<t>
    This document also specifies a keep-alive EDAR message that the RPL Root may
    use to maintain an existing state in the 6LBR upon receiving DAO messages.
    The keep-alive EDAR message may only act as a refresher and can only update
@@ -362,14 +389,10 @@
    </t><t>
    This document similarly specifies a keep-alive NS(EARO) message that the RPL
    Root may use to maintain an existing state in a 6BBR upon receiving DAO
-   messages.
+   messages when the root is located on a same link as the 6LBR.
    The keep-alive NS(EARO) message may only act as a refresher and can only
    update the Lifetime and the TID of the state in the 6BBR.
-</t><t>
-   As prescribed by <xref target="RFC8505"/>, a RPL router
-   SHOULD NOT set the 'R' flag.
-   </t>
-
+</t>
 </section>
 
 
