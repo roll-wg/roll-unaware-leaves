@@ -1,12 +1,11 @@
-# ANIMA operational considerations for BRSKI Registrar
+# ROLL WG unaware leaves
 
-The ANIMA WG Bootstrapping Remote Secure Key Infrastructure (BRSKI)
-protocol involves three parties: Pledge (device), Registrar and
-Manufacturer Authorized Signing Authority (MASA).
+This specification leverages 6LoWPAN ND to provide a unicast and multicast
+ routing service in a RPL domain to 6LNs that do not participate to RPL.
 
-This repository contains operational considerations for the Registrar
-function.  It is a candidate document for the ANIMA WG
-http://datatracker.ietf.org/wg/anima 
+It is a document for the ROLL WG http://datatracker.ietf.org/wg/roll
+
+
 
 
 
