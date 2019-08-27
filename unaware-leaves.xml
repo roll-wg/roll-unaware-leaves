@@ -53,8 +53,9 @@
 
 
 <abstract>
-<t>This specification leverages 6LoWPAN ND to provide a unicast and multicast
- routing service in a RPL domain to 6LNs that do not participate to RPL.
+<t>This specification extends RFC6550 and RFC8505 to provide unicast and
+   multicast routing services in a RPL domain to 6LNs that are plain hosts and
+   do not participate to RPL.
 </t>
 </abstract>
 
@@ -112,7 +113,7 @@
    Non-Broadcast Multi-Access (NBMA) subnet, some nodes may act as routers and
    participate to the routing operations whereas others may be plain hosts.
    In <xref target="RFC6550"/> terms, a host that is reachable over the RPL
-   network is called a Leaf. 
+   network is called a Leaf.
 </t>
 <t>
    <xref target="I-D.ietf-roll-useofrplinfo">
@@ -120,8 +121,8 @@
    RPL-Aware-Leaf (RAL) for a leaf that injects routes in RPL to manage the
    reachability of its own IPv6 addresses.
    In contrast, a RPL-Unaware Leaf (RUL) designates a leaf does not participate
-   to RPL  at all. In that case, the 6LN is a plain host that 
-   needs an interface to its RPL router to obtain routing services over the LLN. 
+   to RPL  at all. In that case, the 6LN is a plain host that
+   needs an interface to its RPL router to obtain routing services over the LLN.
 </t>
 
 <t>
@@ -344,21 +345,12 @@
    <xref target="RFC8505"/> on behalf of leaves that are not RPL-aware based
    on information in the EARO such as the TID and the 'I' field.
 </t>
+<t>This document also introduces new Status Values for a DAO-ACK that map to
+   the Status values that can be returned from the 6LBR, to transport them
+   back to the 6LR. The values are listed in <xref target="iana-ack-status"/>.
+</t>
 
-<!--t>
-   The External "E" flag is set to indicate that the source of
-   the information is an alternate protocol. Information from the EARO option
-   (TID, Lifetime) is mapped into equivalent information in the DAO that is
-   proxy-generated. The Registered Address is indicated in the Target Option,
-   and in Non-Storing Mode, the 6LR sets itself as the parent in the Transit
-   Option.
-</t--><t>
-   This document also specifies a keep-alive EDAR message and a keep-alive
-   NS(EARO) message. Those keep-alive have a NULL ROVR field and may only be
-   used as a refresher of an existing state associated to a Registered Address,
-   More specifically, a keep-alive message can only update the Lifetime and the
-   TID of the existing state in a 6LBR.
-   </t>
+
 </section>
 
 <section anchor="upd2" title="Updating RFC 8505">
@@ -373,25 +365,29 @@
    the DAO. This means that there are two periodic messages that traverse the
    whole network to indicate that an address is still reachable, one to the root
    and one to the 6LBR.
-   This specification enables to synchronize the liveness monitoring at the root
-   and the 6LBR, which may or may not be the same node. A same value of lifetime
-   is used for both, and a single keep alive message, the RPL DAO, traverse the
-   RPL network.
+   This specification synchronizes the liveness monitoring at the root and the
+   6LBR. A same value of lifetime is used for both, and a single keep alive
+   message, the RPL DAO, traverses the RPL network.
+   </t><t>
+   This document also specifies a keep-alive EDAR message and a keep-alive
+   NS(EARO) message. Those messages have a NULL ROVR field and may only be
+   used as a refresher of an existing state associated to a Registered Address,
+   More specifically, a keep-alive message can only update the Lifetime and the
+   TID of the existing state in a 6LBR.
    </t>
-<t>
+   <t>
    Upon the renewal of a 6LoWPAN ND registration, this specification changes the
-   behavior of a RPL router acting as 6LR for the registration as follows: If
+   behavior of a RPL router acting as 6LR for the registration as follows: if
    the root indicates the capability to proxy the EDAR/EDAC exchange to the 6LBR
    then the 6LR refrains from sending an EDAR message. If the root is separated
    from the 6LBR, the root generates a keep-alive message to the 6LBR upon a
-   DAO message on behalf of the 6LR. In that flow, the RPL Root acts as a proxy
-   to refresh the state in the 6LBR, which saves the traversal of the network by
-   a second keep-alive message. 
+   DAO message that signals the liveliness of the Address.
    </t>
   <t>
+   In that flow, the RPL Root acts as a proxy to refresh the state in the 6LBR.
    The proxy operation applies to both RUL and RAN. This means that in a RPL
    network where the function is enabled, refreshing the state in the 6LBR is
-   the responsibility of the root. Consequently, only addresses that are 
+   the responsibility of the root. Consequently, only addresses that are
    injected in RPL will be kept alive by the RPL root. If an additional routing
    protocol is deployed on a same network, that additional routing protocol may
    need to handle the keep alive procedure for the addresses that it serves.
@@ -402,45 +398,37 @@
 
 
 
-<section anchor="prereq" title="Dependencies on the 6LN">
+<section anchor="prereq" title="6LN Requirements to be a RPL-Unware Leaf">
 <t>
-   This document provides RPL routing for a 6LN acting as a plain host and not
-   aware of RPL. Still, a minimal RPL-independent functionality is expected from
-   the 6LN in order to operate properly as a RLU; in particular:
-   <list style="symbols">
+   This document provides RPL routing for a RUL, that is a 6LN acting as a plain
+   host and not aware of RPL. Still, a minimal RPL-independent functionality is
+   expected from the 6LN in order to obtain routing services from the 6LR.
+</t>
+ <section anchor="prereq6lp" title="Support of 6LoWPAN ND">
    <t>
-   the 6LN MUST implement <xref target="RFC8505"/> and set
+   A RUL MUST implement <xref target="RFC8505"/> and set
    the 'R' flag in the EARO option. The 'R' flag is used to determine whether
    the Registering Node is a RUL, not aware of the RPL operation in the network,
    and thus does not participate to it.
    A 6LN is considered to be a RUL if and only if it sets the 'R' flag in
    the EARO.
-   </t><t>
-   RPL data packets are often encapsulated using IP in IP and in Non-Storing Mode,
+   </t>
+   <t><xref target="RFC8505"/> introduces the Status 4 (Removed) in the NA(EARO)
+   which can be received synchronously upon ann NS(EARO) or asynchronously. The
+   RUL MUST support both cases and refrain from using the Registered Address.
+   The other values of the Status SHOULD be supported as well.
+   </t>
+  </section>
+  <section anchor="prereqv6" title="IPv6 Host Support of RPL Artifacts">
+   <t>
+   RPL data packets are often encapsulated using IP-in-IP and in Non-Storing Mode,
    packets going down will carry an SRH as well. RPL data packets also typically
    carry a Hop-by-Hop Header to transport a RPL Packet Information (RPI)
    <xref target="RFC6550"/>. These additional headers are called RPL artifacts.
    </t><t>
-   An arbitrary 6LN is expected to support IPv6-in-IPv6 encapsulation when it is
-   the destination of the outer header. If the 6LN is a host, it is expected to
-   drop the inner packet if it is not the destination of the inner header.
-      </t><t>
-   An arbitrary 6LN is expected to process an unknown Option Type in a
-   Hop-by-Hop Header as prescribed by section 4.2 of <xref target="RFC8200"/>.
-   This means in particular that an RPI with an Option Type of 0x23
-   <xref target="I-D.ietf-roll-useofrplinfo"/> is ignored when not
-   understood.
-      </t>
-      <t>
-   An arbitrary 6LN is expected to process an unknown Routing Header Type as
-   prescribed by section 4.4 of <xref target="RFC8200"/>.
-   This means in particular that Routing Header with a Routing Type of 3
-   <xref target="RFC6553"/> is ignored when the Segments Left is zero, and
-   dropped otherwise.
-      </t><t>
    When IP-in-IP is used and the outer headers terminate at the 6LR that
    generated the DAO, then the 6LR decapsulates the packet to the 6LN (
-   see <xref target="u8138"/> for the format in Storing Mode).
+   see <xref target="RFC8138"/> for the format in Storing Mode).
    In that case the 6LN gets a packet that is free of RPL artifacts.
    IP-in-IP to the 6LR MUST be used if the 6LN cannot handle or ignore the RPL
    artifacts or the way they are compressed <xref target="RFC8138"/>.
@@ -455,9 +443,33 @@
    interest that the 6LN supports decapsulating IP-in-IP in both forms.
    But since the preferred behaviour when using IP-in-IP is that the outter
    headers terminate at the 6LR, supporting this capability is secondary.
-   </t>
-   </list>
-</t>
+  </t>
+  <section anchor="prereqv6hh" title="Support of the HbH Header">
+     <t>
+     A RUL is expected to process an unknown Option Type in a
+     Hop-by-Hop Header as prescribed by section 4.2 of <xref target="RFC8200"/>.
+     This means in particular that an RPI with an Option Type of 0x23
+     <xref target="I-D.ietf-roll-useofrplinfo"/> is ignored when not
+     understood.
+     </t>
+  </section>
+  <section anchor="prereqv6rh" title="Support of the Routing Header">
+     <t>
+     A RUL is expected to process an unknown Routing Header Type as
+     prescribed by section 4.4 of <xref target="RFC8200"/>.
+     This means in particular that Routing Header with a Routing Type of 3
+     <xref target="RFC6553"/> is ignored when the Segments Left is zero, and
+     dropped otherwise.
+     </t>
+  </section>
+  <section anchor="prereqv6ip" title="Support of IPv6 Encapsulation">
+     <t>
+     A RUL is expected to support IPv6-in-IPv6 decapsulation when it is the
+     destination of the outer header. If the 6LN is a host, it is expected to
+     drop the inner packet if it is not the destination of the inner header.
+     </t>
+</section>
+</section>
 </section>
 
 
@@ -493,15 +505,12 @@
         The protocol does not carry a specific information that the Extended
         Duplicate Address messages were already exchanged, so the Root proxies
         them anyway.
-        Note that in Storing Mode the DAO ACK is generated from the parent that
-        does not necessary wait for the grand parent to acknowledge, so the
-        DAO-ACK is not a guarantee that the keep-alive EDAR has succeeded. On the other
-        hand, the flows can be nested in Non-Storing Mode, and it is possible to
-        carry information such as an updated lifetime from the 6LBR all the way
-        to the 6LN.
+        In Non-Storing Mode, the flows can be nested in Non-Storing Mode, and it
+        is possible to carry information such as an updated lifetime from the
+        6LBR all the way to the 6LN.
     </t>
     <figure anchor="fReg1" suppress-title="false"
-	title="First Registration Flow">
+	title="First Registration Flow in Non-Storing Mode">
     <artwork><![CDATA[
      6LN              6LR             Root             6LBR
       |                |               |                 |
@@ -541,36 +550,67 @@
     6BBR and route it back to the device.
     </t>
     <figure anchor="fReg2" suppress-title="false"
-	title="Next Registration Flow">
+	title="Next Registration Flow in Non-Storing Mode">
     <artwork><![CDATA[
-6LN             6LR             Root             6LBR           6BBR
- |               |               |                 |              |
- |   NS(EARO)    |               |                 |              |
- |-------------->|               |                 |              |
- |   NA(EARO)    |               |                 |              |
- |<--------------|               |                 |              |
- |               |               |                 |              |
- |               |      DAO      |                 |              |
- |               |-------------->|                 |              |
- |               |               |                 |              |
- |               |               | keep-alive EDAR |              |
- |               |               |---------------->|              |
- |               |               |   EDAC(ROVR)    |              |
- |               |               |<----------------|              |
- |               |               |                 |              |
- |               |               |          proxy NS(EARO)        |
- |               |               |------------------------------->|
- |               |               |          proxy NA(EARO)        |
- |               |               |<-------------------------------|
- |               |               |                 |              |
- |               |    DAO ACK    |                 |              |
- |               |<--------------|                 |              |
- |               |               |                 |              |
+     6LN              6LR             Root             6LBR
+      |                |               |                 |
+      |   NS(EARO)     |               |                 |
+      |--------------->|                                 |
+      |                |      DAO      |                 |
+      |                |-------------->|                 |
+      |                |               | keep-alive EDAR |
+      |                |               |---------------->|
+      |                |               |      EDAC       |
+      |                |               |<----------------|
+      |                |    DAO ACK    |                 |
+      |                |<--------------|                 |
+      |   NA(EARO)     |                                 |
+      |<---------------|               |                 |
+      |                |               |                 |
     ]]></artwork>
     </figure>
     <t>Note that any of the functions 6LR, Root and 6LBR might be collapsed in a
     single node, in which case the flow above happens internally, and possibly
     through internal API calls as opposed to messaging.
+    </t>
+    <t>
+    In Storing Mode the DAO ACK is generated from the parent that does not
+    wait for the grand parent to acknowledge, so the DAO-ACK is not a guarantee
+    that the keep-alive EDAR has succeeded.
+    </t>
+    <figure anchor="fReg2bis" suppress-title="false"
+	title="Next Registration Flow in Storing Mode">
+    <artwork><![CDATA[
+6LN             6LR             6LR            Root              6BBR
+ |               |               |               |                 |
+ |   NS(EARO)    |               |               |                 |
+ |-------------->|               |               |                 |
+ |   NA(EARO)    |               |               |                 |
+ |<--------------|               |               |                 |
+ |               |               |               |                 |
+ |               |      DAO      |               |                 |
+ |               |-------------->|               |                 |
+ |               |    DAO ACK    |               |                 |
+ |               |<--------------|               |                 |
+ |               |               |               |                 |
+ |               |               |      DAO      |                 |
+ |               |               |-------------->|                 |
+ |               |               |    DAO ACK    |                 |
+ |               |               |<--------------|                 |
+ |               |               |               |                 |
+ |               |               |               | keep-alive EDAR |
+ |               |               |               |---------------->|
+ |               |               |               |   EDAC(ROVR)    |
+ |               |               |               |<----------------|
+ |               |               |               |                 |
+ |               |               |               |                 |
+    ]]></artwork>
+    </figure>
+    <t>
+    Either way, if the keep alive fails, the path is cleaned up asynchronously
+    using a Destination Cleanup Object (DCO) message
+    <xref target="I-D.ietf-roll-efficient-npdao"/> as described in
+    <xref target="Root"/>.
     </t>
 </section>
 <section anchor="ln" title="6LN Operation">
@@ -618,7 +658,7 @@
    Address exchange succeeds, then the 6LR installs a Neighbor Cache Entry (NCE).
    If the 'R' flag was set in the EARO of the NS message, and this 6LR can
    manage the reachability of Registered Address, then the 6LR sets the 'R' flag
-   in the ARO of the response NA message.
+   in the EARO of the NA message that is sent in response.
 </t>
 
 <t>From then on, the 6LN periodically sends a new NS(EARO) to refresh the NCE
@@ -673,12 +713,25 @@
   </list>
 </t>
 <t>
+   If a DAO-ACK is not requested, or has a Status that is less than 128,
+   indicating the DAO was accepted, respectively by a parent in Storing Mode
+   or by the Root in non-Storing Mode,, the 6LR replies with a
+   NA(EARO) to the RUL with a status of 0 (Success). On the other hand,
+   if the 6LR fails to inject the address into the RPL network, the 6LR replies
+   with a NA(EARO) to the RUL with a status of 4 (Removed).
+</t>
+<t>
    If a 6LR receives a valid NS(EARO) message with the 'R' flag reset and the 6LR
    was redistributing the Registered Address due to previous NS(EARO) messages
    with the flag set, then it MUST stop injecting the address.
    It is up to the Registering Node to maintain the corresponding route from then
    on, either keeping it active by sending further DAO messages, or destroying
    it using a No-Path DAO.
+</t>
+<t>
+   Upon a DCO message indicating that the address of a RUL should be removed
+   from the routing table, the 6LR issues an asynchronous NA(EARO) to the RUL
+   with a status of 4 (Removed).
 </t>
 </section>
 
@@ -727,9 +780,11 @@
 </t>
 
 <t>
-  Upon a status in a DAC message that is not "Success", the Root MAY destroy
+  Upon a status in a DAC message that is not "Success", the Root SHOULD destroy
   the formed paths using a No-Path DAO downwards as specified in
-  <xref target="I-D.ietf-roll-efficient-npdao"/>.
+  <xref target="I-D.ietf-roll-efficient-npdao"/>. Failure to destroy the former
+  path would result in Stale routing state and local black holes if the address
+  belongs to another party elsewhere in the network.
 </t>
 
 
@@ -902,8 +957,38 @@
 
 <section anchor="iana-considerations" title="IANA Considerations">
     <t>
-	This specification has no requirement on IANA.
+	This specification creates a new subsubregistry for the
+    Status values of the RPL DAO-ACK Message, under the ICMPv6 parameters
+    registry.
+<list style="symbols">
+  <t> Possible values are 8-bit unsigned integers (0..255).</t>
+  <t> Registration procedure is "Standards Action" <xref target="RFC8126"/>.</t>
+  <t> Initial allocation is as indicated in <xref target="iana-ack-status"/>:</t>
+</list>
     </t>
+    <texttable
+        title="Status values of the RPL DAO-ACK Message"
+        anchor="iana-ack-status">
+  <ttcol align="center">
+       Value</ttcol>
+           <ttcol align="center"> Meaning </ttcol>
+                                   <ttcol align="center"> Defining Spec
+                                   </ttcol>
+    <c>0</c>       <c>Unqualified acceptance</c>          <c>RFC6550</c>
+	<c>1-127</c>   <c>Reserved for Warning Codes</c>      <c>RFC6550</c>
+    <c>128</c>     <c>Duplicate Address</c>               <c>This RFC</c>
+    <c>129</c>     <c>Out of Storage</c>                  <c>This RFC</c>
+	<c>130</c>     <c>Moved</c>                           <c>This RFC</c>
+	<c>131</c>     <c>Removed</c>                         <c>This RFC</c>
+	<c>132</c>     <c>Validation Requested</c>            <c>This RFC</c>
+	<c>133</c>     <c>Duplicate Source Address</c>        <c>This RFC</c>
+	<c>134</c>     <c>Invalid Source Address</c>          <c>This RFC</c>
+	<c>135</c>     <c>Address topologically incorrect</c> <c>This RFC</c>
+	<c>136</c>     <c>6LBR Registry saturated</c>         <c>This RFC</c>
+	<c>137</c>     <c>Validation Failed</c>		          <c>This RFC</c>
+	<c>138-255</c> <c>Reserved for Rejection Codes</c>    <c>RFC6550</c>
+    </texttable>
+
 </section>
 <section anchor="acknowledgments" title="Acknowledgments">
    <t>The author wishes to thank Michael Richardson and Georgios Papadopoulos
@@ -927,6 +1012,7 @@
 	  <?rfc include="reference.RFC.6553"?>
 	  <?rfc include="reference.RFC.6606"?>
 	  <?rfc include="reference.RFC.6775"?>
+      <?rfc include="reference.RFC.8126"?>
       <?rfc include="reference.RFC.8138"?>
       <?rfc include="reference.RFC.8174"?>
       <?rfc include="reference.RFC.8200"?>
