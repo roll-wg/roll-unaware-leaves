@@ -66,9 +66,9 @@ Table of Contents
      2.2.  References  . . . . . . . . . . . . . . . . . . . . . . .   4
      2.3.  Glossary  . . . . . . . . . . . . . . . . . . . . . . . .   5
    3.  6LoWPAN Neighbor Discovery  . . . . . . . . . . . . . . . . .   6
-   4.  Updating RFC 6550 . . . . . . . . . . . . . . . . . . . . . .   7
+   4.  Updating RFC 6550 . . . . . . . . . . . . . . . . . . . . . .   8
    5.  Updating RFC 8505 . . . . . . . . . . . . . . . . . . . . . .   8
-   6.  Dependencies on the 6LN . . . . . . . . . . . . . . . . . . .   8
+   6.  Dependencies on the 6LN . . . . . . . . . . . . . . . . . . .   9
    7.  Protocol Operations for Unicast Addresses . . . . . . . . . .  10
      7.1.  General Flow  . . . . . . . . . . . . . . . . . . . . . .  10
      7.2.  6LN Operation . . . . . . . . . . . . . . . . . . . . . .  12
@@ -361,20 +361,14 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
    Finally, the EARO transports an Opaque field and an 'I' field that
    describes what the Opaque field transports and how to use it.  This
-   specification requires that the I field is left to 0 and to use the
+   specification requires that the 'I' field is left to 0 and to use the
    Opaque field to carry the RPL InstanceID if one is known, else to
    leave the Opaque field to zero.
 
-4.  Updating RFC 6550
-
-   This document specifies a new behavior whereby a 6LR injects DAO
-   messages for unicast addresses registered through the updated 6LoWPAN
-   ND [RFC8505] on behalf of leaves that are not RPL-aware.
-
    [RFC8505] specifies the use of the 'R' flag in the EARO by the
-   Registering Node.  With that specification, the Registering Node sets
-   the 'R' flag to indicate whether the 6LR should ensure reachability
-   for the Registered Address, e.g., by means of routing or proxying ND.
+   Registering Node.  With [RFC8505], the Registering Node sets the 'R'
+   flag to indicate whether the 6LR should ensure reachability for the
+   Registered Address, e.g., by means of routing or proxying ND.
 
    Conversely, this document specifies the behavior of the RPL router
    depending on the setting of the 'R' flag.  The 6LR advertises the
@@ -383,6 +377,12 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    RUL.  If the 'R' flag is not set, then the Registering Node is
    expected to be a RAN that handles the reachability of the Registered
    Address by itself.
+
+   As prescribed by [RFC8505], a RPL router does not set the 'R' flag,
+   unless it relies on the 6LR to generate the DAO messages on its
+   behalf.
+
+
 
 
 
@@ -394,9 +394,18 @@ Thubert & Richardson    Expires February 28, 2020               [Page 7]
 Internet-Draft           Routing for RPL Leaves              August 2019
 
 
-   As prescribed by [RFC8505], a RPL router SHOULD NOT set the 'R' flag,
-   unless it relies on the 6LR to generate the DAO messages on its
-   behalf.
+4.  Updating RFC 6550
+
+   This document specifies a new behavior whereby a 6LR injects DAO
+   messages for unicast addresses registered through the updated 6LoWPAN
+   ND [RFC8505] on behalf of leaves that are not RPL-aware based on
+   information in the EARO such as the TID and the 'I' field.
+
+   This document also specifies a keep-alive EDAR message and a keep-
+   alive NS(EARO) message.  Those keep-alive have a NULL ROVR field and
+   may only be used as a refresher of an existing state associated to a
+   Registered Address, More specifically, a keep-alive message can only
+   update the Lifetime and the TID of the existing state in a 6LBR.
 
 5.  Updating RFC 8505
 
@@ -417,30 +426,21 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    Upon the renewal of a 6LoWPAN ND registration, this specification
    changes the behavior of a RPL router acting as 6LR for the
    registration as follows: If the root indicates the capability to
-   proxy the keep-alive EDAR/EDAC exchange, then the 6LR refrains from
-   sending an EDAR message.  If the root is separated from the 6LBR, it
-   regenerates a keep-alive message to the 6LBR upon a DAO message.  In
-   that flow, the RPL Root acts as a proxy on behalf of the 6LR to
+   proxy the EDAR/EDAC exchange to the 6LBR then the 6LR refrains from
+   sending an EDAR message.  If the root is separated from the 6LBR, the
+   root generates a keep-alive message to the 6LBR upon a DAO message on
+   behalf of the 6LR.  In that flow, the RPL Root acts as a proxy to
    refresh the state in the 6LBR, which saves the traversal of the
    network by a second keep-alive message.
 
-   This document also specifies a keep-alive EDAR message that the RPL
-   Root may use to maintain an existing state in the 6LBR upon receiving
-   DAO messages.  The keep-alive EDAR message may only act as a
-   refresher and can only update the Lifetime and the TID of the state
-   in the 6LBR.
+   The proxy operation applies to both RUL and RAN.  This means that in
+   a RPL network where the function is enabled, refreshing the state in
+   the 6LBR is the responsibility of the root.  Consequently, only
+   addresses that are injected in RPL will be kept alive by the RPL
+   root.  If an additional routing protocol is deployed on a same
+   network, that additional routing protocol may need to handle the keep
+   alive procedure for the addresses that it serves.
 
-   This document similarly specifies a keep-alive NS(EARO) message that
-   the RPL Root may use to maintain an existing state in a 6BBR upon
-   receiving DAO messages when the root is located on a same link as the
-   6LBR.  The keep-alive NS(EARO) message may only act as a refresher
-   and can only update the Lifetime and the TID of the state in the
-   6BBR.
-
-6.  Dependencies on the 6LN
-
-   This document provides RPL routing for a 6LN acting as a plain host
-   and not aware of RPL.  Still, a minimal RPL-independent functionality
 
 
 
@@ -450,6 +450,10 @@ Thubert & Richardson    Expires February 28, 2020               [Page 8]
 Internet-Draft           Routing for RPL Leaves              August 2019
 
 
+6.  Dependencies on the 6LN
+
+   This document provides RPL routing for a 6LN acting as a plain host
+   and not aware of RPL.  Still, a minimal RPL-independent functionality
    is expected from the 6LN in order to operate properly as a RLU; in
    particular:
 
@@ -494,10 +498,6 @@ Internet-Draft           Routing for RPL Leaves              August 2019
       and consume a routing header in both the native and compressed
       forms.  In order to enable IP-in-IP to a 6LN in Non-Storing Mode,
       it is also of interest that the 6LN supports decapsulating IP-in-
-      IP in both forms.  But since the preferred behaviour when using
-      IP-in-IP is that the outter headers terminate at the 6LR,
-      supporting this capability is secondary.
-
 
 
 
@@ -505,6 +505,10 @@ Thubert & Richardson    Expires February 28, 2020               [Page 9]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
+
+      IP in both forms.  But since the preferred behaviour when using
+      IP-in-IP is that the outter headers terminate at the 6LR,
+      supporting this capability is secondary.
 
 7.  Protocol Operations for Unicast Addresses
 
@@ -542,10 +546,6 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    succeeded.  On the other hand, the flows can be nested in Non-Storing
    Mode, and it is possible to carry information such as an updated
    lifetime from the 6LBR all the way to the 6LN.
-
-
-
-
 
 
 

@@ -310,22 +310,13 @@
 </t><t>
    Finally, the EARO transports an Opaque field and an 'I' field that describes
    what the Opaque field transports and how to use it. This specification
-   requires that the I field is left to 0 and to use the Opaque field to carry
+   requires that the 'I' field is left to 0 and to use the Opaque field to carry
    the RPL InstanceID if one is known, else to leave the Opaque field to zero.
 </t>
 
-</section>
-
-
-<section anchor="upd" title="Updating RFC 6550">
-<t>
-   This document specifies a new behavior whereby a 6LR injects DAO messages
-   for unicast addresses registered through the updated 6LoWPAN ND
-   <xref target="RFC8505"/> on behalf of leaves that are not RPL-aware.
-</t>
 <t>
    <xref target="RFC8505"/> specifies the use of the 'R' flag in the EARO by the
-   Registering Node. With that specification,
+   Registering Node. With <xref target="RFC8505"/>,
    the Registering Node sets the 'R' flag to indicate whether the 6LR should
    ensure reachability for the Registered Address, e.g., by means of routing
    or proxying ND.
@@ -339,9 +330,19 @@
    that handles the reachability of the Registered Address by itself.
 </t>
 <t>
-   As prescribed by <xref target="RFC8505"/>, a RPL router SHOULD NOT set the
+   As prescribed by <xref target="RFC8505"/>, a RPL router does not set the
    'R' flag, unless it relies on the 6LR to generate the DAO messages on its
    behalf.
+</t>
+</section>
+
+
+<section anchor="upd" title="Updating RFC 6550">
+<t>
+   This document specifies a new behavior whereby a 6LR injects DAO messages
+   for unicast addresses registered through the updated 6LoWPAN ND
+   <xref target="RFC8505"/> on behalf of leaves that are not RPL-aware based
+   on information in the EARO such as the TID and the 'I' field.
 </t>
 
 <!--t>
@@ -351,7 +352,13 @@
    proxy-generated. The Registered Address is indicated in the Target Option,
    and in Non-Storing Mode, the 6LR sets itself as the parent in the Transit
    Option.
-</t-->
+</t--><t>
+   This document also specifies a keep-alive EDAR message and a keep-alive
+   NS(EARO) message. Those keep-alive have a NULL ROVR field and may only be
+   used as a refresher of an existing state associated to a Registered Address,
+   More specifically, a keep-alive message can only update the Lifetime and the
+   TID of the existing state in a 6LBR.
+   </t>
 </section>
 
 <section anchor="upd2" title="Updating RFC 8505">
@@ -374,26 +381,22 @@
 <t>
    Upon the renewal of a 6LoWPAN ND registration, this specification changes the
    behavior of a RPL router acting as 6LR for the registration as follows: If
-   the root indicates the capability to proxy the keep-alive EDAR/EDAC exchange,
-   then the 6LR refrains from sending an EDAR message.
-   If the root is separated from the 6LBR, it regenerates a keep-alive message
-   to the 6LBR upon a DAO message. In that flow, the RPL Root acts as a proxy on
-   behalf of the 6LR to refresh the state in the 6LBR, which saves the traversal
-   of the network by a second keep-alive message.
+   the root indicates the capability to proxy the EDAR/EDAC exchange to the 6LBR
+   then the 6LR refrains from sending an EDAR message. If the root is separated
+   from the 6LBR, the root generates a keep-alive message to the 6LBR upon a
+   DAO message on behalf of the 6LR. In that flow, the RPL Root acts as a proxy
+   to refresh the state in the 6LBR, which saves the traversal of the network by
+   a second keep-alive message. 
    </t>
-<t>
-   This document also specifies a keep-alive EDAR message that the RPL Root may
-   use to maintain an existing state in the 6LBR upon receiving DAO messages.
-   The keep-alive EDAR message may only act as a refresher and can only update
-   the Lifetime and the TID of the state in the 6LBR.
+  <t>
+   The proxy operation applies to both RUL and RAN. This means that in a RPL
+   network where the function is enabled, refreshing the state in the 6LBR is
+   the responsibility of the root. Consequently, only addresses that are 
+   injected in RPL will be kept alive by the RPL root. If an additional routing
+   protocol is deployed on a same network, that additional routing protocol may
+   need to handle the keep alive procedure for the addresses that it serves.
+   </t>
 
-   </t><t>
-   This document similarly specifies a keep-alive NS(EARO) message that the RPL
-   Root may use to maintain an existing state in a 6BBR upon receiving DAO
-   messages when the root is located on a same link as the 6LBR.
-   The keep-alive NS(EARO) message may only act as a refresher and can only
-   update the Lifetime and the TID of the state in the 6BBR.
-</t>
 </section>
 
 
