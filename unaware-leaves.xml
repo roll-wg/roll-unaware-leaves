@@ -190,14 +190,9 @@
 <t>
    This document uses the terms RPL-Unaware Leaf (RUL) and RPL Aware Leaf
    (RAL) consistently with <xref target="I-D.ietf-roll-useofrplinfo" />.
-</t>
-<t>
-   The term RPL-Unaware Leaf (RUL) is used to refer to a node
-   that uses a RPL router (without necessarily knowing it) as 6LR and depends on
-   that router to obtain reachability for its addresses inside the RPL domain.
-   On the contrary, the term RPL-Aware Node (RAN) is used to refer to a RAL
-   or a RPL router that participates to RPL and advertises its addresses of
-   prefixes by itself.
+   The term RPL-Aware Node (RAN) is used to refer to a node that is either a RAL
+   or a RPL router. As opposed to a RUL, a RAN manages its own reachability by
+   injecting its own addresses and prefixes in RPL.
 </t>
 <t>
    Other terms in use in LLNs are found in <xref target="RFC7228">
@@ -227,8 +222,8 @@
     <t> This document often uses the following acronyms:
        <list hangIndent="6" style="hanging">
        <t hangText="AR:">  Address Resolution (aka Address Lookup)  </t>
-       <t hangText="6BBR:"> 6LoWPAN Backbone Router (proxy ND) </t>
-       <t hangText="6LBR:"> 6LoWPAN Border Router (an Address Registrar that is authoritative on DAD) </t>
+       <t hangText="6BBR:"> 6LoWPAN Backbone Router</t>
+       <t hangText="6LBR:"> 6LoWPAN Border Router</t>
        <t hangText="6LN:"> 6LoWPAN Node (a Low Power host or router) </t>
        <t hangText="6LR:"> 6LoWPAN Router </t>
        <t hangText="6CIO:"> Capability Indication Option </t>
@@ -244,12 +239,12 @@
        <t hangText="NDP:">  Neighbor Discovery Protocol </t>
        <t hangText="NS:">  Neighbor Solicitation  </t>
        <t hangText="RA:">  Router Advertisement  </t>
-       <t hangText="ROVR:"> Registration Ownership Verifier (pronounced rover) </t>
+       <t hangText="ROVR:"> Registration Ownership Verifier </t>
        <t hangText="RPI:"> RPL Packet Information (an Option in the Hop-By_Hop Header)</t>
        <t hangText="RAL:"> RPL-Aware Leaf </t>
-       <t hangText="RAN:"> RPL-Aware Node, a RPL router or a RPL-Aware Leaf </t>
+       <t hangText="RAN:"> RPL-Aware Node (either a RPL router or a RPL-Aware Leaf) </t>
        <t hangText="RS:">  Router Solicitation  </t>
-       <t hangText="RPL:"> IPv6 Routing Protocol for LLNs (pronounced ripple) </t>
+       <t hangText="RPL:"> IPv6 Routing Protocol for LLNs</t>
        <t hangText="RUL:"> RPL-Unaware Leaf </t>
        <t hangText="TID:"> Transaction ID (a sequence counter in the EARO) </t>
 

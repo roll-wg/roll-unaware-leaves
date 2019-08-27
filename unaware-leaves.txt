@@ -6,7 +6,7 @@ ROLL                                                     P. Thubert, Ed.
 Internet-Draft                                                     Cisco
 Updates: 6550, 8505 (if approved)                          M. Richardson
 Intended status: Standards Track                               Sandelman
-Expires: February 27, 2020                               August 26, 2019
+Expires: February 28, 2020                               August 27, 2019
 
 
                          Routing for RPL Leaves
@@ -33,7 +33,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on February 27, 2020.
+   This Internet-Draft will expire on February 28, 2020.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Thubert & Richardson    Expires February 27, 2020               [Page 1]
+Thubert & Richardson    Expires February 28, 2020               [Page 1]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
@@ -68,7 +68,7 @@ Table of Contents
    3.  6LoWPAN Neighbor Discovery  . . . . . . . . . . . . . . . . .   6
    4.  Updating RFC 6550 . . . . . . . . . . . . . . . . . . . . . .   7
    5.  Updating RFC 8505 . . . . . . . . . . . . . . . . . . . . . .   8
-   6.  Dependencies on the 6LN . . . . . . . . . . . . . . . . . . .   9
+   6.  Dependencies on the 6LN . . . . . . . . . . . . . . . . . . .   8
    7.  Protocol Operations for Unicast Addresses . . . . . . . . . .  10
      7.1.  General Flow  . . . . . . . . . . . . . . . . . . . . . .  10
      7.2.  6LN Operation . . . . . . . . . . . . . . . . . . . . . .  12
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Thubert & Richardson    Expires February 27, 2020               [Page 2]
+Thubert & Richardson    Expires February 28, 2020               [Page 2]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
@@ -138,17 +138,14 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    When a routing protocol such as RPL is used to maintain reachability
    within a Non-Broadcast Multi-Access (NBMA) subnet, some nodes may act
    as routers and participate to the routing operations whereas others
-   may be plain hosts.  In [RFC6550] terms, a plain host that does not
-   contribute forwarding services to the routing protocol is called a
-   Leaf.  Such a 6LN would still contribute DAO routes to itself, but
-   would refrain from advertising DIOs, and will not have any children.
+   may be plain hosts.  In [RFC6550] terms, a host that is reachable
+   over the RPL network is called a Leaf.
 
-   Such a 6LN would still contribute DAO routes to itself, but would
-   refrain from advertising DIOs, and will not have any children.  "When
-   to use RFC 6553, 6554 and IPv6-in-IPv6" [I-D.ietf-roll-useofrplinfo]
-   introduces the term RPL-Aware-Leaf (RAL) for that type of 6LN.  In
-   contrast, a RPL-Unaware Leaf (RUL) designates a leaf does not
-   contribute to RPL but is reachable over a RPL network.  In that case,
+   "When to use RFC 6553, 6554 and IPv6-in-IPv6"
+   [I-D.ietf-roll-useofrplinfo] introduces the term RPL-Aware-Leaf (RAL)
+   for a leaf that injects routes in RPL to manage the reachability of
+   its own IPv6 addresses.  In contrast, a RPL-Unaware Leaf (RUL)
+   designates a leaf does not participate to RPL at all.  In that case,
    the 6LN is a plain host that needs an interface to its RPL router to
    obtain routing services over the LLN.
 
@@ -160,19 +157,18 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    "When to use RFC 6553, 6554 and IPv6-in-IPv6"
    [I-D.ietf-roll-useofrplinfo].
 
-
-
-
-
-
-Thubert & Richardson    Expires February 27, 2020               [Page 3]
-
-Internet-Draft           Routing for RPL Leaves              August 2019
-
-
    This document adds the capability by a 6LR to advertise the Global,
    Unique-Local and Multicast IPv6 address(es) of the 6LN in the RPL
    protocol.
+
+
+
+
+
+Thubert & Richardson    Expires February 28, 2020               [Page 3]
+
+Internet-Draft           Routing for RPL Leaves              August 2019
+
 
    Examples of routing-agnostic 6LN may include lightly-powered sensors
    such as window smash sensor (alarm system), or the kinetically
@@ -211,29 +207,24 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    Low-Power and Lossy Networks" [RFC6550] specification.
 
    This document uses the terms RPL-Unaware Leaf (RUL) and RPL Aware
-   Leaf (RAL) consistently with [I-D.ietf-roll-useofrplinfo].
-
-   The term RPL-Unaware Leaf (RUL) is used to refer to a node that uses
-   a RPL router (without necessarily knowing it) as 6LR and depends on
-   that router to obtain reachability for its addresses inside the RPL
-   domain.  On the contrary, the term RPL-Aware Node (RAN) is used to
-
-
-
-
-Thubert & Richardson    Expires February 27, 2020               [Page 4]
-
-Internet-Draft           Routing for RPL Leaves              August 2019
-
-
-   refer to a RAL or a RPL router that participates to RPL and
-   advertises its addresses of prefixes by itself.
+   Leaf (RAL) consistently with [I-D.ietf-roll-useofrplinfo].  The term
+   RPL-Aware Node (RAN) is used to refer to a node that is either a RAL
+   or a RPL router.  As opposed to a RUL, a RAN manages its own
+   reachability by injecting its own addresses and prefixes in RPL.
 
    Other terms in use in LLNs are found in Terminology for Constrained-
    Node Networks [RFC7228].
 
    Readers are expected to be familiar with all the terms and concepts
    that are discussed in
+
+
+
+
+Thubert & Richardson    Expires February 28, 2020               [Page 4]
+
+Internet-Draft           Routing for RPL Leaves              August 2019
+
 
    o  "Neighbor Discovery for IP version 6" [RFC4861],
 
@@ -257,10 +248,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
    AR:   Address Resolution (aka Address Lookup)
 
-   6BBR: 6LoWPAN Backbone Router (proxy ND)
+   6BBR: 6LoWPAN Backbone Router
 
-   6LBR: 6LoWPAN Border Router (an Address Registrar that is
-         authoritative on DAD)
+   6LBR: 6LoWPAN Border Router
 
    6LN:  6LoWPAN Node (a Low Power host or router)
 
@@ -274,14 +264,6 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
    (E)DAC:  (Extended) Duplicate Address Confirmation
 
-
-
-
-Thubert & Richardson    Expires February 27, 2020               [Page 5]
-
-Internet-Draft           Routing for RPL Leaves              August 2019
-
-
    DAD:  Duplicate Address Detection
 
    DODAG:  Destination-Oriented Directed Acyclic Graph
@@ -292,6 +274,14 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
    NCE:  Neighbor Cache Entry
 
+
+
+
+Thubert & Richardson    Expires February 28, 2020               [Page 5]
+
+Internet-Draft           Routing for RPL Leaves              August 2019
+
+
    ND:   Neighbor Discovery
 
    NDP:  Neighbor Discovery Protocol
@@ -300,17 +290,17 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
    RA:   Router Advertisement
 
-   ROVR: Registration Ownership Verifier (pronounced rover)
+   ROVR: Registration Ownership Verifier
 
    RPI:  RPL Packet Information (an Option in the Hop-By_Hop Header)
 
    RAL:  RPL-Aware Leaf
 
-   RAN:  RPL-Aware Node, a RPL router or a RPL-Aware Leaf
+   RAN:  RPL-Aware Node (either a RPL router or a RPL-Aware Leaf)
 
    RS:   Router Solicitation
 
-   RPL:  IPv6 Routing Protocol for LLNs (pronounced ripple)
+   RPL:  IPv6 Routing Protocol for LLNs
 
    RUL:  RPL-Unaware Leaf
 
@@ -330,14 +320,6 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    multicast messages that are present in the classical IPv6 ND
    protocol. 6LoWPAN ND defines a new Address Registration Option (ARO)
    that is carried in the unicast Neighbor Solicitation (NS) and
-
-
-
-Thubert & Richardson    Expires February 27, 2020               [Page 6]
-
-Internet-Draft           Routing for RPL Leaves              August 2019
-
-
    Neighbor Advertisement (NA) messages between the 6LoWPAN Node (6LN)
    and the 6LoWPAN Router (6LR).  6LoWPAN ND also defines the Duplicate
    Address Request (DAR) and Duplicate Address Confirmation (DAC)
@@ -347,6 +329,15 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
    "Registration Extensions for 6LoWPAN Neighbor Discovery" [RFC8505]
    updates the behavior of RFC 6775 to enable a generic registration to
+
+
+
+
+Thubert & Richardson    Expires February 28, 2020               [Page 6]
+
+Internet-Draft           Routing for RPL Leaves              August 2019
+
+
    routing services and defines an Extended ARO (EARO).  The format of
    the EARO is shown in Figure 1:
 
@@ -385,15 +376,6 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    the 'R' flag to indicate whether the 6LR should ensure reachability
    for the Registered Address, e.g., by means of routing or proxying ND.
 
-
-
-
-
-Thubert & Richardson    Expires February 27, 2020               [Page 7]
-
-Internet-Draft           Routing for RPL Leaves              August 2019
-
-
    Conversely, this document specifies the behavior of the RPL router
    depending on the setting of the 'R' flag.  The 6LR advertises the
    Registered Address in DAO messages, if and only if it is triggered by
@@ -401,6 +383,16 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    RUL.  If the 'R' flag is not set, then the Registering Node is
    expected to be a RAN that handles the reachability of the Registered
    Address by itself.
+
+
+
+
+
+
+Thubert & Richardson    Expires February 28, 2020               [Page 7]
+
+Internet-Draft           Routing for RPL Leaves              August 2019
+
 
    As prescribed by [RFC8505], a RPL router SHOULD NOT set the 'R' flag,
    unless it relies on the 6LR to generate the DAO messages on its
@@ -442,14 +434,6 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    the RPL Root may use to maintain an existing state in a 6BBR upon
    receiving DAO messages when the root is located on a same link as the
    6LBR.  The keep-alive NS(EARO) message may only act as a refresher
-
-
-
-Thubert & Richardson    Expires February 27, 2020               [Page 8]
-
-Internet-Draft           Routing for RPL Leaves              August 2019
-
-
    and can only update the Lifetime and the TID of the state in the
    6BBR.
 
@@ -457,6 +441,15 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
    This document provides RPL routing for a 6LN acting as a plain host
    and not aware of RPL.  Still, a minimal RPL-independent functionality
+
+
+
+
+Thubert & Richardson    Expires February 28, 2020               [Page 8]
+
+Internet-Draft           Routing for RPL Leaves              August 2019
+
+
    is expected from the 6LN in order to operate properly as a RLU; in
    particular:
 
@@ -498,20 +491,20 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
    o  In order to save the IP-in-IP encapsulation and to support Storing
       Mode of operation, it is preferred that the 6LN can ignore an RPI
-
-
-
-Thubert & Richardson    Expires February 27, 2020               [Page 9]
-
-Internet-Draft           Routing for RPL Leaves              August 2019
-
-
       and consume a routing header in both the native and compressed
       forms.  In order to enable IP-in-IP to a 6LN in Non-Storing Mode,
       it is also of interest that the 6LN supports decapsulating IP-in-
       IP in both forms.  But since the preferred behaviour when using
       IP-in-IP is that the outter headers terminate at the 6LR,
       supporting this capability is secondary.
+
+
+
+
+Thubert & Richardson    Expires February 28, 2020               [Page 9]
+
+Internet-Draft           Routing for RPL Leaves              August 2019
+
 
 7.  Protocol Operations for Unicast Addresses
 
@@ -557,7 +550,14 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson    Expires February 27, 2020              [Page 10]
+
+
+
+
+
+
+
+Thubert & Richardson    Expires February 28, 2020              [Page 10]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
@@ -613,7 +613,7 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson    Expires February 27, 2020              [Page 11]
+Thubert & Richardson    Expires February 28, 2020              [Page 11]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
@@ -669,7 +669,7 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson    Expires February 27, 2020              [Page 12]
+Thubert & Richardson    Expires February 28, 2020              [Page 12]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
@@ -725,7 +725,7 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson    Expires February 27, 2020              [Page 13]
+Thubert & Richardson    Expires February 28, 2020              [Page 13]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
@@ -781,7 +781,7 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson    Expires February 27, 2020              [Page 14]
+Thubert & Richardson    Expires February 28, 2020              [Page 14]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
@@ -837,7 +837,7 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson    Expires February 27, 2020              [Page 15]
+Thubert & Richardson    Expires February 28, 2020              [Page 15]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
@@ -893,7 +893,7 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson    Expires February 27, 2020              [Page 16]
+Thubert & Richardson    Expires February 28, 2020              [Page 16]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
@@ -949,7 +949,7 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson    Expires February 27, 2020              [Page 17]
+Thubert & Richardson    Expires February 28, 2020              [Page 17]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
@@ -1005,7 +1005,7 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson    Expires February 27, 2020              [Page 18]
+Thubert & Richardson    Expires February 28, 2020              [Page 18]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
@@ -1061,7 +1061,7 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson    Expires February 27, 2020              [Page 19]
+Thubert & Richardson    Expires February 28, 2020              [Page 19]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
@@ -1117,7 +1117,7 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson    Expires February 27, 2020              [Page 20]
+Thubert & Richardson    Expires February 28, 2020              [Page 20]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
@@ -1173,7 +1173,7 @@ Appendix A.  Example Compression
 
 
 
-Thubert & Richardson    Expires February 27, 2020              [Page 21]
+Thubert & Richardson    Expires February 28, 2020              [Page 21]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
@@ -1229,4 +1229,4 @@ Authors' Addresses
 
 
 
-Thubert & Richardson    Expires February 27, 2020              [Page 22]
+Thubert & Richardson    Expires February 28, 2020              [Page 22]
