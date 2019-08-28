@@ -682,7 +682,7 @@
 
 <t>
    Even without support for RPL, a RUL may be aware of opaque values to be
-   provided to the routing protocol. If the RUL has a knowmledge of the RPL
+   provided to the routing protocol. If the RUL has a knowledge of the RPL
    Instance the packet should be injected into, then it SHOULD set the Opaque
    field in the EARO to the RPLInstanceID, else it MUST leave the Opaque field
    to zero. In any fashion the 6LN MUST set the "I" field to zero to indicate
@@ -690,7 +690,7 @@
    in <xref target="RFC8505"/> section 5.1.
 </t><t>
    A RUL is not expected to produce RPL artifacts in the data packets, but it
-   MAY do so. for instance, if the RUL has a minimpal awareness of the RPL
+   MAY do so. for instance, if the RUL has a minimal awareness of the RPL
    Instance and can build an RPI. A RUL that places an RPI in a data packet
    MUST indicate the RPLInstanceID that corresponds to the RPL Instance the
    packet should be injected into. All the flags and the Rank field are set
