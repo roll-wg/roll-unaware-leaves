@@ -123,22 +123,15 @@
    In contrast, a RPL-Unaware Leaf (RUL) designates a leaf does not participate
    to RPL  at all. In that case, the 6LN is a plain host that
    needs an interface to its RPL router to obtain routing services over the LLN.
-</t>
 
-<t>
    This specification enables a RPL-Unaware Leaf (RUL) to announce itself as a
-   host and request that 6LRs that accepts the registration also inject the
+   host and request that 6LRs that accept the registration also inject the
    relevant routing information for the Registered Address in the RPL domain on
    its behalf.
    The unicast packet forwarding operation by the 6LR serving a Leaf 6LN is
-   described in <xref target="I-D.ietf-roll-useofrplinfo">
-   "When to use RFC 6553, 6554 and IPv6-in-IPv6"</xref>.
+   described in <xref target="I-D.ietf-roll-useofrplinfo"/>.
 </t>
 
-<t>
-   This document adds the capability by a 6LR to advertise the Global,
-   Unique-Local and Multicast IPv6 address(es) of the 6LN in the RPL protocol.
-   </t>
 
 <t>
    Examples of routing-agnostic 6LN may include lightly-powered sensors such as
@@ -191,9 +184,11 @@
 <t>
    This document uses the terms RPL-Unaware Leaf (RUL) and RPL Aware Leaf
    (RAL) consistently with <xref target="I-D.ietf-roll-useofrplinfo" />.
-   The term RPL-Aware Node (RAN) is used to refer to a node that is either a RAL
-   or a RPL router. As opposed to a RUL, a RAN manages its own reachability by
-   injecting its own addresses and prefixes in RPL.
+</t>
+<t>
+   The term RPL-Aware Node (RAN) is introduced to refer to a node that is either
+   a RAL or a RPL router. As opposed to a RUL, a RAN manages the reachability of
+   its addresses and prefixes by injecting them in RPL by itself.
 </t>
 <t>
    Other terms in use in LLNs are found in <xref target="RFC7228">
@@ -540,6 +535,13 @@
       |   NA(EARO)     |                                 |
       |<---------------|               |                 |
       |                |               |                 |
+          (in case if an Error not reported in DAO-ACK)
+      |                |               |                 |
+      |                |       DCO     |                 |
+      |                |<--------------|                 |
+      |   NA(EARO)     |               |                 |
+      |<---------------|               |                 |
+      |                |               |                 |
     ]]></artwork>
     </figure>
     <t>
@@ -547,6 +549,7 @@
     alive before lifetime expires. Upon a re-registration, as
     illustrated in <xref target="fReg2"/>,
     the 6LR redistributes the Registered Address NS(EARO) in RPL.
+    </t> <t>
     This causes the RPL DODAG Root to refresh the state in the 6LBR with a
     keep-alive EDAC message.
     The keep-alive EDAC lacks the Registration Ownership Verifier (ROVR)
@@ -658,34 +661,40 @@
    within the Lifetime of the previous registration, as prescribed by
    <xref target="RFC6775"/>.
 </t><t>
-   A 6LN acting as a RUL MUST set the R flag in the EARO whereas
-   a 6LN acting as a RAN SHOULD NOT set the R flag as prescribed by
+   A 6LN acting as a RUL sets the R flag in the EARO whereas
+   a 6LN acting as a RAN does not set the R flag as prescribed by
    <xref target="RFC8505"/> section 5.1.
 
 </t><t>
    Upon each consecutive registration, the 6LN increases the TID field in the
-   EARO,  as prescribed by <xref target="RFC8505"/> section 5.2.</t><t>
-   The 6LN MAY register to more than one 6LR at the same time. In that case, a
+   EARO, as prescribed by <xref target="RFC8505"/> section 5.2.</t><t>
+   The 6LN can register to more than one 6LR at the same time. In that case, a
    same value of TID is used for each registration.
 
 </t><t>
-   The 6LN MAY use any of the 6LRs to which it register to forward its packets.
+   The 6LN may use any of the 6LRs to which it register to forward its packets.
+   Using a 6LR to which the 6LN is not registered may result in packets dropped
+   by a Source Address Validation function.
 </t>
 
 </list>
 </t>
 
 <t>
-   A RUL is not expected to be aware of RPL so it is not expected to produce
-   RPL artifacts in the data packets. But if needed it MAY do so.
-</t><t>
    Even without support for RPL, a RUL may be aware of opaque values to be
-   provided to the routing protocol. If the RUL is aware of the RPL Instance
-   the packet should be injected into, then it SHOULD set the Opaque field
-   in the EARO to the InstanceID, else it MUST leave the Opaque field to zero.
-   In any fashion the 6LN MUST set the "I" field to zero to indicate that
-   topological information to be passed to a routing process as prescribed by
-   <xref target="RFC8505"/> section 5.1.
+   provided to the routing protocol. If the RUL has a knowmledge of the RPL
+   Instance the packet should be injected into, then it SHOULD set the Opaque
+   field in the EARO to the RPLInstanceID, else it MUST leave the Opaque field
+   to zero. In any fashion the 6LN MUST set the "I" field to zero to indicate
+   that topological information to be passed to a routing process as specified
+   in <xref target="RFC8505"/> section 5.1.
+</t><t>
+   A RUL is not expected to produce RPL artifacts in the data packets, but it
+   MAY do so. for instance, if the RUL has a minimpal awareness of the RPL
+   Instance and can build an RPI. A RUL that places an RPI in a data packet
+   MUST indicate the RPLInstanceID that corresponds to the RPL Instance the
+   packet should be injected into. All the flags and the Rank field are set
+   to zero as specified by section 11.2 of <xref target="RFC6550"/>.
 </t>
 </section>
 
