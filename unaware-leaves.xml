@@ -223,7 +223,6 @@
     <t> This document often uses the following acronyms:
        <list hangIndent="6" style="hanging">
        <t hangText="AR:">  Address Resolution (aka Address Lookup)  </t>
-       <t hangText="6BBR:"> 6LoWPAN Backbone Router</t>
        <t hangText="6LBR:"> 6LoWPAN Border Router</t>
        <t hangText="6LN:"> 6LoWPAN Node (a Low Power host or router) </t>
        <t hangText="6LR:"> 6LoWPAN Router </t>
@@ -232,6 +231,10 @@
        <t hangText="(E)DAR:"> (Extended) Duplicate Address Request  </t>
        <t hangText="(E)DAC:"> (Extended) Duplicate Address Confirmation </t>
        <t hangText="DAD:"> Duplicate Address Detection </t>
+       <t hangText="DAO:"> Destination Advertisement Object  </t>
+       <t hangText="DCO:"> Destination Cleanup Object  </t>
+       <t hangText="DIS:"> DODAG Information Solicitation  </t>
+       <t hangText="DIO:"> DODAG Information Object  </t>
        <t hangText="DODAG:"> Destination-Oriented Directed Acyclic Graph </t>
        <t hangText="LLN:"> Low-Power and Lossy Network </t>
        <t hangText="NA:">  Neighbor Advertisement </t>
@@ -244,8 +247,6 @@
        <t hangText="RPI:"> RPL Packet Information (an Option in the Hop-By_Hop Header)</t>
        <t hangText="RAL:"> RPL-Aware Leaf </t>
        <t hangText="RAN:"> RPL-Aware Node (either a RPL router or a RPL-Aware Leaf) </t>
-       <t hangText="RS:">  Router Solicitation  </t>
-       <t hangText="RPL:"> IPv6 Routing Protocol for LLNs</t>
        <t hangText="RUL:"> RPL-Unaware Leaf </t>
        <t hangText="TID:"> Transaction ID (a sequence counter in the EARO) </t>
 
@@ -309,30 +310,30 @@
    found in Transit Options in RPL DAO messages. It is a prerequisite for this
    specification.
 </t><t>
-   Finally, the EARO transports an Opaque field and an 'I' field that describes
+   Finally, the EARO transports an Opaque field and an "I" field that describes
    what the Opaque field transports and how to use it. This specification
-   requires that the 'I' field is left to 0 and to use the Opaque field to carry
+   requires that the "I" field is left to 0 and to use the Opaque field to carry
    the RPL InstanceID if one is known, else to leave the Opaque field to zero.
 </t>
 
 <t>
-   <xref target="RFC8505"/> specifies the use of the 'R' flag in the EARO by the
+   <xref target="RFC8505"/> specifies the use of the R flag in the EARO by the
    Registering Node. With <xref target="RFC8505"/>,
-   the Registering Node sets the 'R' flag to indicate whether the 6LR should
+   the Registering Node sets the R flag to indicate whether the 6LR should
    ensure reachability for the Registered Address, e.g., by means of routing
    or proxying ND.
 </t>
 <t>
    Conversely, this document specifies the behavior of the RPL router depending
-   on the setting of the 'R' flag. The 6LR advertises the Registered Address in
-   DAO messages, if and only if it is triggered by an NS(EARO) that has the 'R'
+   on the setting of the R flag. The 6LR advertises the Registered Address in
+   DAO messages, if and only if it is triggered by an NS(EARO) that has the R
    flag set, indicating that the 6LN is a RUL.
-   If the 'R' flag is not set, then the Registering Node is expected to be a RAN
+   If the R flag is not set, then the Registering Node is expected to be a RAN
    that handles the reachability of the Registered Address by itself.
 </t>
 <t>
    As prescribed by <xref target="RFC8505"/>, a RPL router does not set the
-   'R' flag, unless it relies on the 6LR to generate the DAO messages on its
+   R flag, unless it relies on the 6LR to generate the DAO messages on its
    behalf.
 </t>
 </section>
@@ -343,7 +344,7 @@
    This document specifies a new behavior whereby a 6LR injects DAO messages
    for unicast addresses registered through the updated 6LoWPAN ND
    <xref target="RFC8505"/> on behalf of leaves that are not RPL-aware based
-   on information in the EARO such as the TID and the 'I' field.
+   on information in the EARO such as the TID and the "I" field.
 </t>
 <t>This document also introduces new Status Values for a DAO-ACK that map to
    the Status values that can be returned from the 6LBR, to transport them
@@ -407,10 +408,10 @@
  <section anchor="prereq6lp" title="Support of 6LoWPAN ND">
    <t>
    A RUL MUST implement <xref target="RFC8505"/> and set
-   the 'R' flag in the EARO option. The 'R' flag is used to determine whether
+   the R flag in the EARO option. The R flag is used to determine whether
    the Registering Node is a RUL, not aware of the RPL operation in the network,
    and thus does not participate to it.
-   A 6LN is considered to be a RUL if and only if it sets the 'R' flag in
+   A 6LN is considered to be a RUL if and only if it sets the R flag in
    the EARO.
    </t>
    <t><xref target="RFC8505"/> introduces the Status 4 (Removed) in the NA(EARO)
@@ -505,9 +506,16 @@
         The protocol does not carry a specific information that the Extended
         Duplicate Address messages were already exchanged, so the Root proxies
         them anyway.
-        In Non-Storing Mode, the flows can be nested in Non-Storing Mode, and it
-        is possible to carry information such as an updated lifetime from the
-        6LBR all the way to the 6LN.
+    </t><t>
+    Note that any of the functions 6LR, Root and 6LBR might be collapsed in a
+    single node, in which case the flow above happens internally, and possibly
+    through internal API calls as opposed to messaging.
+    </t>
+ <section anchor="rnsm" title="In RPL Non-Storing-Mode">
+    <t>
+    In Non-Storing Mode, the flows can be nested as illustrated in
+    <xref target="fReg1"/> and it is possible to carry information such as an
+    updated lifetime from the 6LBR all the way to the 6LN.
     </t>
     <figure anchor="fReg1" suppress-title="false"
 	title="First Registration Flow in Non-Storing Mode">
@@ -569,10 +577,23 @@
       |                |               |                 |
     ]]></artwork>
     </figure>
-    <t>Note that any of the functions 6LR, Root and 6LBR might be collapsed in a
-    single node, in which case the flow above happens internally, and possibly
-    through internal API calls as opposed to messaging.
+    <t>In case of an error on the keep-alive EDAR flow, the error SHOULD be
+    returned in the DAO-ACK if one is requested. The new DAO-ACK Status codes
+    to map the 6LoWNAN ND codes defined in Table 1 of <xref target="RFC8505"/>
+    are listed in <xref target="iana-ack-status"/>. The Status code are listed
+    in a same order and DAO-ACK Status code of 128 maps to 6LoWPAN ND Status
+    Code of 1.
     </t>
+    <t>
+    If the Root could not return the negative Status in the DAO-ACK then it MUST
+    send an asynchronous Destination Cleanup Object (DCO) message
+    <xref target="I-D.ietf-roll-efficient-npdao"/> to the 6LR
+    indicating the failure. Note that the DAO-ACK and DCO messages are not
+    guaranteed to arrive in that order at the 6LR.
+    </t>
+ </section>
+ <section anchor="rsm" title="In RPL Storing-Mode">
+
     <t>
     In Storing Mode the DAO ACK is generated from the parent that does not
     wait for the grand parent to acknowledge, so the DAO-ACK is not a guarantee
@@ -603,20 +624,29 @@
  |               |               |               |   EDAC(ROVR)    |
  |               |               |               |<----------------|
  |               |               |               |                 |
+                          (in case if an Error)
+ |               |               |               |                 |
+ |               |              DCO              |                 |
+ |               |<------------------------------|                 |
+ |   NA(EARO)    |               |               |                 |
+ |<--------------|               |               |                 |
  |               |               |               |                 |
     ]]></artwork>
     </figure>
     <t>
-    Either way, if the keep alive fails, the path is cleaned up asynchronously
-    using a Destination Cleanup Object (DCO) message
+    If the keep alive fails, the path is cleaned up asynchronously
+    using a DCO message
     <xref target="I-D.ietf-roll-efficient-npdao"/> as described in
     <xref target="Root"/>.
     </t>
+ </section>
+
 </section>
-<section anchor="ln" title="6LN Operation">
+<section anchor="oper" title="Operation">
+<section anchor="ln" title="By the 6LN">
 <t>
   This specification does not alter the operation of a 6LoWPAN ND-compliant 6LN,
-  which is expected to operate as follows:
+  and a RUL is expected to operate as follows:
 <list style="symbols"><t>
    The 6LN obtains an IPv6 global address, for instance using autoconfiguration
    <xref target="RFC4862"/> based on a Prefix Information Option (PIO)
@@ -626,46 +656,55 @@
 </t><t>
    Once it has formed an address, the 6LN (re)registers its address periodically,
    within the Lifetime of the previous registration, as prescribed by
-   <xref target="RFC8505"/>.
+   <xref target="RFC6775"/>.
+</t><t>
+   A 6LN acting as a RUL MUST set the R flag in the EARO whereas
+   a 6LN acting as a RAN SHOULD NOT set the R flag as prescribed by
+   <xref target="RFC8505"/> section 5.1.
 
 </t><t>
-   Upon each consecutive registration, the 6LN MUST increase the TID field.
-</t><t>
-   If the 6LN is aware of the RPL Instance the packet should be injected into,
-   then it SHOULD set the Opaque field to the InstanceID, else it MUST leave the
-   Opaque field to zero. In any fashion the 6LN MUST set the 'I' field to zero.
-</t><t>
-   A 6LN acting as a RUL MUST set the 'R' flag in the EARO whereas
-   a 6LN acting as a RAN SHOULD NOT set the 'R' flag.
-</t><t>
+   Upon each consecutive registration, the 6LN increases the TID field in the
+   EARO,  as prescribed by <xref target="RFC8505"/> section 5.2.</t><t>
    The 6LN MAY register to more than one 6LR at the same time. In that case, a
    same value of TID is used for each registration.
+
 </t><t>
    The 6LN MAY use any of the 6LRs to which it register to forward its packets.
-</t><t>
-   the 6LN is not expected to be aware of RPL so it is not expected to produce
-   RPL artifacts in the data packets.
 </t>
+
 </list>
+</t>
+
+<t>
+   A RUL is not expected to be aware of RPL so it is not expected to produce
+   RPL artifacts in the data packets. But if needed it MAY do so.
+</t><t>
+   Even without support for RPL, a RUL may be aware of opaque values to be
+   provided to the routing protocol. If the RUL is aware of the RPL Instance
+   the packet should be injected into, then it SHOULD set the Opaque field
+   in the EARO to the InstanceID, else it MUST leave the Opaque field to zero.
+   In any fashion the 6LN MUST set the "I" field to zero to indicate that
+   topological information to be passed to a routing process as prescribed by
+   <xref target="RFC8505"/> section 5.1.
 </t>
 </section>
 
-<section anchor="lr" title="6LR Operation">
+<section anchor="lr" title="By the 6LR">
 <t>
    Also as prescribed by <xref target="RFC8505"/>,
    the 6LR generates a DAR message upon reception of a valid NS(EARO)
    message for the registration of a new IPv6 Address by a 6LN. If the Duplicate
    Address exchange succeeds, then the 6LR installs a Neighbor Cache Entry (NCE).
-   If the 'R' flag was set in the EARO of the NS message, and this 6LR can
-   manage the reachability of Registered Address, then the 6LR sets the 'R' flag
+   If the R flag was set in the EARO of the NS message, and this 6LR can
+   manage the reachability of Registered Address, then the 6LR sets the R flag
    in the EARO of the NA message that is sent in response.
 </t>
 
 <t>From then on, the 6LN periodically sends a new NS(EARO) to refresh the NCE
    state before the lifetime indicated in the EARO expires, with TID that is
-   incremented each time till it wraps in a lollipop fashion. As long as the 'R'
+   incremented each time till it wraps in a lollipop fashion. As long as the R
    flag is set and this router can still manage the reachability of Registered
-   Address, the 6LR keeps setting the 'R' flag in the EARO of the response NA
+   Address, the 6LR keeps setting the R flag in the EARO of the response NA
    message, but the exchange of Extended Duplicate Address messages is skipped.
 
 </t> <t>
@@ -673,7 +712,7 @@
    be used for the DAO advertisements, and for the forwarding of packets sourced
    at the registered address when there is no RPL Packet Information (RPI) in
    the packet, in which case the 6LR SHOULD add one to the packet.
-   if the 'I' field is not zero, then the 6LR MUST consider that the Opaque
+   if the "I" field is not zero, then the 6LR MUST consider that the Opaque
    field is zero. If the Opaque field is not set to zero, then it should
    carry a RPL InstanceID for the Instance suggested by the 6LN.
    If the 6LR does not participate to the associated Instance, then the 6LR MUST
@@ -684,7 +723,7 @@
    6LR SHOULD use that Instance for the registered address.
 </t>
 <t>
-   Upon a successful NS/NA(EARO) exchange: if the 'R' flag was set in the
+   Upon a successful NS/NA(EARO) exchange: if the R flag was set in the
    EARO of the NS message, then the 6LR SHOULD inject the Registered Address in
    RPL by sending a DAO message on behalf of the 6LN; else the 6LR MUST NOT
    inject the Registered Address into RPL.
@@ -721,7 +760,7 @@
    with a NA(EARO) to the RUL with a status of 4 (Removed).
 </t>
 <t>
-   If a 6LR receives a valid NS(EARO) message with the 'R' flag reset and the 6LR
+   If a 6LR receives a valid NS(EARO) message with the R flag reset and the 6LR
    was redistributing the Registered Address due to previous NS(EARO) messages
    with the flag set, then it MUST stop injecting the address.
    It is up to the Registering Node to maintain the corresponding route from then
@@ -735,7 +774,7 @@
 </t>
 </section>
 
-<section anchor="Root" title="RPL Root Operation">
+<section anchor="Root" title="By the RPL Root">
 
 
 <t>
@@ -799,7 +838,7 @@
 
 </section>
 
-<section anchor="lbr" title="6LBR Operation">
+<section anchor="lbr" title="By the 6LBR">
 
 
 <t>
@@ -823,6 +862,7 @@
    In that case, the 6LBR replies with a Status "Success" in the DAC message.
 </t>
 
+</section>
 </section>
 
 </section>
@@ -972,21 +1012,22 @@
   <ttcol align="center">
        Value</ttcol>
            <ttcol align="center"> Meaning </ttcol>
-                                   <ttcol align="center"> Defining Spec
+                                          <ttcol align="center"> Defining Spec
                                    </ttcol>
-    <c>0</c>       <c>Unqualified acceptance</c>          <c>RFC6550</c>
-	<c>1-127</c>   <c>Reserved for Warning Codes</c>      <c>RFC6550</c>
-    <c>128</c>     <c>Duplicate Address</c>               <c>This RFC</c>
-    <c>129</c>     <c>Out of Storage</c>                  <c>This RFC</c>
-	<c>130</c>     <c>Moved</c>                           <c>This RFC</c>
-	<c>131</c>     <c>Removed</c>                         <c>This RFC</c>
-	<c>132</c>     <c>Validation Requested</c>            <c>This RFC</c>
-	<c>133</c>     <c>Duplicate Source Address</c>        <c>This RFC</c>
-	<c>134</c>     <c>Invalid Source Address</c>          <c>This RFC</c>
-	<c>135</c>     <c>Address topologically incorrect</c> <c>This RFC</c>
-	<c>136</c>     <c>6LBR Registry saturated</c>         <c>This RFC</c>
-	<c>137</c>     <c>Validation Failed</c>		          <c>This RFC</c>
-	<c>138-255</c> <c>Reserved for Rejection Codes</c>    <c>RFC6550</c>
+    <c>0</c>       <c>Unqualified acceptance</c>                 <c>RFC6550</c>
+	<c>1-127</c>   <c>Reserved for Warning Codes</c>             <c>RFC6550</c>
+    <c>128</c>     <c>Duplicate Address</c>                      <c>This RFC</c>
+    <c>129</c>     <c>Out of Storage</c>                         <c>This RFC</c>
+	<c>130</c>     <c>Moved</c>                                  <c>This RFC</c>
+	<c>131</c>     <c>Removed</c>                                <c>This RFC</c>
+	<c>132</c>     <c>Validation Requested</c>                   <c>This RFC</c>
+	<c>133</c>     <c>Duplicate Source Address</c>               <c>This RFC</c>
+	<c>134</c>     <c>Invalid Source Address</c>                 <c>This RFC</c>
+	<c>135</c>     <c>Address topologically incorrect</c>        <c>This RFC</c>
+	<c>136</c>     <c>6LBR Registry saturated</c>                <c>This RFC</c>
+	<c>137</c>     <c>Validation Failed</c>		                 <c>This RFC</c>
+	<c>138-192</c> <c>Reserved for 6LoWPAN ND code mapping</c>   <c>This RFC</c>
+	<c>193-255</c> <c>Reserved for other Rejection Codes</c>     <c>RFC6550</c>
     </texttable>
 
 </section>
