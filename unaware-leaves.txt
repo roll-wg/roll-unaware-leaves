@@ -492,7 +492,7 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    [RFC8138].  An External route indicates by default a node or a prefix
    that is not known to handle or ignore the RPL artifacts.  The
    RECOMMENDED behaviour when using IP-in-IP to an External route is
-   that the outter headers terminate at the 6LR that injected the
+   that the outer headers terminate at the 6LR that injected the
    External route.  Non-Storing Mode signaling MUST be used to inject
    External routes to the Root in order to advertise the 6LR that is
    associated to a RUL.
