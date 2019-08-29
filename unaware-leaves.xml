@@ -424,30 +424,34 @@
 
    </t>
   </section>
-  <section anchor="prereqv6" title="IPv6 Host Support of RPL Artifacts">
+  <section anchor="prereqv6" title="External Routes and RPL Artifacts">
    <t>
    RPL data packets are often encapsulated using IP-in-IP and in Non-Storing Mode,
    packets going down will carry an SRH as well. RPL data packets also typically
    carry a Hop-by-Hop Header to transport a RPL Packet Information (RPI)
    <xref target="RFC6550"/>. These additional headers are called RPL artifacts.
+   When IP-in-IP is used and the outer headers terminate at a 6LR down the path
+   (see <xref target="rtghc"/> for the format in Storing Mode),
+   then the 6LR decapsulates the IP-in-IP and the packet that is forwarded to
+   the external destination is free of RPL artifacts.
+
    </t><t>
-   When IP-in-IP is used and the outer headers terminate at the 6LR that
-   generated the DAO, then the 6LR decapsulates the packet to the 6LN (
-   see <xref target="RFC8138"/> for the format in Storing Mode).
-   In that case the 6LN gets a packet that is free of RPL artifacts.
-   IP-in-IP to the 6LR MUST be used if the 6LN cannot handle or ignore the RPL
-   artifacts or the way they are compressed <xref target="RFC8138"/>.
-   It SHOULD be used it there is a particular bandwidth or power constraint at
-   the 6LN that justifies saving the encapsulation at the last hop.
-   </t>
-   <t>
+   IP-in-IP to the 6LR MUST be used if the final destination cannot handle or
+   ignore the RPL artifacts or the way they are compressed
+   <xref target="RFC8138"/>. An External route indicates by default a node or a
+   prefix that is not known to handle or ignore the RPL artifacts.
+   The RECOMMENDED behaviour when using IP-in-IP to an External route is that
+   the outter headers terminate at the 6LR that injected the External route.
+   Non-Storing Mode signaling MUST be used to inject External routes to the
+   Root in order to advertise the 6LR that is associated to a RUL.
+
+   </t><t>
    In order to save the IP-in-IP encapsulation and to support Storing Mode of
    operation, it is preferred that the 6LN can ignore an RPI and consume a
-   routing header in both the native and compressed forms.
+   routing header in both the native and <xref target="RFC8138"/>-compressed
+   forms.
    In order to enable IP-in-IP to a 6LN in Non-Storing Mode, it is also of
    interest that the 6LN supports decapsulating IP-in-IP in both forms.
-   But since the preferred behaviour when using IP-in-IP is that the outter
-   headers terminate at the 6LR, supporting this capability is secondary.
   </t>
   <section anchor="prereqv6hh" title="Support of the HbH Header">
      <t>
@@ -469,9 +473,12 @@
   </section>
   <section anchor="prereqv6ip" title="Support of IPv6 Encapsulation">
      <t>
-     A RUL is expected to support IPv6-in-IPv6 decapsulation when it is the
-     destination of the outer header. If the 6LN is a host, it is expected to
-     drop the inner packet if it is not the destination of the inner header.
+     A RUL may support IPv6-in-IPv6 decapsulation when it is the destination of
+     the outer header but that is not assumed by <xref target="RFC8504"/>.
+     If the 6LN is a RUL, it may be able to drop the inner packet if it is not
+     the destination of the inner header. By default the IP-in-IP tunnel should
+     terminate at the parent 6LR so supporting this capability in a RUL is
+     secondary.
      </t>
 </section>
 </section>
@@ -757,11 +764,13 @@
   <list style="symbols">
   <t>The Registered Address is placed in a RPL Target Option in the DAO
   message as the Target Prefix, and the Prefix Length is set to 128
-  </t><t>the External 'E' flag in the Transit Information Option (TIO)
-  associated to the Target Option is set to indicate that the 6LR redistributes
-  an external target into the RPL network. This is how the Root knows in
-  Non-Storing Mode to use IP-in-IP and terminate the outters headers at the 6LR
-  that generated the DAO.
+  </t><t>
+  the External 'E' flag in the Transit Information Option (TIO) associated to
+  the Target Option is set to indicate that the 6LR redistributes an external
+  target into the RPL network.  When the Root has to use an IP-in-IP
+  <xref target="I-D.ietf-roll-useofrplinfo"/>, then this flag indicates the
+  IP-in-IP should be addressed to this node.
+
   </t><t>
   the Path Lifetime in the TIO is computed from the Lifetime in the EARO Option
   to adapt it to the Lifetime Units used in the RPL operation. Note that if the
@@ -1100,6 +1109,8 @@
       <?rfc include="reference.RFC.8200"?>
 	  <?rfc include="reference.RFC.8505"?>
       <?rfc include='reference.I-D.ietf-6lo-ap-nd.xml'?>
+      <?rfc include='reference.I-D.ietf-roll-useofrplinfo'?>
+      <?rfc include='reference.I-D.ietf-roll-efficient-npdao.xml'?>
 
     </references>
     <references title='Informative References'>
@@ -1108,10 +1119,9 @@
 	  <?rfc include="reference.RFC.6687"?>
 	  <?rfc include="reference.RFC.7102"?>
 	  <?rfc include="reference.RFC.7228"?>
-          <?rfc include="reference.RFC.7416"?>
+      <?rfc include="reference.RFC.7416"?>
 	  <?rfc include="reference.RFC.8025"?>
-      <?rfc include='reference.I-D.ietf-roll-efficient-npdao.xml'?>
-      <?rfc include='reference.I-D.ietf-roll-useofrplinfo'?>
+	  <?rfc include="reference.RFC.8504"?>
 
 
 
@@ -1130,7 +1140,8 @@
     <xref target="RFC8138"/> is the addition of a SRH-6LoRH before the RPI-6LoRH
     to transport the destination address of the outer IPv6 header.
 
-        <figure title="Encapsulation to Parent in Storing Mode" anchor="rtghc">
+        <figure title="Encapsulation to Parent 6LR in Storing Mode"
+        anchor="rtghc">
         <artwork>
    <![CDATA[
 +-+ ... -+-+ ... +-+- ... -+-+ ... -+-+-+ ... +-+-+ ... -+ ... +-...
