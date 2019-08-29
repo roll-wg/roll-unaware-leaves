@@ -168,24 +168,22 @@
    that described in <xref target="RFC7102"> Terms Used in Routing for Low-Power
    and Lossy Networks (LLNs).</xref>.
 </t><t>
-   Other terms in use in LLNs are found in <xref target="RFC7228">
-   Terminology for Constrained-Node Networks</xref>.
-</t><t>
    A glossary of classical 6LoWPAN acronyms is given in <xref target="gloss"/>.
 </t><t>
    The term “byte” is used in its now customary sense as a synonym for “octet”.
 </t>
 
-<t>"RPL", "RPL Packet Information" (RPI) and "RPL Instance", DIO, DAO and DIS
-   messages are defined in the
-   <xref target="RFC6550">"RPL: IPv6 Routing Protocol for Low-Power and Lossy
-   Networks"</xref> specification.
+<t>"RPL", the "RPL Packet Information" (RPI), "RPL Instance" (indexed by a
+   RPLInstanceID)are defined in <xref target="RFC6550">"RPL: IPv6 Routing
+   Protocol for Low-Power and Lossy Networks"</xref> .
+   The DODAG Information Solicitation (DIS), Destination Advertisement Object
+   (DAO) and DODAG Information Object (DIO) messages are also specified in
+   <xref target="RFC6550"/>. The Destination Cleanup Object (DCO) message
+   is defined in <xref target="I-D.ietf-roll-efficient-npdao"/>.
 </t>
 <t>
    This document uses the terms RPL-Unaware Leaf (RUL) and RPL Aware Leaf
    (RAL) consistently with <xref target="I-D.ietf-roll-useofrplinfo" />.
-</t>
-<t>
    The term RPL-Aware Node (RAN) is introduced to refer to a node that is either
    a RAL or a RPL router. As opposed to a RUL, a RAN manages the reachability of
    its addresses and prefixes by injecting them in RPL by itself.
@@ -300,36 +298,40 @@
     </figure>
 
    <t>
-   The EARO also includes a sequence
-   counter called Transaction ID (TID), which maps to the Path Sequence Field
-   found in Transit Options in RPL DAO messages. It is a prerequisite for this
-   specification.
-</t><t>
-   Finally, the EARO transports an Opaque field and an "I" field that describes
-   what the Opaque field transports and how to use it. This specification
-   requires that the "I" field is left to 0 and to use the Opaque field to carry
-   the RPL InstanceID if one is known, else to leave the Opaque field to zero.
-</t>
 
-<t>
    <xref target="RFC8505"/> specifies the use of the R flag in the EARO by the
    Registering Node. With <xref target="RFC8505"/>,
    the Registering Node sets the R flag to indicate whether the 6LR should
    ensure reachability for the Registered Address, e.g., by means of routing
-   or proxying ND.
-</t>
-<t>
-   Conversely, this document specifies the behavior of the RPL router depending
-   on the setting of the R flag. The 6LR advertises the Registered Address in
-   DAO messages, if and only if it is triggered by an NS(EARO) that has the R
-   flag set, indicating that the 6LN is a RUL.
+   or proxying ND. By definition a node operates as a RUL for an IPv6 address
+   iff it sets the R flag in the NS(EARO) used to register that address.
    If the R flag is not set, then the Registering Node is expected to be a RAN
    that handles the reachability of the Registered Address by itself.
+   Conversely, this document specifies the behavior of the RPL router depending
+   on the setting of the R flag in the NS(EARO). The 6LR generates the
+   Registered Address in a DAO message iff it is triggered by an NS(EARO) that
+   has the R flag set.
+</t><t>
+
+   The EARO also includes a sequence counter called Transaction ID (TID),
+   which maps to the Path Sequence Field found in Transit Options in RPL DAO
+   messages. This is the reason why the support of <xref target="RFC8505"/>
+   by the RUL as opposed to only <xref target="RFC6775"/> is a prerequisite for
+   this specification (more in <xref target="prereq6lp"/>). The EARO also
+   transports an Opaque field and an "I" field that describes what the Opaque
+   field transports and how to use it.
+
 </t>
 <t>
-   As prescribed by <xref target="RFC8505"/>, a RPL router does not set the
-   R flag, unless it relies on the 6LR to generate the DAO messages on its
-   behalf.
+   <xref target="ln"/> specifies the use of the R flag, of the "I" field and of
+   the Opaque field by a RUL.
+</t><t>
+
+   <xref target="I-D.ietf-6lo-ap-nd">"Address Protected Neighbor Discovery for
+   Low-power and Lossy Networks"</xref>  protects the ownership of an address
+   and enables a challenge that is leveraged by this specification.
+   It also enables Source Address Validation by a 6LR that will drop the packets
+   that are sourced at an address that is not registered.
 </t>
 </section>
 
@@ -402,17 +404,24 @@
 </t>
  <section anchor="prereq6lp" title="Support of 6LoWPAN ND">
    <t>
-   A RUL MUST implement <xref target="RFC8505"/> and set
-   the R flag in the EARO option. The R flag is used to determine whether
-   the Registering Node is a RUL, not aware of the RPL operation in the network,
-   and thus does not participate to it.
-   A 6LN is considered to be a RUL if and only if it sets the R flag in
+   A RUL MUST implement <xref target="RFC8505"/> and set the R flag in the EARO
+   option. A 6LN is considered to be a RUL if and only if it sets the R flag in
+   the EARO.
+   </t>
+   <t>
+   A RUL SHOULD implement <xref target="RFC8505"/> and set the R flag in the EARO
+   option. A 6LN is considered to be a RUL if and only if it sets the R flag in
    the EARO.
    </t>
    <t><xref target="RFC8505"/> introduces the Status 4 (Removed) in the NA(EARO)
    which can be received synchronously upon ann NS(EARO) or asynchronously. The
    RUL MUST support both cases and refrain from using the Registered Address.
    The other values of the Status SHOULD be supported as well.
+
+   </t><t>
+   A RUL SHOULD supports <xref target="I-D.ietf-6lo-ap-nd"/> to protect the
+   ownership of its addresses.
+
    </t>
   </section>
   <section anchor="prereqv6" title="IPv6 Host Support of RPL Artifacts">
@@ -667,7 +676,9 @@
 
 </t><t>
    Upon each consecutive registration, the 6LN increases the TID field in the
-   EARO, as prescribed by <xref target="RFC8505"/> section 5.2.</t><t>
+   EARO, as prescribed by <xref target="RFC8505"/> section 5.2.
+
+</t><t>
    The 6LN can register to more than one 6LR at the same time. In that case, a
    same value of TID is used for each registration.
 
@@ -675,6 +686,8 @@
    The 6LN may use any of the 6LRs to which it register to forward its packets.
    Using a 6LR to which the 6LN is not registered may result in packets dropped
    by a Source Address Validation function.
+
+
 </t>
 
 </list>
@@ -711,7 +724,9 @@
 
 <t>From then on, the 6LN periodically sends a new NS(EARO) to refresh the NCE
    state before the lifetime indicated in the EARO expires, with TID that is
-   incremented each time till it wraps in a lollipop fashion. As long as the R
+   incremented each time till it wraps in a lollipop fashion (see section 5.2.1
+   of <xref target="RFC8505"/> which is fully compatible with section 7.2 of
+   <xref target="RFC6550"/>). As long as the R
    flag is set and this router can still manage the reachability of Registered
    Address, the 6LR keeps setting the R flag in the EARO of the response NA
    message, but the exchange of Extended Duplicate Address messages is skipped.
@@ -723,7 +738,7 @@
    the packet, in which case the 6LR SHOULD add one to the packet.
    if the "I" field is not zero, then the 6LR MUST consider that the Opaque
    field is zero. If the Opaque field is not set to zero, then it should
-   carry a RPL InstanceID for the Instance suggested by the 6LN.
+   carry a RPLInstanceID for the Instance suggested by the 6LN.
    If the 6LR does not participate to the associated Instance, then the 6LR MUST
    consider that the Opaque field is empty.
    If the Opaque field is empty, the 6LR is free to use the default Instance
@@ -764,9 +779,23 @@
    If a DAO-ACK is not requested, or has a Status that is less than 128,
    indicating the DAO was accepted, respectively by a parent in Storing Mode
    or by the Root in non-Storing Mode,, the 6LR replies with a
-   NA(EARO) to the RUL with a status of 0 (Success). On the other hand,
-   if the 6LR fails to inject the address into the RPL network, the 6LR replies
-   with a NA(EARO) to the RUL with a status of 4 (Removed).
+   NA(EARO) to the RUL with a status of 0 (Success).
+</t>
+<t>
+   In case of a DAO-ACK or a DCO with a status of 132 (Validation Requested) the
+   6LR challenges the 6LN for ownership of the address, as described in section
+   6.1 of <xref target="RFC8505"/>. If the challenge succeeds then the
+   operations continue as normal. In particular a DAO message is generated upon
+   the  NS(EARO) that proves the ownership of the address. If the challenge
+   failed the 6LR MUST refrain from injecting the address in RPL and may take
+   actions to protect itself against DoS attacks by a rogue 6LN, see
+   <xref target="security-considerations"/>
+</t>
+<t>
+   Other status values above 128 indicate that the 6LR failed to inject the
+   address into the RPL network. If for that reason or any other reason the 6LR
+   fails to inject the address into the RPL network, the 6LR SHOULD send a
+   NA(EARO) to the RUL with a status of 4 (Removed).
 </t>
 <t>
    If a 6LR receives a valid NS(EARO) message with the R flag reset and the 6LR
@@ -835,7 +864,6 @@
   belongs to another party elsewhere in the network.
 </t>
 
-
 <t>
    In Non-Storing Mode, the outer IPv6 header that is used by the Root to
    transport the source routing information in data packets down the DODAG has
@@ -854,8 +882,7 @@
    Upon reception of a DAR message with the Owner Unique ID field is set to all
    ones, the 6LBR checks whether an entry exists for the
    and computes whether the TID in the DAR message is fresher than that in the
-   entry as prescribed in section 4.2.1. of
-   <xref target="RFC8505"/>.
+   entry as prescribed in section 4.2.1. of <xref target="RFC8505"/>.
 
 </t><t>
    If the entry does not exist, the 6LBR does not create the entry, and answers
@@ -998,7 +1025,11 @@
     a binding state in the 6LBR. The 6LBR MUST NOT create an entry based on a
     keep-alive EDAR that does not match an existing entry. All it can do is
     refresh the lifetime and the TID of an existing entry.
-
+    </t><t>
+    At the time of this writing RPL does not have a zerotrust model whereby
+    the it is possible to validate the origin of an address that is injected
+    in a DAO. This specification makes a first step in that direction by
+    allowing the root to challenge the RUL by the 6LR that serves it.
     </t>
 
 </section>
@@ -1041,8 +1072,9 @@
 
 </section>
 <section anchor="acknowledgments" title="Acknowledgments">
-   <t>The author wishes to thank Michael Richardson and Georgios Papadopoulos
-    for their early reviews of and contributions to this document
+   <t>
+   The authors wish to thank Georgios Papadopoulos
+   for their early reviews of and contributions to this document
   </t>
 
 </section>
@@ -1067,6 +1099,7 @@
       <?rfc include="reference.RFC.8174"?>
       <?rfc include="reference.RFC.8200"?>
 	  <?rfc include="reference.RFC.8505"?>
+      <?rfc include='reference.I-D.ietf-6lo-ap-nd.xml'?>
 
     </references>
     <references title='Informative References'>
