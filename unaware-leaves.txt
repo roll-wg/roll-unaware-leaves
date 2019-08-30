@@ -360,15 +360,16 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    [RFC8505] specifies the use of the R flag in the EARO by the
    Registering Node.  With [RFC8505], the Registering Node sets the R
    flag to indicate whether the 6LR should ensure reachability for the
-   Registered Address, e.g., by means of routing or proxying ND.  By
-   definition a node operates as a RUL for an IPv6 address iff it sets
-   the R flag in the NS(EARO) used to register that address.  If the R
-   flag is not set, then the Registering Node is expected to be a RAN
-   that handles the reachability of the Registered Address by itself.
-   Conversely, this document specifies the behavior of the RPL router
-   depending on the setting of the R flag in the NS(EARO).  The 6LR
-   generates the Registered Address in a DAO message iff it is triggered
-   by an NS(EARO) that has the R flag set.
+   Registered Address, e.g., by means of routing or proxying ND.
+   Adapted to this specification, this means that a 6LN operates as a
+   RUL for an IPv6 address iff it sets the R flag in the NS(EARO) used
+   to register the address.  If the R flag is not set, then the
+   Registering Node is expected to be a RAN that handles the
+   reachability of the Registered Address by itself.  Conversely, this
+   document specifies a behavior of a RPL router acting as 6LR for the
+   registration 6LR that depends on the setting of the R flag in the
+   NS(EARO).  The RPL router generates a DAO message for the Registered
+   Address upon an NS(EARO) iff the R flag in the EARO is set.
 
    The EARO also includes a sequence counter called Transaction ID
    (TID), which maps to the Path Sequence Field found in Transit Options
@@ -384,8 +385,7 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    "Address Protected Neighbor Discovery for Low-power and Lossy
    Networks" [I-D.ietf-6lo-ap-nd] protects the ownership of an address
    and enables a challenge that is leveraged by this specification.  It
-   also enables Source Address Validation by a 6LR that will drop the
-   packets that are sourced at an address that is not registered.
+
 
 
 
@@ -393,6 +393,9 @@ Thubert & Richardson      Expires March 2, 2020                 [Page 7]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
+
+   also enables Source Address Validation by a 6LR that will drop the
+   packets that are sourced at an address that is not registered.
 
 4.  Updating RFC 6550
 
@@ -439,9 +442,6 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    changes the behavior of a RPL router acting as 6LR for the
    registration as follows: if the Root indicates the capability to
    proxy the EDAR/EDAC exchange to the 6LBR then the 6LR refrains from
-   sending an EDAR message.  If the Root is separated from the 6LBR, the
-   Root generates a keep-alive message to the 6LBR upon a DAO message
-   that signals the liveliness of the Address.
 
 
 
@@ -449,6 +449,10 @@ Thubert & Richardson      Expires March 2, 2020                 [Page 8]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
+
+   sending an EDAR message.  If the Root is separated from the 6LBR, the
+   Root generates a keep-alive message to the 6LBR upon a DAO message
+   that signals the liveliness of the Address.
 
 6.  6LN Requirements to be a RPL-Unware Leaf
 
@@ -494,10 +498,6 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    RECOMMENDED behaviour when using IP-in-IP to an External route is
    that the outer headers terminate at the 6LR that injected the
    External route.  Non-Storing Mode signaling MUST be used to inject
-   External routes to the Root in order to advertise the 6LR that is
-   associated to a RUL.
-
-
 
 
 
@@ -505,6 +505,9 @@ Thubert & Richardson      Expires March 2, 2020                 [Page 9]
 
 Internet-Draft           Routing for RPL Leaves              August 2019
 
+
+   External routes to the Root in order to advertise the 6LR that is
+   associated to a RUL.
 
    In order to save the IP-in-IP encapsulation and to support Storing
    Mode of operation, it is preferred that the 6LN can ignore an RPI and
@@ -550,10 +553,7 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    Lifetime in the DAO message are taken from the Transaction ID and the
    registration lifetime in the NS(EARO) message from the 6LN.
 
-   In that flow, the RPL Root acts as a proxy to refresh the state in
-   the 6LBR.  The proxy operation applies to both RUL and RAN.  This
-   means that in a RPL network where the function is enabled, refreshing
-   the state in the 6LBR is the responsibility of the Root.
+
 
 
 
@@ -562,6 +562,10 @@ Thubert & Richardson      Expires March 2, 2020                [Page 10]
 Internet-Draft           Routing for RPL Leaves              August 2019
 
 
+   In that flow, the RPL Root acts as a proxy to refresh the state in
+   the 6LBR.  The proxy operation applies to both RUL and RAN.  This
+   means that in a RPL network where the function is enabled, refreshing
+   the state in the 6LBR is the responsibility of the Root.
    Consequently, only addresses that are injected in RPL will be kept
    alive by the RPL Root.  If an additional routing protocol is deployed
    on a same network, that additional routing protocol may need to
@@ -590,10 +594,6 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    In Non-Storing Mode, the flows can be nested as illustrated in
    Figure 2 and it is possible to carry information such as an updated
    lifetime from the 6LBR all the way to the 6LN.
-
-
-
-
 
 
 
@@ -713,7 +713,7 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
    In Storing Mode, the DAO-ACK is optional.  When it is used, it is
    generated by the RPL parent, which does not need to wait for the
-   grand parent to send the acknowledgement.  A successful DAO-ACK is
+   grand-parent to send the acknowledgement.  A successful DAO-ACK is
    not a guarantee that the DAO has yet reached the Root or that the
    keep-alive EDAR has succeeded.
 

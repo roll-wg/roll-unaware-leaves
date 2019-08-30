@@ -303,14 +303,15 @@
    Registering Node. With <xref target="RFC8505"/>,
    the Registering Node sets the R flag to indicate whether the 6LR should
    ensure reachability for the Registered Address, e.g., by means of routing
-   or proxying ND. By definition a node operates as a RUL for an IPv6 address
-   iff it sets the R flag in the NS(EARO) used to register that address.
+   or proxying ND. Adapted to this specification, this means that a 6LN operates
+   as a RUL for an IPv6 address iff it sets the R flag in the NS(EARO) used to
+   register the address.
    If the R flag is not set, then the Registering Node is expected to be a RAN
    that handles the reachability of the Registered Address by itself.
-   Conversely, this document specifies the behavior of the RPL router depending
-   on the setting of the R flag in the NS(EARO). The 6LR generates the
-   Registered Address in a DAO message iff it is triggered by an NS(EARO) that
-   has the R flag set.
+   Conversely, this document specifies a behavior of a RPL router acting as
+   6LR for the registration 6LR that depends on the setting of the R flag in the
+   NS(EARO). The RPL router generates a DAO message for the Registered Address
+   upon an NS(EARO) iff the R flag in the EARO is set.
 </t><t>
 
    The EARO also includes a sequence counter called Transaction ID (TID),
@@ -625,9 +626,9 @@
     <t>
 
     In Storing Mode, the DAO-ACK is optional. When it is used, it is generated
-    by the RPL parent, which does not need to wait for the grand parent to send
-    the acknowledgement. A successful DAO-ACK is not a guarantee that the DAO has
-    yet reached the Root or that the keep-alive EDAR has succeeded.
+    by the RPL parent, which does not need to wait for the grand-parent to send
+    the acknowledgement. A successful DAO-ACK is not a guarantee that the DAO
+    has yet reached the Root or that the keep-alive EDAR has succeeded.
     </t>
     <t>
     If the keep alive fails, the path is cleaned up asynchronously using a DCO
