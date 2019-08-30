@@ -339,13 +339,21 @@
 <section anchor="upd" title="Updating RFC 6550">
 <t>
    This document specifies a new behavior whereby a 6LR injects DAO messages
-   for unicast addresses registered through the updated 6LoWPAN ND
-   <xref target="RFC8505"/> on behalf of leaves that are not RPL-aware based
-   on information in the EARO such as the TID and the "I" field.
+   for unicast addresses (see <xref target="op"/>) and multicast addresses
+   (see <xref target= "multiop"/>) on behalf of leaves that are not aware of RPL.
+   The Targets are exposed as External addresses. In order to enable the
+   compression and IP-in-IP encapsulation to terminate at the 6LR, this
+   specification updates RPL <xref target="RFC6550"/> to mandate that External
+   Routes are advertised using Non-Storing Mode signaling even in a Storing-Mode
+   network.
 </t>
-<t>This document also introduces new Status Values for a DAO-ACK that map to
-   the Status values that can be returned from the 6LBR, to transport them
-   back to the 6LR. The values are listed in <xref target="iana-ack-status"/>.
+<t>This document also introduces a new behavior whereby the RPL Root proxies
+   6LoWPAN ND signaling to the 6LBR on behalf of the 6LR (more in
+   <xref target="upd2"/>). To enable this, this specification updates
+   <xref target="RFC6550"/> with new RPL Status values for use in DAO-ACK and
+   DCO that map the 6LoWPAN ND Status values returned from the 6LBR, so that
+   they can be transported back to the 6LR with RPL. The resulting set of RPL
+   Status values is shown in <xref target="iana-ack-status"/>.
 </t>
 
 
@@ -361,36 +369,27 @@
    <xref target="RFC6550"/> specifies a periodic DAO that maintains the routing
    state in the RPL network for a lifetime that is indicated by the source of
    the DAO. This means that there are two periodic messages that traverse the
-   whole network to indicate that an address is still reachable, one to the root
+   whole network to indicate that an address is still reachable, one to the Root
    and one to the 6LBR.
-   This specification synchronizes the liveness monitoring at the root and the
+   This specification synchronizes the liveness monitoring at the Root and the
    6LBR. A same value of lifetime is used for both, and a single keep alive
    message, the RPL DAO, traverses the RPL network.
    </t><t>
-   This document also specifies a keep-alive EDAR message and a keep-alive
-   NS(EARO) message. Those messages have a NULL ROVR field and may only be
-   used as a refresher of an existing state associated to a Registered Address,
-   More specifically, a keep-alive message can only update the Lifetime and the
-   TID of the existing state in a 6LBR.
+   This document updates <xref target="RFC8505"/> to introduce a keep-alive EDAR
+   message and a keep-alive NS(EARO) message. Those messages have a zero ROVR
+   field and may only be used as to refresh of an existing state associated to
+   a Registered Address.
+   More specifically, a keep-alive message can only increase the lifetime and/or
+   increment the TID of the existing state in a 6LBR.
    </t>
    <t>
    Upon the renewal of a 6LoWPAN ND registration, this specification changes the
    behavior of a RPL router acting as 6LR for the registration as follows: if
-   the root indicates the capability to proxy the EDAR/EDAC exchange to the 6LBR
-   then the 6LR refrains from sending an EDAR message. If the root is separated
-   from the 6LBR, the root generates a keep-alive message to the 6LBR upon a
+   the Root indicates the capability to proxy the EDAR/EDAC exchange to the 6LBR
+   then the 6LR refrains from sending an EDAR message. If the Root is separated
+   from the 6LBR, the Root generates a keep-alive message to the 6LBR upon a
    DAO message that signals the liveliness of the Address.
    </t>
-  <t>
-   In that flow, the RPL Root acts as a proxy to refresh the state in the 6LBR.
-   The proxy operation applies to both RUL and RAN. This means that in a RPL
-   network where the function is enabled, refreshing the state in the 6LBR is
-   the responsibility of the root. Consequently, only addresses that are
-   injected in RPL will be kept alive by the RPL root. If an additional routing
-   protocol is deployed on a same network, that additional routing protocol may
-   need to handle the keep alive procedure for the addresses that it serves.
-   </t>
-
 </section>
 
 
@@ -488,24 +487,30 @@
 <section anchor="op" title="Protocol Operations for Unicast Addresses">
 <section anchor="flow" title="General Flow">
 
-    <t> This specification enables to save the exchange of Extended Duplicate
-        Address messages, EDAR and EDAC, from a 6LN all the way to the 6LBR
-        across a RPL mesh, for the sole purpose of refreshing an existing state
-        in the 6LBR.
-        Instead, the EDAR/EDAC exchange is proxied by the RPL Root upon a DAO
-        message that refreshes the RPL routing state. To achieve this, the
-        lifetimes and sequence counters in 6LoWPAN ND and RPL are aligned.
-        In other words, the Path Sequence and the Path Lifetime in the DAO
-        message are derived from the Transaction ID and the registration
-        lifetime in the NS(EARO) message from the 6LN.
-    </t><t>
-        From the perspective of the 6LN, the registration flow happens
-        transparently; it is not delayed by the proxy RPL operation, so the
-        device does not need to change the amount of time it waits based
-        upon whether RPL proxy operation happens
-        or not. The flows below are RPL Non-Storing Mode examples.
-        In Storing Mode, the DAO ACK may not be present, and the DAO messages
-        cascade from child to parent all the way to the DODAG Root.
+  <t>
+   This specification enables to save the exchange of Extended Duplicate
+   Address messages, EDAR and EDAC, from a 6LN all the way to the 6LBR across a
+   RPL mesh, for the sole purpose of refreshing an existing state in the 6LBR.
+   Instead, the EDAR/EDAC exchange is proxied by the RPL Root upon a DAO message
+   that refreshes the RPL routing state. To achieve this, the lifetimes and
+   sequence counters in 6LoWPAN ND and RPL are aligned. In other words, the Path
+   Sequence and the Path Lifetime in the DAO message are taken from the
+   Transaction ID and the registration lifetime in the NS(EARO) message from the
+   6LN.
+ </t><t>
+   In that flow, the RPL Root acts as a proxy to refresh the state in the 6LBR.
+   The proxy operation applies to both RUL and RAN. This means that in a RPL
+   network where the function is enabled, refreshing the state in the 6LBR is
+   the responsibility of the Root. Consequently, only addresses that are
+   injected in RPL will be kept alive by the RPL Root. If an additional routing
+   protocol is deployed on a same network, that additional routing protocol may
+   need to handle the keep alive procedure for the addresses that it serves.
+
+   </t><t>
+   From the perspective of the 6LN, the registration flow happens transparently;
+   it is not delayed by the proxy RPL operation, so the device does not need to
+   change the amount of time it waits based upon whether RPL proxy operation
+   happens or not.
     </t><t>
         On the first registration, illustrated in <xref target="fReg1"/>, from
         the perspective of the 6LR in Non-Storing Mode, the Extended
@@ -546,7 +551,7 @@
       |                |               |---------------->|
       |                |               |      EDAC       |
       |                |               |<----------------|
-      |                |    DAO ACK    |                 |
+      |                |    DAO-ACK    |                 |
       |                |<--------------|                 |
       |   NA(EARO)     |                                 |
       |<---------------|               |                 |
@@ -589,7 +594,7 @@
       |                |               |---------------->|
       |                |               |      EDAC       |
       |                |               |<----------------|
-      |                |    DAO ACK    |                 |
+      |                |    DAO-ACK    |                 |
       |                |<--------------|                 |
       |   NA(EARO)     |                                 |
       |<---------------|               |                 |
@@ -598,7 +603,7 @@
     </figure>
     <t>In case of an error on the keep-alive EDAR flow, the error SHOULD be
     returned in the DAO-ACK if one is requested. The new DAO-ACK Status codes
-    to map the 6LoWNAN ND codes defined in Table 1 of <xref target="RFC8505"/>
+    to map the 6LoWNAN ND values defined in Table 1 of <xref target="RFC8505"/>
     are listed in <xref target="iana-ack-status"/>. The Status code are listed
     in a same order and DAO-ACK Status code of 128 maps to 6LoWPAN ND Status
     Code of 1.
@@ -607,16 +612,28 @@
     If the Root could not return the negative Status in the DAO-ACK then it MUST
     send an asynchronous Destination Cleanup Object (DCO) message
     <xref target="I-D.ietf-roll-efficient-npdao"/> to the 6LR
-    indicating the failure. Note that the DAO-ACK and DCO messages are not
-    guaranteed to arrive in that order at the 6LR.
+    indicating the failure. Note that if both are used in a short interval of
+    time, the DAO-ACK and DCO messages are not guaranteed to arrive in the same
+    order at the 6LR. So the 6LR MUST still expect a DAO-ACK even if it received
+    a DCO while it was waiting for an acknowledgement for a short period of time,
+    but the negative status in the DCO supercedes a positive status in the
+    DAO-ACK regardless of the order in which they are received.
     </t>
  </section>
  <section anchor="rsm" title="In RPL Storing-Mode">
 
     <t>
-    In Storing Mode the DAO ACK is generated from the parent that does not
-    wait for the grand parent to acknowledge, so the DAO-ACK is not a guarantee
-    that the keep-alive EDAR has succeeded.
+
+    In Storing Mode, the DAO-ACK is optional. When it is used, it is generated
+    by the RPL parent, which does not need to wait for the grand parent to send
+    the acknowledgement. A successful DAO-ACK is not a guarantee that the DAO has
+    yet reached the Root or that the keep-alive EDAR has succeeded.
+    </t>
+    <t>
+    If the keep alive fails, the path is cleaned up asynchronously using a DCO
+    message <xref target="I-D.ietf-roll-efficient-npdao"/> as illustrated in
+    <xref target="fReg2bis"/> and described in further details in
+    <xref target="Root"/>.
     </t>
     <figure anchor="fReg2bis" suppress-title="false"
 	title="Next Registration Flow in Storing Mode">
@@ -630,12 +647,12 @@
  |               |               |               |                 |
  |               |      DAO      |               |                 |
  |               |-------------->|               |                 |
- |               |    DAO ACK    |               |                 |
+ |               |    DAO-ACK    |               |                 |
  |               |<--------------|               |                 |
  |               |               |               |                 |
  |               |               |      DAO      |                 |
  |               |               |-------------->|                 |
- |               |               |    DAO ACK    |                 |
+ |               |               |    DAO-ACK    |                 |
  |               |               |<--------------|                 |
  |               |               |               |                 |
  |               |               |               | keep-alive EDAR |
@@ -652,12 +669,6 @@
  |               |               |               |                 |
     ]]></artwork>
     </figure>
-    <t>
-    If the keep alive fails, the path is cleaned up asynchronously
-    using a DCO message
-    <xref target="I-D.ietf-roll-efficient-npdao"/> as described in
-    <xref target="Root"/>.
-    </t>
  </section>
 
 </section>
@@ -966,7 +977,7 @@
       |   <L2 ack>         |               |                    |
       |                    | DAO           |                    |
       |                    |-------------->|                    |
-      |                    |    DAO ACK    |                    |
+      |                    |    DAO-ACK    |                    |
       |                    |<--------------|                    |
       |                    |               | <if not listening> |
       |                    |               | unsolicited Report |
@@ -993,7 +1004,7 @@
       |------------------->|               |                    |
       |                    | DAO           |                    |
       |                    |-------------->|                    |
-      |                    |    DAO ACK    |                    |
+      |                    |    DAO-ACK    |                    |
       |                    |<--------------|                    |
       |                    |               |                    |
       |                    |               |       Query        |
@@ -1038,7 +1049,7 @@
     At the time of this writing RPL does not have a zerotrust model whereby
     the it is possible to validate the origin of an address that is injected
     in a DAO. This specification makes a first step in that direction by
-    allowing the root to challenge the RUL by the 6LR that serves it.
+    allowing the Root to challenge the RUL by the 6LR that serves it.
     </t>
 
 </section>
@@ -1133,7 +1144,7 @@
     <t>
 
     <xref target="rtghc"/> illustrates the case in Storing mode where the packet
-    is received from the Internet, then the root encapsulates the packet to
+    is received from the Internet, then the Root encapsulates the packet to
     insert the RPI and deliver to the 6LR that is the parent and last hop to the
     final destination, which is not known to support <xref target="RFC8138"/>.
     The difference with the format presented in Figure 19 of
@@ -1165,7 +1176,7 @@
 
           </t>
           <t>
-          In Non-Storing Mode, the encapsulation from the root would be similar
+          In Non-Storing Mode, the encapsulation from the Root would be similar
           to that represented in <xref target="rtghc"/> with possibly more hops
           in the SRH-6LoRH and possibly multiple SRH-6LoRHs if the various
           addresses in the routing header are not compressed to the same format.
