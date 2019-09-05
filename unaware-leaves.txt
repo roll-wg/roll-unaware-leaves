@@ -6,11 +6,11 @@ ROLL                                                     P. Thubert, Ed.
 Internet-Draft                                                     Cisco
 Updates: 6550, 8505 (if approved)                          M. Richardson
 Intended status: Standards Track                               Sandelman
-Expires: March 2, 2020                                   August 30, 2019
+Expires: March 8, 2020                                 September 5, 2019
 
 
                          Routing for RPL Leaves
-                   draft-ietf-roll-unaware-leaves-03
+                   draft-ietf-roll-unaware-leaves-04
 
 Abstract
 
@@ -33,7 +33,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on March 2, 2020.
+   This Internet-Draft will expire on March 8, 2020.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Thubert & Richardson      Expires March 2, 2020                 [Page 1]
+Thubert & Richardson      Expires March 8, 2020                 [Page 1]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
 Table of Contents
@@ -92,11 +92,11 @@ Table of Contents
      12.2.  New Subsubregistry for the Status values of the RPL DAO-
             ACK Message  . . . . . . . . . . . . . . . . . . . . . .  22
    13. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  23
-   14. References  . . . . . . . . . . . . . . . . . . . . . . . . .  23
-     14.1.  Normative References . . . . . . . . . . . . . . . . . .  23
-     14.2.  Informative References . . . . . . . . . . . . . . . . .  25
-   Appendix A.  Example Compression  . . . . . . . . . . . . . . . .  26
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  27
+   14. References  . . . . . . . . . . . . . . . . . . . . . . . . .  24
+     14.1.  Normative References . . . . . . . . . . . . . . . . . .  24
+     14.2.  Informative References . . . . . . . . . . . . . . . . .  26
+   Appendix A.  Example Compression  . . . . . . . . . . . . . . . .  27
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  28
 
 1.  Introduction
 
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Thubert & Richardson      Expires March 2, 2020                 [Page 2]
+Thubert & Richardson      Expires March 8, 2020                 [Page 2]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
    The IETF produced the "Routing Protocol for Low Power and Lossy
@@ -165,9 +165,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                 [Page 3]
+Thubert & Richardson      Expires March 8, 2020                 [Page 3]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
    information for the Registered Address in the RPL domain on its
@@ -221,9 +221,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                 [Page 4]
+Thubert & Richardson      Expires March 8, 2020                 [Page 4]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
    Other terms in use in LLNs are found in Terminology for Constrained-
@@ -277,9 +277,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                 [Page 5]
+Thubert & Richardson      Expires March 8, 2020                 [Page 5]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
    DIS:  DODAG Information Solicitation
@@ -333,9 +333,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                 [Page 6]
+Thubert & Richardson      Expires March 8, 2020                 [Page 6]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
    Address Request (DAR) and Duplicate Address Confirmation (DAC)
@@ -389,9 +389,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                 [Page 7]
+Thubert & Richardson      Expires March 8, 2020                 [Page 7]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
    "Address Protected Neighbor Discovery for Low-power and Lossy
@@ -445,9 +445,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                 [Page 8]
+Thubert & Richardson      Expires March 8, 2020                 [Page 8]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
    Option that can be included in a RPL Control Message such as the DAO.
@@ -501,9 +501,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                 [Page 9]
+Thubert & Richardson      Expires March 8, 2020                 [Page 9]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
    A RUL SHOULD supports [I-D.ietf-6lo-ap-nd] to protect the ownership
@@ -557,9 +557,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                [Page 10]
+Thubert & Richardson      Expires March 8, 2020                [Page 10]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
 6.2.3.  Support of IPv6 Encapsulation
@@ -613,9 +613,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                [Page 11]
+Thubert & Richardson      Expires March 8, 2020                [Page 11]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
 8.  Protocol Operations for Unicast Addresses
@@ -669,9 +669,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                [Page 12]
+Thubert & Richardson      Expires March 8, 2020                [Page 12]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
         6LN              6LR             Root             6LBR
@@ -725,9 +725,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                [Page 13]
+Thubert & Richardson      Expires March 8, 2020                [Page 13]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
         6LN              6LR             Root             6LBR
@@ -781,9 +781,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                [Page 14]
+Thubert & Richardson      Expires March 8, 2020                [Page 14]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
    If the keep alive fails, the path is cleaned up asynchronously using
@@ -837,9 +837,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                [Page 15]
+Thubert & Richardson      Expires March 8, 2020                [Page 15]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
    o  Once it has formed an address, the 6LN (re)registers its address
@@ -893,9 +893,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                [Page 16]
+Thubert & Richardson      Expires March 8, 2020                [Page 16]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
    section 7.2 of [RFC6550]).  As long as the R flag is set and this
@@ -949,9 +949,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                [Page 17]
+Thubert & Richardson      Expires March 8, 2020                [Page 17]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
    If a DAO-ACK is not requested, or has a Status that is less than 128,
@@ -1005,9 +1005,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                [Page 18]
+Thubert & Richardson      Expires March 8, 2020                [Page 18]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
    An EDAR message MUST be constructed as follows:
@@ -1061,9 +1061,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                [Page 19]
+Thubert & Richardson      Expires March 8, 2020                [Page 19]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
    is extended by the Registration Lifetime in the DAR message, it also
@@ -1117,9 +1117,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                [Page 20]
+Thubert & Richardson      Expires March 8, 2020                [Page 20]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
         6LN                  6LR             Root                6LBR
@@ -1173,9 +1173,9 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                [Page 21]
+Thubert & Richardson      Expires March 8, 2020                [Page 21]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
 10.  Implementation Status
@@ -1229,42 +1229,50 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-Thubert & Richardson      Expires March 2, 2020                [Page 22]
+Thubert & Richardson      Expires March 8, 2020                [Page 22]
 
-Internet-Draft           Routing for RPL Leaves              August 2019
+Internet-Draft           Routing for RPL Leaves           September 2019
 
 
-    +---------+--------------------------------------+----------------+
-    |  Value  |               Meaning                | Defining Spec  |
-    +---------+--------------------------------------+----------------+
-    |    0    |        Unqualified acceptance        |    RFC6550     |
-    |         |                                      |                |
-    |  1-127  |      Reserved for Warning Codes      |    RFC6550     |
-    |         |                                      |                |
-    |   128   |          Duplicate Address           |    This RFC    |
-    |         |                                      |                |
-    |   129   |            Out of Storage            |    This RFC    |
-    |         |                                      |                |
-    |   130   |                Moved                 |    This RFC    |
-    |         |                                      |                |
-    |   131   |               Removed                |    This RFC    |
-    |         |                                      |                |
-    |   132   |         Validation Requested         |    This RFC    |
-    |         |                                      |                |
-    |   133   |       Duplicate Source Address       |    This RFC    |
-    |         |                                      |                |
-    |   134   |        Invalid Source Address        |    This RFC    |
-    |         |                                      |                |
-    |   135   |   Address topologically incorrect    |    This RFC    |
-    |         |                                      |                |
-    |   136   |       6LBR Registry saturated        |    This RFC    |
-    |         |                                      |                |
-    |   137   |          Validation Failed           |    This RFC    |
-    |         |                                      |                |
-    | 138-192 | Reserved for 6LoWPAN ND code mapping |    This RFC    |
-    |         |                                      |                |
-    | 193-255 |  Reserved for other Rejection Codes  |    RFC6550     |
-    +---------+--------------------------------------+----------------+
+   +---------+-----------------------+---------------------------------+
+   |  Value  |        Meaning        |          Defining Spec          |
+   +---------+-----------------------+---------------------------------+
+   |    0    |      Unqualified      |            [RFC6550]            |
+   |         |       acceptance      |                                 |
+   |         |                       |                                 |
+   |  1-127  |  Reserved for Warning |            [RFC6550]            |
+   |         |         Codes         |                                 |
+   |         |                       |                                 |
+   |   128   |   Duplicate Address   |             This RFC            |
+   |         |                       |                                 |
+   |   129   |     Out of Storage    |             This RFC            |
+   |         |                       |                                 |
+   |   130   |         Moved         | [I-D.ietf-roll-efficient-npdao] |
+   |         |                       |                                 |
+   |   131   |        Removed        |             This RFC            |
+   |         |                       |                                 |
+   |   132   |  Validation Requested |             This RFC            |
+   |         |                       |                                 |
+   |   133   |    Duplicate Source   |             This RFC            |
+   |         |        Address        |                                 |
+   |         |                       |                                 |
+   |   134   |     Invalid Source    |             This RFC            |
+   |         |        Address        |                                 |
+   |         |                       |                                 |
+   |   135   | Address topologically |             This RFC            |
+   |         |       incorrect       |                                 |
+   |         |                       |                                 |
+   |   136   |     6LBR Registry     |             This RFC            |
+   |         |       saturated       |                                 |
+   |         |                       |                                 |
+   |   137   |   Validation Failed   |             This RFC            |
+   |         |                       |                                 |
+   | 138-192 |  Reserved for 6LoWPAN |             This RFC            |
+   |         |    ND code mapping    |                                 |
+   |         |                       |                                 |
+   | 193-255 |   Reserved for other  |            [RFC6550]            |
+   |         |    Rejection Codes    |                                 |
+   +---------+-----------------------+---------------------------------+
 
              Table 1: Status values of the RPL DAO-ACK Message
 
@@ -1272,6 +1280,15 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
    The authors wish to thank Georgios Papadopoulos for their early
    reviews of and contributions to this document
+
+
+
+
+
+Thubert & Richardson      Expires March 8, 2020                [Page 23]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
 
 14.  References
 
@@ -1282,13 +1299,6 @@ Internet-Draft           Routing for RPL Leaves              August 2019
               "Address Protected Neighbor Discovery for Low-power and
               Lossy Networks", draft-ietf-6lo-ap-nd-12 (work in
               progress), April 2019.
-
-
-
-Thubert & Richardson      Expires March 2, 2020                [Page 23]
-
-Internet-Draft           Routing for RPL Leaves              August 2019
-
 
    [I-D.ietf-roll-efficient-npdao]
               Jadhav, R., Thubert, P., Sahoo, R., and Z. Cao, "Efficient
@@ -1326,6 +1336,16 @@ Internet-Draft           Routing for RPL Leaves              August 2019
               DOI 10.17487/RFC4862, September 2007,
               <https://www.rfc-editor.org/info/rfc4862>.
 
+
+
+
+
+
+Thubert & Richardson      Expires March 8, 2020                [Page 24]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    [RFC4919]  Kushalnagar, N., Montenegro, G., and C. Schumacher, "IPv6
               over Low-Power Wireless Personal Area Networks (6LoWPANs):
               Overview, Assumptions, Problem Statement, and Goals",
@@ -1338,13 +1358,6 @@ Internet-Draft           Routing for RPL Leaves              August 2019
               Low-Power and Lossy Networks", RFC 6550,
               DOI 10.17487/RFC6550, March 2012,
               <https://www.rfc-editor.org/info/rfc6550>.
-
-
-
-Thubert & Richardson      Expires March 2, 2020                [Page 24]
-
-Internet-Draft           Routing for RPL Leaves              August 2019
-
 
    [RFC6553]  Hui, J. and JP. Vasseur, "The Routing Protocol for Low-
               Power and Lossy Networks (RPL) Option for Carrying RPL
@@ -1378,6 +1391,17 @@ Internet-Draft           Routing for RPL Leaves              August 2019
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
+
+
+
+
+
+
+Thubert & Richardson      Expires March 8, 2020                [Page 25]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    [RFC8200]  Deering, S. and R. Hinden, "Internet Protocol, Version 6
               (IPv6) Specification", STD 86, RFC 8200,
               DOI 10.17487/RFC8200, July 2017,
@@ -1390,17 +1414,6 @@ Internet-Draft           Routing for RPL Leaves              August 2019
               <https://www.rfc-editor.org/info/rfc8505>.
 
 14.2.  Informative References
-
-
-
-
-
-
-
-Thubert & Richardson      Expires March 2, 2020                [Page 25]
-
-Internet-Draft           Routing for RPL Leaves              August 2019
-
 
    [RFC3315]  Droms, R., Ed., Bound, J., Volz, B., Lemon, T., Perkins,
               C., and M. Carney, "Dynamic Host Configuration Protocol
@@ -1438,6 +1451,13 @@ Internet-Draft           Routing for RPL Leaves              August 2019
               RFC 8025, DOI 10.17487/RFC8025, November 2016,
               <https://www.rfc-editor.org/info/rfc8025>.
 
+
+
+Thubert & Richardson      Expires March 8, 2020                [Page 26]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    [RFC8504]  Chown, T., Loughney, J., and T. Winters, "IPv6 Node
               Requirements", BCP 220, RFC 8504, DOI 10.17487/RFC8504,
               January 2019, <https://www.rfc-editor.org/info/rfc8504>.
@@ -1449,15 +1469,6 @@ Appendix A.  Example Compression
    insert the RPI and deliver to the 6LR that is the parent and last hop
    to the final destination, which is not known to support [RFC8138].
    The difference with the format presented in Figure 19 of [RFC8138] is
-
-
-
-
-Thubert & Richardson      Expires March 2, 2020                [Page 26]
-
-Internet-Draft           Routing for RPL Leaves              August 2019
-
-
    the addition of a SRH-6LoRH before the RPI-6LoRH to transport the
    destination address of the outer IPv6 header.
 
@@ -1495,24 +1506,18 @@ Internet-Draft           Routing for RPL Leaves              August 2019
    The Paging Dispatch [RFC8025] may also be removed if there was no
    previous Page change to a Page other than 0 or 1, since the
    LOWPAN_IPHC is encoded in the same fashion in the default Page 0 and
+
+
+
+Thubert & Richardson      Expires March 8, 2020                [Page 27]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    in Page 1.  The resulting packet to the destination is the inner
    packet compressed with [RFC6282].
 
 Authors' Addresses
-
-
-
-
-
-
-
-
-
-
-Thubert & Richardson      Expires March 2, 2020                [Page 27]
-
-Internet-Draft           Routing for RPL Leaves              August 2019
-
 
    Pascal Thubert (editor)
    Cisco Systems, Inc
@@ -1560,9 +1565,4 @@ Internet-Draft           Routing for RPL Leaves              August 2019
 
 
 
-
-
-
-
-
-Thubert & Richardson      Expires March 2, 2020                [Page 28]
+Thubert & Richardson      Expires March 8, 2020                [Page 28]

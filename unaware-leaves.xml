@@ -1164,11 +1164,11 @@
            <ttcol align="center"> Meaning </ttcol>
                                           <ttcol align="center"> Defining Spec
                                    </ttcol>
-    <c>0</c>       <c>Unqualified acceptance</c>                 <c>RFC6550</c>
-	<c>1-127</c>   <c>Reserved for Warning Codes</c>             <c>RFC6550</c>
+    <c>0</c>       <c>Unqualified acceptance</c>                 <c><xref target="RFC6550"/></c>
+	<c>1-127</c>   <c>Reserved for Warning Codes</c>             <c><xref target="RFC6550"/></c>
     <c>128</c>     <c>Duplicate Address</c>                      <c>This RFC</c>
     <c>129</c>     <c>Out of Storage</c>                         <c>This RFC</c>
-	<c>130</c>     <c>Moved</c>                                  <c>This RFC</c>
+	<c>130</c>     <c>Moved</c>                                  <c><xref target="I-D.ietf-roll-efficient-npdao"/></c>
 	<c>131</c>     <c>Removed</c>                                <c>This RFC</c>
 	<c>132</c>     <c>Validation Requested</c>                   <c>This RFC</c>
 	<c>133</c>     <c>Duplicate Source Address</c>               <c>This RFC</c>
@@ -1177,7 +1177,7 @@
 	<c>136</c>     <c>6LBR Registry saturated</c>                <c>This RFC</c>
 	<c>137</c>     <c>Validation Failed</c>		                 <c>This RFC</c>
 	<c>138-192</c> <c>Reserved for 6LoWPAN ND code mapping</c>   <c>This RFC</c>
-	<c>193-255</c> <c>Reserved for other Rejection Codes</c>     <c>RFC6550</c>
+	<c>193-255</c> <c>Reserved for other Rejection Codes</c>     <c><xref target="RFC6550"/></c>
     </texttable>
 
 </section>
