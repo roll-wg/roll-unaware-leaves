@@ -79,9 +79,9 @@ Table of Contents
      6.2.  External Routes and RPL Artifacts . . . . . . . . . . . .  11
        6.2.1.  Support of the HbH Header . . . . . . . . . . . . . .  11
        6.2.2.  Support of the Routing Header . . . . . . . . . . . .  11
-       6.2.3.  Support of IPv6 Encapsulation . . . . . . . . . . . .  12
+       6.2.3.  Support of IPv6 Encapsulation . . . . . . . . . . . .  11
    7.  Updated RPL Target option . . . . . . . . . . . . . . . . . .  12
-   8.  Protocol Operations for Unicast Addresses . . . . . . . . . .  13
+   8.  Protocol Operations for Unicast Addresses . . . . . . . . . .  12
      8.1.  General Flow  . . . . . . . . . . . . . . . . . . . . . .  13
        8.1.1.  In RPL Non-Storing-Mode . . . . . . . . . . . . . . .  13
        8.1.2.  In RPL Storing-Mode . . . . . . . . . . . . . . . . .  15
@@ -424,18 +424,18 @@ Internet-Draft           Routing for RPL Leaves           September 2019
 
 3.2.3.  ROVR
 
-   Finally, the EUI-64 that was used in [RFC6775] to identify uniquely a
-   registration based on the MAC address of the owner is replaces with a
-   Registration Ownership Verifier (ROVR) that may be of a different
-   type and may be larger than 64 bits.
+   Section 5.3. of [RFC8505] introduces the Registration Ownership
+   Verifier (ROVR) field of a variable length from 64 to 256 bits.  The
+   ROVR is a replacement of the EUI-64 field in the ARO [RFC6775] that
+   was used to identify uniquely a registration based on the Link-Layer
+   address of the owner but provided no protection against spoofing.
 
    "Address Protected Neighbor Discovery for Low-power and Lossy
    Networks" [I-D.ietf-6lo-ap-nd] leverages the ROVR field as a
-   cryptographic proof of ownership to prevent an address from being
-   misused by a rogue third party.  [I-D.ietf-6lo-ap-nd] adds a
-   challenge/response exchange to the [RFC8505] registration.  It also
-   enables Source Address Validation by a 6LR that will drop the packets
-   that are sourced at an address that is not registered.
+   cryptographic proof of ownership to prevent a rogue third party from
+   misusing the address.  [I-D.ietf-6lo-ap-nd] adds a challenge/response
+   exchange to the [RFC8505] registration and enables Source Address
+   Validation by a 6LR that will drop packets with a spoofed address.
 
    This specification does not address how the protection by
    [I-D.ietf-6lo-ap-nd] could be extended to RPL.  On the other hand, it
@@ -494,10 +494,10 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    same order and DAO-ACK Status code of 128 maps to 6LoWPAN ND Status
    Code of 1.
 
-   Section 5.3. of [RFC8505] introduces the Registration Ownership
-   Verifier (ROVR) of a variable length from 64 to 256 bits.  A ROVR is
-   created by the Registering Node and associated to the registration of
-   an IPv6 Address.  It is used to detect a duplication (DAD) and may
+   Section 6.7. of [RFC6550] introduces the RPL Control Message Options
+   such as the RPL Target Option that can be included in a RPL Control
+   Message such as the DAO.  This document updates the RPL Target Option
+   to optionally transport the ROVR used in the IPv6 Registration (see
 
 
 
@@ -506,15 +506,9 @@ Thubert & Richardson      Expires March 9, 2020                 [Page 9]
 Internet-Draft           Routing for RPL Leaves           September 2019
 
 
-   also enable the Registering Node to prove its ownership of the
-   Registered Address.
-
-   [I-D.ietf-6lo-ap-nd].  Section 6.7. of [RFC6550] introduces the RPL
-   Control Message Options such as the RPL Target Option that can be
-   included in a RPL Control Message such as the DAO.  This document
-   updates the RPL Target Option to optionally transport a ROVR, more in
-   Section 7.  This enables the RPL Root to generate a full EDAR Message
-   as opposed to a keep-alive EDAR that has restricted properties.
+   Section 3.2.3), more in Section 7.  This enables the RPL Root to
+   generate a full EDAR Message as opposed to a keep-alive EDAR that has
+   restricted properties.
 
 5.  Updating RFC 8505
 
@@ -554,6 +548,12 @@ Internet-Draft           Routing for RPL Leaves           September 2019
 
    [RFC8505] introduces error Status values in the NA(EARO) which can be
    received synchronously upon an NS(EARO) or asynchronously.  The RUL
+   MUST support both cases and refrain from using the Registered Address
+   as suggested by [RFC8505] depending on the Status value.
+
+   A RUL SHOULD supports [I-D.ietf-6lo-ap-nd] to protect the ownership
+   of its addresses.
+
 
 
 
@@ -561,12 +561,6 @@ Thubert & Richardson      Expires March 9, 2020                [Page 10]
 
 Internet-Draft           Routing for RPL Leaves           September 2019
 
-
-   MUST support both cases and refrain from using the Registered Address
-   as suggested by [RFC8505] depending on the Status value.
-
-   A RUL SHOULD supports [I-D.ietf-6lo-ap-nd] to protect the ownership
-   of its addresses.
 
 6.2.  External Routes and RPL Artifacts
 
@@ -611,6 +605,12 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    that Routing Header with a Routing Type of 3 [RFC6553] is ignored
    when the Segments Left is zero, and dropped otherwise.
 
+6.2.3.  Support of IPv6 Encapsulation
+
+   A RUL may support IPv6-in-IPv6 decapsulation when it is the
+   destination of the outer header but that is not assumed by [RFC8504].
+   If the 6LN is a RUL, it may be able to drop the inner packet if it is
+
 
 
 Thubert & Richardson      Expires March 9, 2020                [Page 11]
@@ -618,11 +618,6 @@ Thubert & Richardson      Expires March 9, 2020                [Page 11]
 Internet-Draft           Routing for RPL Leaves           September 2019
 
 
-6.2.3.  Support of IPv6 Encapsulation
-
-   A RUL may support IPv6-in-IPv6 decapsulation when it is the
-   destination of the outer header but that is not assumed by [RFC8504].
-   If the 6LN is a RUL, it may be able to drop the inner packet if it is
    not the destination of the inner header.  By default the IP-in-IP
    tunnel should terminate at the parent 6LR so supporting this
    capability in a RUL is secondary.
@@ -665,6 +660,11 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    Registration Ownership Verifier (ROVR):  This is the same field as in
                    the EARO, see [RFC8505]
 
+8.  Protocol Operations for Unicast Addresses
+
+
+
+
 
 
 
@@ -673,8 +673,6 @@ Thubert & Richardson      Expires March 9, 2020                [Page 12]
 
 Internet-Draft           Routing for RPL Leaves           September 2019
 
-
-8.  Protocol Operations for Unicast Addresses
 
 8.1.  General Flow
 
@@ -720,6 +718,8 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    In Non-Storing Mode, the flows can be nested as illustrated in
    Figure 3 and it is possible to carry information such as an updated
    lifetime from the 6LBR all the way to the 6LN.
+
+
 
 
 

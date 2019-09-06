@@ -424,18 +424,15 @@
    6LR (more in <xref target="upd2"/>). <xref target="RFC6550"/> is updated with
    new RPL Status values for use in DAO-ACK and DCO that map the 6LoWNAN ND
    values defined in Table 1 of <xref target="RFC8505"/>. The Resulting set is
-   shown in <xref target="iana-ack-status"/>. The Status code are listed in the
-   same order and DAO-ACK Status code of 128 maps to 6LoWPAN ND Status Code of 1.
+   shown in <xref target="iana-ack-status"/>.
 
 </t><t>
 
    Section 6.7. of <xref target="RFC6550"/> introduces the RPL Control Message
    Options such as the RPL Target Option that can be included in a RPL Control
-   Message such as the DAO. This document updates the RPL Target Option to
-   optionally transport the ROVR used in the IPv6 Registration
-   (see <xref target="R8505EROVR"/>), more in <xref target="tgt"/>.
-   This enables the RPL Root to generate a full EDAR Message as opposed to a
-   keep-alive EDAR that has restricted properties.
+   Message such as the DAO. <xref target="tgt"/> updates the RPL Target Option
+   to optionally transport the ROVR used in the IPv6 Registration (see <xref target="R8505EROVR"/>) so the RPL Root can generate a full EDAR Message.
+
 
 </t>
 
@@ -568,6 +565,8 @@
 <section anchor="tgt" title="Updated RPL Target option">
 <t> This specification updates the RPL Target option to transport the ROVR
     as illustrated in <xref target="frpltgt"/>.
+    This enables the RPL Root to generate a full EDAR Message as opposed to a
+    keep-alive EDAR that has restricted properties.
     The Target Prefix MUST be aligned to the next 4-byte boundary after the
     size indicated by the Prefix Length. if necessary it is padded with zeros.
     The size of the ROVR is indicated in a new ROVR Type field that is encoded
@@ -737,7 +736,7 @@
  </t> <t>
     If the Root could not return the negative Status in the DAO-ACK then it
     sends an asynchronous Destination Cleanup Object (DCO) message
- <xref target="I-D.ietf-roll-efficient-npdao"/> to the 6LR indicating the
+    <xref target="I-D.ietf-roll-efficient-npdao"/> to the 6LR indicating the
     issue with the mapped Status value. Note that if both are used in a short
     interval of time, the DAO-ACK and DCO messages are not guaranteed to arrive
     in the same order at the 6LR. So the 6LR must still expect a DAO-ACK even if
@@ -748,8 +747,11 @@
 </t> <t>
    Upon the DAO-ACK - or the DCO if it arrives first - the 6LR responds to the
    RUL with a NA(EARO) and the 6LoWPAN ND Status value that is mapped from the
-   RPL status in the RPL  message. An asynchronous DCO is also mapped in an
-   asynchronous NA(EARO) to the RUL with a mapped Status value.
+   RPL status in the RPL  message. An asynchronous DCO is also translated in an
+   asynchronous NA(EARO) to the RUL with a mapped Status value. The RPL Status
+   values that are mapped with 6LoWPAN ND are in the range 128 to 192 and
+   listed in the same order (see <xref target="iana-ack-status"/>). A RPL Status
+   Value of 128 maps to 6LoWPAN ND Status Code of 1 and so on.
 </t>
 
 </section>
