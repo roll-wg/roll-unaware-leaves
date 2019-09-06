@@ -6,7 +6,7 @@ ROLL                                                     P. Thubert, Ed.
 Internet-Draft                                                     Cisco
 Updates: 6550, 8505 (if approved)                          M. Richardson
 Intended status: Standards Track                               Sandelman
-Expires: March 8, 2020                                 September 5, 2019
+Expires: March 9, 2020                                 September 6, 2019
 
 
                          Routing for RPL Leaves
@@ -33,7 +33,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on March 8, 2020.
+   This Internet-Draft will expire on March 9, 2020.
 
 Copyright Notice
 
@@ -53,50 +53,66 @@ Copyright Notice
 
 
 
-Thubert & Richardson      Expires March 8, 2020                 [Page 1]
+Thubert & Richardson      Expires March 9, 2020                 [Page 1]
 
 Internet-Draft           Routing for RPL Leaves           September 2019
 
 
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
    2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   4
      2.1.  BCP 14  . . . . . . . . . . . . . . . . . . . . . . . . .   4
      2.2.  References  . . . . . . . . . . . . . . . . . . . . . . .   4
      2.3.  Glossary  . . . . . . . . . . . . . . . . . . . . . . . .   5
    3.  6LoWPAN Neighbor Discovery  . . . . . . . . . . . . . . . . .   6
-   4.  Updating RFC 6550 . . . . . . . . . . . . . . . . . . . . . .   8
-   5.  Updating RFC 8505 . . . . . . . . . . . . . . . . . . . . . .   9
-   6.  6LN Requirements to be a RPL-Unware Leaf  . . . . . . . . . .   9
-     6.1.  Support of 6LoWPAN ND . . . . . . . . . . . . . . . . . .   9
-     6.2.  External Routes and RPL Artifacts . . . . . . . . . . . .  10
-       6.2.1.  Support of the HbH Header . . . . . . . . . . . . . .  10
-       6.2.2.  Support of the Routing Header . . . . . . . . . . . .  10
-       6.2.3.  Support of IPv6 Encapsulation . . . . . . . . . . . .  11
-   7.  Updated RPL Target option . . . . . . . . . . . . . . . . . .  11
-   8.  Protocol Operations for Unicast Addresses . . . . . . . . . .  12
-     8.1.  General Flow  . . . . . . . . . . . . . . . . . . . . . .  12
-       8.1.1.  In RPL Non-Storing-Mode . . . . . . . . . . . . . . .  12
-       8.1.2.  In RPL Storing-Mode . . . . . . . . . . . . . . . . .  14
-     8.2.  Operation . . . . . . . . . . . . . . . . . . . . . . . .  15
-       8.2.1.  By the 6LN  . . . . . . . . . . . . . . . . . . . . .  15
-       8.2.2.  By the 6LR  . . . . . . . . . . . . . . . . . . . . .  16
-       8.2.3.  By the RPL Root . . . . . . . . . . . . . . . . . . .  18
-       8.2.4.  By the 6LBR . . . . . . . . . . . . . . . . . . . . .  19
-   9.  Protocol Operations for Multicast Addresses . . . . . . . . .  20
-   10. Implementation Status . . . . . . . . . . . . . . . . . . . .  22
-   11. Security Considerations . . . . . . . . . . . . . . . . . . .  22
-   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  22
-     12.1.  RPL Target Option Flags  . . . . . . . . . . . . . . . .  22
+     3.1.  RFC 6775  . . . . . . . . . . . . . . . . . . . . . . . .   7
+     3.2.  RFC 8505 Extended ARO . . . . . . . . . . . . . . . . . .   7
+       3.2.1.  R Flag  . . . . . . . . . . . . . . . . . . . . . . .   8
+       3.2.2.  TID, I Field and Opaque Fields  . . . . . . . . . . .   8
+       3.2.3.  ROVR  . . . . . . . . . . . . . . . . . . . . . . . .   8
+     3.3.  RFC 8505 Extended DAR/DAC . . . . . . . . . . . . . . . .   9
+   4.  Updating RFC 6550 . . . . . . . . . . . . . . . . . . . . . .   9
+   5.  Updating RFC 8505 . . . . . . . . . . . . . . . . . . . . . .  10
+   6.  6LN Requirements to be a RPL-Unware Leaf  . . . . . . . . . .  10
+     6.1.  Support of 6LoWPAN ND . . . . . . . . . . . . . . . . . .  10
+     6.2.  External Routes and RPL Artifacts . . . . . . . . . . . .  11
+       6.2.1.  Support of the HbH Header . . . . . . . . . . . . . .  11
+       6.2.2.  Support of the Routing Header . . . . . . . . . . . .  12
+       6.2.3.  Support of IPv6 Encapsulation . . . . . . . . . . . .  12
+   7.  Updated RPL Target option . . . . . . . . . . . . . . . . . .  12
+   8.  Protocol Operations for Unicast Addresses . . . . . . . . . .  13
+     8.1.  General Flow  . . . . . . . . . . . . . . . . . . . . . .  13
+       8.1.1.  In RPL Non-Storing-Mode . . . . . . . . . . . . . . .  14
+       8.1.2.  In RPL Storing-Mode . . . . . . . . . . . . . . . . .  15
+     8.2.  Operation . . . . . . . . . . . . . . . . . . . . . . . .  16
+       8.2.1.  By the 6LN  . . . . . . . . . . . . . . . . . . . . .  16
+       8.2.2.  By the 6LR  . . . . . . . . . . . . . . . . . . . . .  17
+       8.2.3.  By the RPL Root . . . . . . . . . . . . . . . . . . .  19
+       8.2.4.  By the 6LBR . . . . . . . . . . . . . . . . . . . . .  20
+   9.  Protocol Operations for Multicast Addresses . . . . . . . . .  21
+   10. Implementation Status . . . . . . . . . . . . . . . . . . . .  23
+   11. Security Considerations . . . . . . . . . . . . . . . . . . .  23
+   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  23
+     12.1.  RPL Target Option Flags  . . . . . . . . . . . . . . . .  23
      12.2.  New Subsubregistry for the Status values of the RPL DAO-
-            ACK Message  . . . . . . . . . . . . . . . . . . . . . .  22
-   13. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  23
-   14. References  . . . . . . . . . . . . . . . . . . . . . . . . .  24
-     14.1.  Normative References . . . . . . . . . . . . . . . . . .  24
-     14.2.  Informative References . . . . . . . . . . . . . . . . .  26
-   Appendix A.  Example Compression  . . . . . . . . . . . . . . . .  27
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  28
+            ACK Message  . . . . . . . . . . . . . . . . . . . . . .  23
+   13. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  25
+   14. References  . . . . . . . . . . . . . . . . . . . . . . . . .  25
+     14.1.  Normative References . . . . . . . . . . . . . . . . . .  25
+     14.2.  Informative References . . . . . . . . . . . . . . . . .  27
+   Appendix A.  Example Compression  . . . . . . . . . . . . . . . .  28
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  29
+
+
+
+
+
+
+Thubert & Richardson      Expires March 9, 2020                 [Page 2]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
 
 1.  Introduction
 
@@ -105,14 +121,6 @@ Table of Contents
    all.  Other design constraints, such as a limited memory capacity,
    duty cycling of the LLN devices and low-power lossy transmissions,
    derive from that primary concern.
-
-
-
-
-Thubert & Richardson      Expires March 8, 2020                 [Page 2]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
 
    The IETF produced the "Routing Protocol for Low Power and Lossy
    Networks" [RFC6550] (RPL) to provide IPv6 [RFC8200] routing services
@@ -153,6 +161,15 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    may be plain hosts.  In [RFC6550] terms, a host that is reachable
    over the RPL network is called a Leaf.
 
+
+
+
+
+Thubert & Richardson      Expires March 9, 2020                 [Page 3]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    "When to use RFC 6553, 6554 and IPv6-in-IPv6"
    [I-D.ietf-roll-useofrplinfo] introduces the term RPL-Aware-Leaf (RAL)
    for a leaf that injects routes in RPL to manage the reachability of
@@ -162,14 +179,6 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    obtain routing services over the LLN.  This specification enables a
    RPL-Unaware Leaf (RUL) to announce itself as a host and request that
    6LRs that accept the registration also inject the relevant routing
-
-
-
-Thubert & Richardson      Expires March 8, 2020                 [Page 3]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
-
    information for the Registered Address in the RPL domain on its
    behalf.  The unicast packet forwarding operation by the 6LR serving a
    Leaf 6LN is described in [I-D.ietf-roll-useofrplinfo].
@@ -208,6 +217,15 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    Power and Lossy Networks" [RFC6550] .  The DODAG Information
    Solicitation (DIS), Destination Advertisement Object (DAO) and DODAG
    Information Object (DIO) messages are also specified in [RFC6550].
+
+
+
+
+Thubert & Richardson      Expires March 9, 2020                 [Page 4]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    The Destination Cleanup Object (DCO) message is defined in
    [I-D.ietf-roll-efficient-npdao].
 
@@ -217,14 +235,6 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    a RAL or a RPL router.  As opposed to a RUL, a RAN manages the
    reachability of its addresses and prefixes by injecting them in RPL
    by itself.
-
-
-
-
-Thubert & Richardson      Expires March 8, 2020                 [Page 4]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
 
    Other terms in use in LLNs are found in Terminology for Constrained-
    Node Networks [RFC7228].
@@ -264,6 +274,14 @@ Internet-Draft           Routing for RPL Leaves           September 2019
 
    (E)ARO:  (Extended) Address Registration Option
 
+
+
+
+Thubert & Richardson      Expires March 9, 2020                 [Page 5]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    (E)DAR:  (Extended) Duplicate Address Request
 
    (E)DAC:  (Extended) Duplicate Address Confirmation
@@ -273,14 +291,6 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    DAO:  Destination Advertisement Object
 
    DCO:  Destination Cleanup Object
-
-
-
-
-Thubert & Richardson      Expires March 8, 2020                 [Page 5]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
 
    DIS:  DODAG Information Solicitation
 
@@ -316,6 +326,20 @@ Internet-Draft           Routing for RPL Leaves           September 2019
 
 3.  6LoWPAN Neighbor Discovery
 
+
+
+
+
+
+
+
+Thubert & Richardson      Expires March 9, 2020                 [Page 6]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
+3.1.  RFC 6775
+
    The "IPv6 Neighbor Discovery (IPv6 ND) Protocol" (NDP) suite
    [RFC4861] [RFC4862] was defined for transit media such a Ethernet,
    and relies heavily on multicast operations for address discovery and
@@ -329,24 +353,24 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    protocol. 6LoWPAN ND defines a new Address Registration Option (ARO)
    that is carried in the unicast Neighbor Solicitation (NS) and
    Neighbor Advertisement (NA) messages between the 6LoWPAN Node (6LN)
-   and the 6LoWPAN Router (6LR).  6LoWPAN ND also defines the Duplicate
+   and the 6LoWPAN Router (6LR).
 
+   6LoWPAN ND also defines the Duplicate Address Request (DAR) and
+   Duplicate Address Confirmation (DAC) messages between the 6LR and the
+   6LoWPAN Border Router (6LBR).  In an LLN, the 6LBR is the central
+   repository of all the Registered Addresses in its domain.
 
-
-Thubert & Richardson      Expires March 8, 2020                 [Page 6]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
-
-   Address Request (DAR) and Duplicate Address Confirmation (DAC)
-   messages between the 6LR and the 6LoWPAN Border Router (6LBR).  In an
-   LLN, the 6LBR is the central repository of all the Registered
-   Addresses in its domain.
-
+   The main functions of [RFC6775] are to proactively establish the
+   Neighbor Cache Entry in the 6LR and to avoid address dupplication.
+   There is not concept of registering the address for an external
+   service such as RPL routing.  Those features are introduced with
    "Registration Extensions for 6LoWPAN Neighbor Discovery" [RFC8505]
-   updates the behavior of RFC 6775 to enable a generic registration to
-   routing services and defines an Extended ARO (EARO).  The format of
-   the EARO is shown in Figure 1:
+
+3.2.  RFC 8505 Extended ARO
+
+   [RFC8505] updates the behavior of RFC 6775 to enable a generic
+   registration to services such as routing, and defines an Extended ARO
+   (EARO).  The format of the EARO is shown in Figure 1:
 
       0                   1                   2                   3
       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -362,19 +386,32 @@ Internet-Draft           Routing for RPL Leaves           September 2019
 
                        Figure 1: EARO Option Format
 
-   [RFC8505] specifies the use of the R flag in the EARO by the
-   Registering Node.  With [RFC8505], the Registering Node sets the R
-   flag to indicate whether the 6LR should ensure reachability for the
-   Registered Address, e.g., by means of routing or proxying ND.
-   Adapted to this specification, this means that a 6LN operates as a
-   RUL for an IPv6 address iff it sets the R flag in the NS(EARO) used
-   to register the address.  If the R flag is not set, then the
-   Registering Node is expected to be a RAN that handles the
-   reachability of the Registered Address by itself.  Conversely, this
-   document specifies a behavior of a RPL router acting as 6LR for the
-   registration 6LR that depends on the setting of the R flag in the
-   NS(EARO).  The RPL router generates a DAO message for the Registered
-   Address upon an NS(EARO) iff the R flag in the EARO is set.
+
+
+
+Thubert & Richardson      Expires March 9, 2020                 [Page 7]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
+3.2.1.  R Flag
+
+   [RFC8505] introduces the R flag in the EARO.  The Registering Node
+   sets the R flag to indicate whether the 6LR should ensure
+   reachability for the Registered Address, e.g., by means of routing or
+   proxying ND.  If the R flag is not set, then the Registering Node is
+   expected to be a RAN that handles the reachability of the Registered
+   Address by itself.
+
+   This document specifies how the R flag is used in the context of RPL.
+   A 6LN operates as a RUL for an IPv6 address iff it sets the R flag in
+   the NS(EARO) used to register the address.The RPL router generates a
+   DAO message for the Registered Address upon an NS(EARO) iff the R
+   flag in the EARO is set.  Conversely, this document specifies a
+   behavior of a RPL router acting as 6LR for the registration 6LR that
+   depends on the setting of the R flag in the NS(EARO).
+
+3.2.2.  TID, I Field and Opaque Fields
 
    The EARO also includes a sequence counter called Transaction ID
    (TID), which maps to the Path Sequence Field found in Transit Options
@@ -384,21 +421,60 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    Opaque field and an "I" field that describes what the Opaque field
    transports and how to use it.
 
-   Section 8.2.1 specifies the use of the R flag, of the "I" field and
-   of the Opaque field by a RUL.
+   This specification specifies the use of the "I" field and of the
+   Opaque field by a RUL, more in Section 8.2.1.
+
+3.2.3.  ROVR
+
+   Finally, the EUI-64 that was used in [RFC6775] to identify uniquely a
+   registration based on the MAC address of the owner is replaces with a
+   Registration Ownership Verifier (ROVR) that may be of a different
+   type and may be larger than 64 bits.  "Address Protected Neighbor
+   Discovery for Low-power and Lossy Networks" [I-D.ietf-6lo-ap-nd]
+   leverages the ROVR field as a cryptographic proof of ownership to
+   prevent an address from being misused by a rogue third party.
+   [I-D.ietf-6lo-ap-nd] adds a challenge/response exchange to the
+   [RFC8505] registration.  It also enables Source Address Validation by
+   a 6LR that will drop the packets that are sourced at an address that
+   is not registered.
+
+   This specification does not address how the protection by
+   [I-D.ietf-6lo-ap-nd] could be extended to RPL.  On the other hand, it
+   adds the ROVR to the DAO to build the proxied EDAR at the Root, which
 
 
 
-Thubert & Richardson      Expires March 8, 2020                 [Page 7]
+
+Thubert & Richardson      Expires March 9, 2020                 [Page 8]
 
 Internet-Draft           Routing for RPL Leaves           September 2019
 
 
-   "Address Protected Neighbor Discovery for Low-power and Lossy
-   Networks" [I-D.ietf-6lo-ap-nd] protects the ownership of an address
-   and enables a challenge that is leveraged by this specification.  It
-   also enables Source Address Validation by a 6LR that will drop the
-   packets that are sourced at an address that is not registered.
+   means that nodes that are aware of the host route to the 6LN are now
+   aware of the associated ROVR as well.
+
+3.3.  RFC 8505 Extended DAR/DAC
+
+   [RFC8505] updates the periodic DAR/DAC exchange that takes place
+   between the 6LR and the 6LBR using Extended DAR/DAC messages.  The
+   Extended Duplicate Address messages can carry the ROVR field of
+   variable size.  The periodic EDAR/EDAC exchange is triggered by a
+   NS(EARO) message and is intended to create and then refresh the
+   corresponding state in the 6LBR for a lifetime that is indicated by
+   the 6LN.  Conversely, RPL [RFC6550] specifies a periodic DAO from the
+   6LN all the way to the Root that maintains the routing state in the
+   RPL network for a lifetime that is indicated by the source of the
+   DAO.  This means that there are two periodic messages that traverse
+   the whole network to indicate that an address is still reachable, one
+   to the Root and one to the 6LBR.  This represents a waste of
+   bandwidth and energy that can be undesirable in a LLN.
+
+   This specification saves the support of RPL in a 6LN called a RUL so
+   there's only one periodic flow across the LLN.  The 6LN uses a
+   [RFC8505] registration to the 6LR, which turns it into a DAO message
+   to the Root on behalf of the 6LN.  Upon the new DAO, the Root proxies
+   the EDAR exchange to the 6LBR on behalf of the 6LR.  This is
+   illustrated in Figure 4.
 
 4.  Updating RFC 6550
 
@@ -408,21 +484,7 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    RPL.  The Targets are exposed as External addresses.  An IP-in-IP
    encapsulation that terminates at the border 6LR is used to remove RPL
    artifacts and compression techniques that may not be processed
-   correctly outside of the RPL domain.  This specification updates RPL
-   [RFC6550] to mandate that External Routes are advertised using Non-
-   Storing Mode signaling even in a Storing-Mode network in order to
-   inform the root of the address of the 6LR that terminates the IP-in-
-   IP tunnel.
-
-   [RFC8505] specifies a periodic EDAR/EDAC exchange that takes place
-   between the 6LR and the 6LBR.  It is triggered by a NS(EARO) message
-   and is intended to create and then refresh the corresponding state in
-   the 6LBR for a lifetime that is indicated by the 6LN.  Conversely,
-   RPL [RFC6550] specifies a periodic DAO that maintains the routing
-   state in the RPL network for a lifetime that is indicated by the
-   source of the DAO.  This means that there are two periodic messages
-   that traverse the whole network to indicate that an address is still
-   reachable, one to the Root and one to the 6LBR.
+   correctly outside of the RPL domain.
 
    This document synchronizes the liveness monitoring at the Root and
    the 6LBR.  A same value of lifetime is used for both, and a single
@@ -435,6 +497,15 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    same order and DAO-ACK Status code of 128 maps to 6LoWPAN ND Status
    Code of 1.
 
+
+
+
+
+Thubert & Richardson      Expires March 9, 2020                 [Page 9]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    Section 5.3. of [RFC8505] introduces the Registration Ownership
    Verifier (ROVR) of a variable length from 64 to 256 bits.  A ROVR is
    created by the Registering Node and associated to the registration of
@@ -442,14 +513,6 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    also enable the Registering Node to prove its ownership of the
    Registered Address [I-D.ietf-6lo-ap-nd].  Section 6.7. of [RFC6550]
    introduces the RPL Control Message Options such as the RPL Target
-
-
-
-Thubert & Richardson      Expires March 8, 2020                 [Page 8]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
-
    Option that can be included in a RPL Control Message such as the DAO.
    This document updates the RPL Target Option to optionally transport a
    ROVR, more in Section 7.  This enables the RPL Root to generate a
@@ -492,19 +555,17 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    option.  A 6LN is considered to be a RUL if and only if it sets the R
    flag in the EARO.
 
+
+
+Thubert & Richardson      Expires March 9, 2020                [Page 10]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    [RFC8505] introduces error Status values in the NA(EARO) which can be
    received synchronously upon an NS(EARO) or asynchronously.  The RUL
    MUST support both cases and refrain from using the Registered Address
    as suggested by [RFC8505] depending on the Status value.
-
-
-
-
-
-Thubert & Richardson      Expires March 8, 2020                 [Page 9]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
 
    A RUL SHOULD supports [I-D.ietf-6lo-ap-nd] to protect the ownership
    of its addresses.
@@ -545,22 +606,24 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    particular that an RPI with an Option Type of 0x23
    [I-D.ietf-roll-useofrplinfo] is ignored when not understood.
 
+
+
+
+
+
+
+
+Thubert & Richardson      Expires March 9, 2020                [Page 11]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
 6.2.2.  Support of the Routing Header
 
    A RUL is expected to process an unknown Routing Header Type as
    prescribed by section 4.4 of [RFC8200].  This means in particular
    that Routing Header with a Routing Type of 3 [RFC6553] is ignored
    when the Segments Left is zero, and dropped otherwise.
-
-
-
-
-
-
-Thubert & Richardson      Expires March 8, 2020                [Page 10]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
 
 6.2.3.  Support of IPv6 Encapsulation
 
@@ -602,21 +665,21 @@ Internet-Draft           Routing for RPL Leaves           September 2019
 
    New fields:
 
+
+
+
+
+Thubert & Richardson      Expires March 9, 2020                [Page 12]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    RVRsz:          Indicates the Size of the ROVR.  It MAY be 1, 2, 3,
                    or 4, denoting a ROVR size of 64, 128, 192, or 256
                    bits, respectively.
 
    Registration Ownership Verifier (ROVR):  This is the same field as in
                    the EARO, see [RFC8505]
-
-
-
-
-
-Thubert & Richardson      Expires March 8, 2020                [Page 11]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
 
 8.  Protocol Operations for Unicast Addresses
 
@@ -659,20 +722,19 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    in a single node, in which case the flow above happens internally,
    and possibly through internal API calls as opposed to messaging.
 
+
+
+
+Thubert & Richardson      Expires March 9, 2020                [Page 13]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
 8.1.1.  In RPL Non-Storing-Mode
 
    In Non-Storing Mode, the flows can be nested as illustrated in
    Figure 3 and it is possible to carry information such as an updated
    lifetime from the 6LBR all the way to the 6LN.
-
-
-
-
-
-Thubert & Richardson      Expires March 8, 2020                [Page 12]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
 
         6LN              6LR             Root             6LBR
          |                |               |                 |
@@ -715,20 +777,17 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    present in RPL DAO messages, but the EDAC message sent in response by
    the 6LBR contains the actual value of the ROVR field for that
    registration.  This enables the RPL Root to perform the proxy-
-   registration for the Registered Address and attract traffic captured
-   over the backbone by the 6BBR and route it back to the device.
 
 
 
 
-
-
-
-
-Thubert & Richardson      Expires March 8, 2020                [Page 13]
+Thubert & Richardson      Expires March 9, 2020                [Page 14]
 
 Internet-Draft           Routing for RPL Leaves           September 2019
 
+
+   registration for the Registered Address and attract traffic captured
+   over the backbone by the 6BBR and route it back to the device.
 
         6LN              6LR             Root             6LBR
          |                |               |                 |
@@ -774,17 +833,17 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    In Storing Mode, the DAO-ACK is optional.  When it is used, it is
    generated by the RPL parent, which does not need to wait for the
    grand-parent to send the acknowledgement.  A successful DAO-ACK is
-   not a guarantee that the DAO has yet reached the Root or that the
-   keep-alive EDAR has succeeded.
 
 
 
 
-
-Thubert & Richardson      Expires March 8, 2020                [Page 14]
+Thubert & Richardson      Expires March 9, 2020                [Page 15]
 
 Internet-Draft           Routing for RPL Leaves           September 2019
 
+
+   not a guarantee that the DAO has yet reached the Root or that the
+   keep-alive EDAR has succeeded.
 
    If the keep alive fails, the path is cleaned up asynchronously using
    a DCO message [I-D.ietf-roll-efficient-npdao] as illustrated in
@@ -831,16 +890,16 @@ Internet-Draft           Routing for RPL Leaves           September 2019
 
    o  The 6LN obtains an IPv6 global address, for instance using
       autoconfiguration [RFC4862] based on a Prefix Information Option
-      (PIO) [RFC4861] found in a Router Advertisement message or by some
-      other means such as DHCPv6 [RFC3315].
 
 
 
-
-Thubert & Richardson      Expires March 8, 2020                [Page 15]
+Thubert & Richardson      Expires March 9, 2020                [Page 16]
 
 Internet-Draft           Routing for RPL Leaves           September 2019
 
+
+      (PIO) [RFC4861] found in a Router Advertisement message or by some
+      other means such as DHCPv6 [RFC3315].
 
    o  Once it has formed an address, the 6LN (re)registers its address
       periodically, within the Lifetime of the previous registration, as
@@ -886,18 +945,19 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    reachability of Registered Address, then the 6LR sets the R flag in
    the EARO of the NA message that is sent in response.
 
-   From then on, the 6LN periodically sends a new NS(EARO) to refresh
-   the NCE state before the lifetime indicated in the EARO expires, with
-   TID that is incremented each time till it wraps in a lollipop fashion
-   (see section 5.2.1 of [RFC8505] which is fully compatible with
 
 
 
-Thubert & Richardson      Expires March 8, 2020                [Page 16]
+
+Thubert & Richardson      Expires March 9, 2020                [Page 17]
 
 Internet-Draft           Routing for RPL Leaves           September 2019
 
 
+   From then on, the 6LN periodically sends a new NS(EARO) to refresh
+   the NCE state before the lifetime indicated in the EARO expires, with
+   TID that is incremented each time till it wraps in a lollipop fashion
+   (see section 5.2.1 of [RFC8505] which is fully compatible with
    section 7.2 of [RFC6550]).  As long as the R flag is set and this
    router can still manage the reachability of Registered Address, the
    6LR keeps setting the R flag in the EARO of the response NA message,
@@ -941,18 +1001,20 @@ Internet-Draft           Routing for RPL Leaves           September 2019
       a No-Path DAO message that cleans up the routes down to the
       Address of the 6LN;
 
+
+
+
+
+Thubert & Richardson      Expires March 9, 2020                [Page 18]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    o  the Path Sequence in the TIO is set to the TID value found in the
       EARO option;
 
    o  Additionally, in Non-Storing Mode the 6LR indicates one of its
       global IPv6 unicast addresses as the Parent Address in the TIO.
-
-
-
-Thubert & Richardson      Expires March 8, 2020                [Page 17]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
 
    If a DAO-ACK is not requested, or has a Status that is less than 128,
    indicating the DAO was accepted, respectively by a parent in Storing
@@ -995,20 +1057,21 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    message, for each RPL Target option that creates or updates an
    existing RPL state:
 
+
+
+
+
+Thubert & Richardson      Expires March 9, 2020                [Page 19]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    o  the Root notifies the 6LBR using an internal API if they are co-
       located, or performs an EDAR/EDAC exchange on behalf of the 6LR if
       they are separated.  If the Target option transports a ROVR, then
       the Root MUST use it to build a full EDAR message as the 6LR
       would.  Else, a keep-alive EDAR is used with the ROVR field set to
       zero.
-
-
-
-
-Thubert & Richardson      Expires March 8, 2020                [Page 18]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
 
    An EDAR message MUST be constructed as follows:
 
@@ -1050,6 +1113,15 @@ Internet-Draft           Routing for RPL Leaves           September 2019
    for the and computes whether the TID in the DAR message is fresher
    than that in the entry as prescribed in section 4.2.1. of [RFC8505].
 
+
+
+
+
+Thubert & Richardson      Expires March 9, 2020                [Page 20]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    If the entry does not exist, the 6LBR does not create the entry, and
    answers with a Status "Removed" in the EDAC message.
 
@@ -1058,14 +1130,6 @@ Internet-Draft           Routing for RPL Leaves           September 2019
 
    If the entry exists and the TID in the DAR message is fresher, the
    6LBR updates the TID in the entry, and if the lifetime of the entry
-
-
-
-Thubert & Richardson      Expires March 8, 2020                [Page 19]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
-
    is extended by the Registration Lifetime in the DAR message, it also
    updates the lifetime of the entry.  In that case, the 6LBR replies
    with a Status "Success" in the DAC message.
@@ -1106,27 +1170,23 @@ Internet-Draft           Routing for RPL Leaves           September 2019
 
    The Root proxies the MLD echange as listener with the 6BBR acting as
    the querier, so as to get packets from a source external to the RPL
-   domain.  Upon a DAO with a multicast target, the RPL Root checks if
-   it is already registered as a listener for that address, and if not,
-   it performs its own unsolicited Report for the multicast target.
 
 
 
-
-
-
-
-
-Thubert & Richardson      Expires March 8, 2020                [Page 20]
+Thubert & Richardson      Expires March 9, 2020                [Page 21]
 
 Internet-Draft           Routing for RPL Leaves           September 2019
 
+
+   domain.  Upon a DAO with a multicast target, the RPL Root checks if
+   it is already registered as a listener for that address, and if not,
+   it performs its own unsolicited Report for the multicast target.
 
         6LN                  6LR             Root                6LBR
          |                    |               |                    |
          | unsolicited Report |               |                    |
          |------------------->|               |                    |
-         |   <L2 ack>         |               |                    |
+         |<L2 ack>         |               |                    |
          |                    | DAO           |                    |
          |                    |-------------->|                    |
          |                    |    DAO-ACK    |                    |
@@ -1165,18 +1225,18 @@ Internet-Draft           Routing for RPL Leaves           September 2019
 
                      Figure 7: Next Registration Flow
 
-   Note that any of the functions 6LR, Root and 6LBR might be collapsed
-   in a single node, in which case the flow above happens internally,
-   and possibly through internal API calls as opposed to messaging.
 
 
 
 
-
-Thubert & Richardson      Expires March 8, 2020                [Page 21]
+Thubert & Richardson      Expires March 9, 2020                [Page 22]
 
 Internet-Draft           Routing for RPL Leaves           September 2019
 
+
+   Note that any of the functions 6LR, Root and 6LBR might be collapsed
+   in a single node, in which case the flow above happens internally,
+   and possibly through internal API calls as opposed to messaging.
 
 10.  Implementation Status
 
@@ -1223,16 +1283,14 @@ Internet-Draft           Routing for RPL Leaves           September 2019
 
    o  Registration procedure is "Standards Action" [RFC8126].
 
-   o  Initial allocation is as indicated in Table 1:
 
 
-
-
-
-Thubert & Richardson      Expires March 8, 2020                [Page 22]
+Thubert & Richardson      Expires March 9, 2020                [Page 23]
 
 Internet-Draft           Routing for RPL Leaves           September 2019
 
+
+   o  Initial allocation is as indicated in Table 1:
 
    +---------+-----------------------+---------------------------------+
    |  Value  |        Meaning        |          Defining Spec          |
@@ -1276,19 +1334,22 @@ Internet-Draft           Routing for RPL Leaves           September 2019
 
              Table 1: Status values of the RPL DAO-ACK Message
 
+
+
+
+
+
+
+
+Thubert & Richardson      Expires March 9, 2020                [Page 24]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
 13.  Acknowledgments
 
    The authors wish to thank Georgios Papadopoulos for their early
    reviews of and contributions to this document
-
-
-
-
-
-Thubert & Richardson      Expires March 8, 2020                [Page 23]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
 
 14.  References
 
@@ -1302,8 +1363,8 @@ Internet-Draft           Routing for RPL Leaves           September 2019
 
    [I-D.ietf-roll-efficient-npdao]
               Jadhav, R., Thubert, P., Sahoo, R., and Z. Cao, "Efficient
-              Route Invalidation", draft-ietf-roll-efficient-npdao-15
-              (work in progress), July 2019.
+              Route Invalidation", draft-ietf-roll-efficient-npdao-16
+              (work in progress), September 2019.
 
    [I-D.ietf-roll-useofrplinfo]
               Robles, I., Richardson, M., and P. Thubert, "Using RPL
@@ -1331,20 +1392,20 @@ Internet-Draft           Routing for RPL Leaves           September 2019
               DOI 10.17487/RFC4861, September 2007,
               <https://www.rfc-editor.org/info/rfc4861>.
 
+
+
+
+
+
+Thubert & Richardson      Expires March 9, 2020                [Page 25]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    [RFC4862]  Thomson, S., Narten, T., and T. Jinmei, "IPv6 Stateless
               Address Autoconfiguration", RFC 4862,
               DOI 10.17487/RFC4862, September 2007,
               <https://www.rfc-editor.org/info/rfc4862>.
-
-
-
-
-
-
-Thubert & Richardson      Expires March 8, 2020                [Page 24]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
 
    [RFC4919]  Kushalnagar, N., Montenegro, G., and C. Schumacher, "IPv6
               over Low-Power Wireless Personal Area Networks (6LoWPANs):
@@ -1387,20 +1448,19 @@ Internet-Draft           Routing for RPL Leaves           September 2019
               (6LoWPAN) Routing Header", RFC 8138, DOI 10.17487/RFC8138,
               April 2017, <https://www.rfc-editor.org/info/rfc8138>.
 
-   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
-              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
-              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
 
 
 
 
-
-
-Thubert & Richardson      Expires March 8, 2020                [Page 25]
+Thubert & Richardson      Expires March 9, 2020                [Page 26]
 
 Internet-Draft           Routing for RPL Leaves           September 2019
 
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
    [RFC8200]  Deering, S. and R. Hinden, "Internet Protocol, Version 6
               (IPv6) Specification", STD 86, RFC 8200,
@@ -1446,17 +1506,18 @@ Internet-Draft           Routing for RPL Leaves           September 2019
               (RPLs)", RFC 7416, DOI 10.17487/RFC7416, January 2015,
               <https://www.rfc-editor.org/info/rfc7416>.
 
+
+
+
+Thubert & Richardson      Expires March 9, 2020                [Page 27]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    [RFC8025]  Thubert, P., Ed. and R. Cragie, "IPv6 over Low-Power
               Wireless Personal Area Network (6LoWPAN) Paging Dispatch",
               RFC 8025, DOI 10.17487/RFC8025, November 2016,
               <https://www.rfc-editor.org/info/rfc8025>.
-
-
-
-Thubert & Richardson      Expires March 8, 2020                [Page 26]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
 
    [RFC8504]  Chown, T., Loughney, J., and T. Winters, "IPv6 Node
               Requirements", BCP 220, RFC 8504, DOI 10.17487/RFC8504,
@@ -1477,7 +1538,7 @@ Appendix A.  Example Compression
    |11110001|SRH-6LoRH| RPI-  |IP-in-IP| NH=1      |11110CPP| UDP | UDP
    |Page 1  |Type1 S=0| 6LoRH | 6LoRH  |LOWPAN_IPHC| UDP    | hdr |Payld
    +-+ ... -+-+ ... +-+- ... -+-+ ... -+-+-+ ... +-+-+ ... -+ ... +-...
-             <-4bytes->                 <-        RFC 6282      ->
+          <-4bytes->              <-        RFC 6282      ->
                                               No RPL artifact
 
            Figure 8: Encapsulation to Parent 6LR in Storing Mode
@@ -1499,6 +1560,16 @@ Appendix A.  Example Compression
    from the compressed form, so the use of Non-Storing Mode vs.  Storing
    Mode is indistinguishable from the packet format.
 
+
+
+
+
+
+Thubert & Richardson      Expires March 9, 2020                [Page 28]
+
+Internet-Draft           Routing for RPL Leaves           September 2019
+
+
    Follows the RPI-6LoRH and then the IP-in-IP 6LoRH.  When the IP-in-IP
    6LoRH is removed, all the router headers that precede it are also
    removed.
@@ -1506,14 +1577,6 @@ Appendix A.  Example Compression
    The Paging Dispatch [RFC8025] may also be removed if there was no
    previous Page change to a Page other than 0 or 1, since the
    LOWPAN_IPHC is encoded in the same fashion in the default Page 0 and
-
-
-
-Thubert & Richardson      Expires March 8, 2020                [Page 27]
-
-Internet-Draft           Routing for RPL Leaves           September 2019
-
-
    in Page 1.  The resulting packet to the destination is the inner
    packet compressed with [RFC6282].
 
@@ -1558,11 +1621,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-Thubert & Richardson      Expires March 8, 2020                [Page 28]
+Thubert & Richardson      Expires March 9, 2020                [Page 29]
