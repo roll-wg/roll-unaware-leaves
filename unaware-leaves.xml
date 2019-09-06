@@ -336,28 +336,30 @@
    by the RUL as opposed to only <xref target="RFC6775"/> is a prerequisite for
    this specification (more in <xref target="prereq6lp"/>). The EARO also
    transports an Opaque field and an "I" field that describes what the Opaque
-   field transports and how to use it.
-</t><t>
-
-   This specification specifies the use of the "I" field and of the Opaque field
-   by a RUL, more in <xref target="ln"/>.
+   field transports and how to use it. <xref target="ln"/> specifies the use of
+   the "I" field and of the Opaque field by a RUL.
 </t>
 
 </section> <!-- end section "TID, I Field and Opaque Fields" -->
 <section anchor="R8505EROVR" title="ROVR">
-
 <t>
-   Finally, the EUI-64 that was used in <xref target="RFC6775"/> to identify
-   uniquely a registration based on the MAC address of the owner is replaces
-   with a Registration Ownership Verifier (ROVR) that may be of a different type
-   and may be larger than 64 bits. <xref target="I-D.ietf-6lo-ap-nd">"Address
-   Protected Neighbor Discovery for Low-power and Lossy Networks"</xref>
-   leverages the ROVR field as a cryptographic proof of ownership to prevent an
-   address from being misused by a rogue third party.
+   Section 5.3. of <xref target="RFC8505"/> introduces the Registration
+   Ownership Verifier (ROVR) field of a variable length from 64 to 256 bits.
+   <!-- A ROVR is created by the Registering Node and associated to the registration
+   of an IPv6 Address. -->
+   The ROVR is a replacement of the EUI-64 field in the ARO
+   <xref target="RFC6775"/> that was used to identify uniquely a registration
+   based on the Link-Layer address of the owner but provided no protection
+   against spoofing.
+</t><t>
+
+   <xref target="I-D.ietf-6lo-ap-nd">"Address Protected Neighbor Discovery for
+   Low-power and Lossy Networks"</xref> leverages the ROVR field as a
+   cryptographic proof of ownership to prevent a rogue third party from misusing
+   the address.
    <xref target="I-D.ietf-6lo-ap-nd"/> adds a challenge/response exchange to the
-   <xref target="RFC8505"/> registration.
-   It also enables Source Address Validation by a 6LR that will drop the packets
-   that are sourced at an address that is not registered.
+   <xref target="RFC8505"/> registration and enables Source Address Validation
+   by a 6LR that will drop packets with a spoofed address.
 </t><t>
 
    This specification does not address how the protection by
@@ -426,18 +428,14 @@
    same order and DAO-ACK Status code of 128 maps to 6LoWPAN ND Status Code of 1.
 
 </t><t>
-   Section 5.3. of <xref target="RFC8505"/> introduces the Registration
-   Ownership Verifier (ROVR) of a variable length from 64 to 256 bits. A ROVR is
-   created by the Registering Node and associated to the registration of an IPv6
-   Address. It is used to detect a duplication (DAD) and may also enable the
-   Registering Node to prove its ownership of the Registered Address
-<xref target="I-D.ietf-6lo-ap-nd"/>.
+
    Section 6.7. of <xref target="RFC6550"/> introduces the RPL Control Message
    Options such as the RPL Target Option that can be included in a RPL Control
-   Message such as the DAO.
-   This document updates the RPL Target Option to optionally transport a ROVR,
-   more in <xref target="tgt"/>. This enables the RPL Root to generate a full
-   EDAR Message as opposed to a keep-alive EDAR that has restricted properties.
+   Message such as the DAO. This document updates the RPL Target Option to
+   optionally transport the ROVR used in the IPv6 Registration
+   (see <xref target="R8505EROVR"/>), more in <xref target="tgt"/>.
+   This enables the RPL Root to generate a full EDAR Message as opposed to a
+   keep-alive EDAR that has restricted properties.
 
 </t>
 
@@ -747,29 +745,29 @@
     period of time, but the negative status in the DCO supercedes a positive
     status in the DAO-ACK regardless of the order in which they are received.
 
- </t> <t>
-    Upon the DAO-ACK - or the DCO if it arrives first - the 6LR responds to the
-    RUL with a NA(EARO) and the 6LoWPAN ND Status value that is mapped from the
-    RPL status in the RPL  message. An asynchronous DCO is also mapped in an
-    asynchronous NA(EARO) to the RUL with a mapped Status value.
- </t>
- </section>
- <section anchor="rsm" title="In RPL Storing-Mode">
+</t> <t>
+   Upon the DAO-ACK - or the DCO if it arrives first - the 6LR responds to the
+   RUL with a NA(EARO) and the 6LoWPAN ND Status value that is mapped from the
+   RPL status in the RPL  message. An asynchronous DCO is also mapped in an
+   asynchronous NA(EARO) to the RUL with a mapped Status value.
+</t>
 
- <t>
+</section>
+<section anchor="rsm" title="In RPL Storing-Mode">
 
-    In Storing Mode, the DAO-ACK is optional. When it is used, it is generated
-    by the RPL parent, which does not need to wait for the grand-parent to send
-    the acknowledgement. A successful DAO-ACK is not a guarantee that the DAO
-    has yet reached the Root or that the keep-alive EDAR has succeeded.
- </t>
- <t>
-    If the keep alive fails, the path is cleaned up asynchronously using a DCO
-    message <xref target="I-D.ietf-roll-efficient-npdao"/> as illustrated in
- <xref target="fReg2bis"/> and described in further details in
- <xref target="Root"/>.
- </t>
- <figure anchor="fReg2bis" suppress-title="false"
+<t>
+  In Storing Mode, the DAO-ACK is optional. When it is used, it is generated
+  by the RPL parent, which does not need to wait for the grand-parent to send
+  the acknowledgement. A successful DAO-ACK is not a guarantee that the DAO
+  has yet reached the Root or that the keep-alive EDAR has succeeded.
+</t>
+<t>
+  If the keep alive fails, the path is cleaned up asynchronously using a DCO
+  message <xref target="I-D.ietf-roll-efficient-npdao"/> as illustrated in
+  <xref target="fReg2bis"/> and described in further details in
+  <xref target="Root"/>.
+</t>
+<figure anchor="fReg2bis" suppress-title="false"
 	title="Next Registration Flow in Storing Mode">
  <artwork><![CDATA[
 6LN             6LR             6LR            Root              6BBR
