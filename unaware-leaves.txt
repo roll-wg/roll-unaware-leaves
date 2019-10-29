@@ -678,15 +678,16 @@ Internet-Draft              Eliding RPL Info                October 2019
 
    RPL Status subfields:
 
-   E:  1-bit flag.  Set to indicate a rejection.  When not set, A value
-      of 0 indicates success.  Other values are non-rejection as per RFC
-      6550.
+   E:  1-bit flag.  Set to indicate a rejection.  When not set, a value
+      of 0 indicates success and other values indicate an non-outright-
+      rejection as per RFC 6550.
 
-   A:  1-bit flag.  Set to indicate the type of the status value.
+   A:  1-bit flag.  Indicates the type of the status value.
 
-   Value:  6-bit unsigned integer.  If the 'E' flag is set this field
-      transports a status value defined for IPv6 ND EARO.  When the 'E'
-      flag is reset, the status value is defined in a RPL extension
+   Status Value:  6-bit unsigned integer.  If the 'A' flag is set this
+      field transports a status value defined for IPv6 ND EARO.  When
+      the 'A' flag is reset, the status value is defined in a RPL
+      extension
 
    When building a DCO message upon an IPv6 ND NA or DAC message, the
    root MUST place the ARO status unchanged in a mapped DCO with the 'A'
@@ -721,7 +722,6 @@ Internet-Draft              Eliding RPL Info                October 2019
       |                                                               |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-                      Figure 3: Updated Target Option
 
 
 
@@ -729,6 +729,8 @@ Thubert & Richardson       Expires 1 May 2020                  [Page 13]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
+
+                      Figure 3: Updated Target Option
 
    New fields:
 
@@ -775,9 +777,7 @@ Internet-Draft              Eliding RPL Info                October 2019
    carry a specific information that the Extended Duplicate Address
    messages were already exchanged, so the Root proxies them anyway.
 
-   Note that any of the functions 6LR, Root and 6LBR might be collapsed
-   in a single node, in which case the flow above happens internally,
-   and possibly through internal API calls as opposed to messaging.
+
 
 
 
@@ -785,6 +785,10 @@ Thubert & Richardson       Expires 1 May 2020                  [Page 14]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
+
+   Note that any of the functions 6LR, Root and 6LBR might be collapsed
+   in a single node, in which case the flow above happens internally,
+   and possibly through internal API calls as opposed to messaging.
 
 9.1.1.  In RPL Non-Storing-Mode
 
@@ -830,10 +834,6 @@ Internet-Draft              Eliding RPL Info                October 2019
    This causes the RPL DODAG Root to refresh the state in the 6LBR with
    a keep-alive EDAC message.  The keep-alive EDAC lacks the
    Registration Ownership Verifier (ROVR) information, since it is not
-   present in RPL DAO messages, but the EDAC message sent in response by
-   the 6LBR contains the actual value of the ROVR field for that
-   registration.
-
 
 
 
@@ -841,6 +841,10 @@ Thubert & Richardson       Expires 1 May 2020                  [Page 15]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
+
+   present in RPL DAO messages, but the EDAC message sent in response by
+   the 6LBR contains the actual value of the ROVR field for that
+   registration.
 
         6LN              6LR             Root             6LBR
          |                |               |                 |
@@ -886,10 +890,6 @@ Internet-Draft              Eliding RPL Info                October 2019
    6LoWPAN ND are in the range 128 to 192 and listed in the same order
    (see Table 2).  A RPL Status Value of 128 maps to 6LoWPAN ND Status
    Code of 1 and so on.
-
-
-
-
 
 
 

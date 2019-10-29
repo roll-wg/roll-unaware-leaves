@@ -620,11 +620,11 @@
  </figure>
   <t> RPL Status subfields:
 	</t><dl  spacing='normal'>
-	<dt>E:</dt><dd> 1-bit flag. Set to indicate a rejection. When not set, A value of 0
-    indicates success. Other values are non-rejection as per RFC 6550.</dd>
-	<dt>A:</dt><dd> 1-bit flag. Set to indicate the type of the status value.</dd>
-	<dt>Value:</dt><dd> 6-bit unsigned integer. If the 'E' flag is set this
-    field transports a status value defined for IPv6 ND EARO. When the 'E' flag
+	<dt>E:</dt><dd> 1-bit flag. Set to indicate a rejection. When not set, a value of 0
+    indicates success and other values indicate an non-outright-rejection as per RFC 6550.</dd>
+	<dt>A:</dt><dd> 1-bit flag. Indicates the type of the status value.</dd>
+	<dt>Status Value:</dt><dd> 6-bit unsigned integer. If the 'A' flag is set this
+    field transports a status value defined for IPv6 ND EARO. When the 'A' flag
     is reset, the status value is defined in a RPL extension</dd>
 	</dl>
    <t>
