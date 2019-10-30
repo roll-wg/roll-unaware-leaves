@@ -291,7 +291,7 @@
    <xref target='EARO'/>:
 </t>
  <figure anchor='EARO'><name>EARO Option Format</name>
- <artwork> <![CDATA[
+ <artwork align="center"> <![CDATA[
    0                   1                   2                   3
    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -421,29 +421,21 @@
    6LBR. A same value of lifetime is used for both, and a single keep alive
    message, the RPL DAO, traverses the RPL network. A new behavior is introduced
    whereby the RPL Root proxies the EDAR message to the 6LBR on behalf of the
-   6LR (more in <xref target='upd2'/>). <xref target='RFC6550'/> is updated with
-   new RPL Status values for use in DAO-ACK and DCO that map the 6LoWPAN ND
-   values defined in Table 1 of <xref target='RFC8505'/>. The resulting set is
-   shown in <xref target='iana-ack-status'/>.
-
+   6LR (more in <xref target='upd2'/>).
 </t><t>
-
-   Section 6.7. of <xref target='RFC6550'/> introduces the RPL Control Message
-   Options such as the RPL Target Option that can be included in a RPL Control
-   Message such as the DAO. <xref target='tgt'/> updates the RPL Target Option
-   to optionally transport the ROVR used in the IPv6 Registration
-   (see <xref target='R8505EROVR'/>) so the RPL Root can generate a full EDAR Message.
-
-
-</t>
-
-    <t>
     The RPL Status defined in section 6.5.1. of <xref target="RFC6550"/>
     for use in the DAO-Ack message is extended to be used in the DCO messages
     <xref target='I-D.ietf-roll-efficient-npdao'/> as well. Furthermore, this
     specification enables to use a RPL status to transport the IPv6 ND status
     defined for use in the EARO, more in <xref target='stat'/>.
-    </t>
+</t><t>
+   Section 6.7. of <xref target='RFC6550'/> introduces the RPL Control Message
+   Options such as the RPL Target Option that can be included in a RPL Control
+   Message such as the DAO. <xref target='tgt'/> updates the RPL Target Option
+   to optionally transport the ROVR used in the IPv6 Registration
+   (see <xref target='R8505EROVR'/>) so the RPL Root can generate a full
+   EDAR Message.
+</t>
 
 
 </section> <!-- end section "Updating RFC 6550" -->
@@ -605,12 +597,14 @@
     This specification extends the scope of the RPL status to be used in RPL DCO
     messages. Furthermore, this specification enables to carry the status values
     defined for use in the IPv6 ND Extended Address Registration Option (EARO)
-    and listed in table 1 of <xref target="RFC8505"/>. Only EARO status values
-    in the range 0-63 can be transported. The resulting RPL status is as follows:
+    and listed in table 1 of <xref target="RFC8505"/> in a RPL status.
+    Only EARO status values in the range 0-63 can be transported.
+    </t><t>
+    The resulting RPL status is as follows:
     </t>
 
  <figure anchor='rpst' suppress-title='false'><name>RPL status Format</name>
- <artwork>
+       <artwork align="center" name="" type="" alt="">
     0
     0 1 2 3 4 5 6 7
    +-+-+-+-+-+-+-+-+
@@ -625,13 +619,14 @@
 	<dt>A:</dt><dd> 1-bit flag. Indicates the type of the status value.</dd>
 	<dt>Status Value:</dt><dd> 6-bit unsigned integer. If the 'A' flag is set this
     field transports a status value defined for IPv6 ND EARO. When the 'A' flag
-    is reset, the status value is defined in a RPL extension</dd>
+    is reset, the status value is defined in a RPL extension.</dd>
 	</dl>
    <t>
-   When building a DCO message upon an IPv6 ND NA or DAC message, the root
-   MUST place the ARO status unchanged in a mapped DCO with the 'A' bit set.
-   Conversely the 6LR MUST place the ARO status unchanged in the NA(EARO) that
-   is built upon a DCO with the 'A' bit set.
+   When building a DCO message upon an IPv6 ND NA or DAC message, the RPL Root
+   MUST copy the ARO status unchanged in a RPL status with the 'A' bit set in a
+   DCO or a DAO-ACK message. Conversely the 6LR MUST copy the status unchanged
+   in the NA(EARO) that is built upon a RPL status with the 'A' bit set in a DCO
+   or a DAO-ACK message.
     </t>
 
 </section><!-- Updated RPL Status -->
@@ -814,8 +809,9 @@
  </t> <t>
     If the Root could not return the negative Status in the DAO-ACK then it
     sends an asynchronous Destination Cleanup Object (DCO) message
-    <xref target='I-D.ietf-roll-efficient-npdao'/> to the 6LR indicating the
-    issue with the mapped Status value. Note that if both are used in a short
+    <xref target='I-D.ietf-roll-efficient-npdao'/> to the 6LR placing the
+    negative Status in the RPL status with the 'A' flag set. Note that if both
+    are used in a short
     interval of time, the DAO-ACK and DCO messages are not guaranteed to arrive
     in the same order at the 6LR. So the 6LR must still expect a DAO-ACK even if
     it received a DCO while it was waiting for an acknowledgement for a short
@@ -824,10 +820,10 @@
 
 </t> <t>
    Upon the DAO-ACK - or the DCO if it arrives first - the 6LR responds to the
-   RUL with a NA(EARO) and the 6LoWPAN ND Status value that is mapped from the
+   RUL with a NA(EARO) and the 6LoWPAN ND Status value that is copied from the
    RPL status in the RPL  message. An asynchronous DCO is also translated in an
-   asynchronous NA(EARO) to the RUL with a mapped Status value. The RPL Status
-   values that are mapped with 6LoWPAN ND are in the range 128 to 192 and
+   asynchronous NA(EARO) to the RUL with a copied Status value. The RPL Status
+   values that are copied with 6LoWPAN ND are in the range 128 to 192 and
    listed in the same order (see <xref target='iana-ack-status'/>). A RPL Status
    Value of 128 maps to 6LoWPAN ND Status Code of 1 and so on.
 </t>
@@ -1025,7 +1021,7 @@
 <t>
    Other status values above 128 indicate that the 6LR failed to inject the
    address into the RPL network. In that case the the 6LR MUST send a
-   NA(EARO) to the RUL with the mapped Status value. If for any other reason the
+   NA(EARO) to the RUL with the copied Status value. If for any other reason the
    6LR fails to inject the address into the RPL network, the 6LR SHOULD send a
    NA(EARO) to the RUL with a status of 2 (Out of Storage) which indicates a
    possibility to retry later.
@@ -1041,7 +1037,7 @@
 
    Upon a DCO message indicating that the address of a RUL should be removed
    from the routing table, the 6LR issues an asynchronous NA(EARO) to the RUL
-   with the mapped Status value.
+   with the copied Status value.
 
 </t>
 

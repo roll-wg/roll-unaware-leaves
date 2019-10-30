@@ -6,7 +6,7 @@ ROLL                                                     P. Thubert, Ed.
 Internet-Draft                                             Cisco Systems
 Updates: 6550, 8505 (if approved)                          M. Richardson
 Intended status: Standards Track                               Sandelman
-Expires: 1 May 2020                                      29 October 2019
+Expires: 2 May 2020                                      30 October 2019
 
 
                   Eliding and Querying RPL Information
@@ -33,7 +33,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 May 2020.
+   This Internet-Draft will expire on 2 May 2020.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Thubert & Richardson       Expires 1 May 2020                   [Page 1]
+Thubert & Richardson       Expires 2 May 2020                   [Page 1]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -85,31 +85,31 @@ Table of Contents
    9.  Protocol Operations for Unicast Addresses . . . . . . . . . .  14
      9.1.  General Flow  . . . . . . . . . . . . . . . . . . . . . .  14
        9.1.1.  In RPL Non-Storing-Mode . . . . . . . . . . . . . . .  15
-       9.1.2.  In RPL Storing-Mode . . . . . . . . . . . . . . . . .  17
-     9.2.  Operation . . . . . . . . . . . . . . . . . . . . . . . .  17
-       9.2.1.  By the 6LN  . . . . . . . . . . . . . . . . . . . . .  18
-       9.2.2.  By the 6LR  . . . . . . . . . . . . . . . . . . . . .  19
-       9.2.3.  By the RPL Root . . . . . . . . . . . . . . . . . . .  21
-       9.2.4.  By the 6LBR . . . . . . . . . . . . . . . . . . . . .  22
-   10. Protocol Operations for Multicast Addresses . . . . . . . . .  22
-   11. Implementation Status . . . . . . . . . . . . . . . . . . . .  24
-   12. Security Considerations . . . . . . . . . . . . . . . . . . .  24
-   13. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  25
-     13.1.  RPL Target Option Flags  . . . . . . . . . . . . . . . .  25
+       9.1.2.  In RPL Storing-Mode . . . . . . . . . . . . . . . . .  18
+     9.2.  Operation . . . . . . . . . . . . . . . . . . . . . . . .  18
+       9.2.1.  By the 6LN  . . . . . . . . . . . . . . . . . . . . .  19
+       9.2.2.  By the 6LR  . . . . . . . . . . . . . . . . . . . . .  20
+       9.2.3.  By the RPL Root . . . . . . . . . . . . . . . . . . .  22
+       9.2.4.  By the 6LBR . . . . . . . . . . . . . . . . . . . . .  23
+   10. Protocol Operations for Multicast Addresses . . . . . . . . .  23
+   11. Implementation Status . . . . . . . . . . . . . . . . . . . .  25
+   12. Security Considerations . . . . . . . . . . . . . . . . . . .  25
+   13. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  26
+     13.1.  RPL Target Option Flags  . . . . . . . . . . . . . . . .  26
      13.2.  New Subsubregistry for the RPL Non-Rejection Status
-            values . . . . . . . . . . . . . . . . . . . . . . . . .  25
+            values . . . . . . . . . . . . . . . . . . . . . . . . .  26
      13.3.  New Subsubregistry for the RPL Rejection Status
-            values . . . . . . . . . . . . . . . . . . . . . . . . .  25
-   14. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  25
-   15. Normative References  . . . . . . . . . . . . . . . . . . . .  26
-   16. Informative References  . . . . . . . . . . . . . . . . . . .  28
-   Appendix A.  Example Compression  . . . . . . . . . . . . . . . .  29
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  29
+            values . . . . . . . . . . . . . . . . . . . . . . . . .  26
+   14. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  26
+   15. Normative References  . . . . . . . . . . . . . . . . . . . .  27
+   16. Informative References  . . . . . . . . . . . . . . . . . . .  29
+   Appendix A.  Example Compression  . . . . . . . . . . . . . . . .  30
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  30
 
 
 
 
-Thubert & Richardson       Expires 1 May 2020                   [Page 2]
+Thubert & Richardson       Expires 2 May 2020                   [Page 2]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -165,7 +165,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                   [Page 3]
+Thubert & Richardson       Expires 2 May 2020                   [Page 3]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -221,7 +221,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                   [Page 4]
+Thubert & Richardson       Expires 2 May 2020                   [Page 4]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -277,7 +277,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                   [Page 5]
+Thubert & Richardson       Expires 2 May 2020                   [Page 5]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -333,7 +333,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                   [Page 6]
+Thubert & Richardson       Expires 2 May 2020                   [Page 6]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -389,7 +389,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                   [Page 7]
+Thubert & Richardson       Expires 2 May 2020                   [Page 7]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -445,7 +445,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                   [Page 8]
+Thubert & Richardson       Expires 2 May 2020                   [Page 8]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -487,30 +487,27 @@ Internet-Draft              Eliding RPL Info                October 2019
    the 6LBR.  A same value of lifetime is used for both, and a single
    keep alive message, the RPL DAO, traverses the RPL network.  A new
    behavior is introduced whereby the RPL Root proxies the EDAR message
-   to the 6LBR on behalf of the 6LR (more in Section 5).  [RFC6550] is
-   updated with new RPL Status values for use in DAO-ACK and DCO that
-   map the 6LoWPAN ND values defined in Table 1 of [RFC8505].  The
-   resulting set is shown in Table 2.
-
-   Section 6.7. of [RFC6550] introduces the RPL Control Message Options
-   such as the RPL Target Option that can be included in a RPL Control
-   Message such as the DAO.  Section 8 updates the RPL Target Option to
-   optionally transport the ROVR used in the IPv6 Registration (see
-   Section 3.2.3) so the RPL Root can generate a full EDAR Message.
-
-
-
-
-Thubert & Richardson       Expires 1 May 2020                   [Page 9]
-
-Internet-Draft              Eliding RPL Info                October 2019
-
+   to the 6LBR on behalf of the 6LR (more in Section 5).
 
    The RPL Status defined in section 6.5.1. of [RFC6550] for use in the
    DAO-Ack message is extended to be used in the DCO messages
    [EFFICIENT-NPDAO] as well.  Furthermore, this specification enables
    to use a RPL status to transport the IPv6 ND status defined for use
    in the EARO, more in Section 7.
+
+   Section 6.7. of [RFC6550] introduces the RPL Control Message Options
+   such as the RPL Target Option that can be included in a RPL Control
+   Message such as the DAO.  Section 8 updates the RPL Target Option to
+
+
+
+Thubert & Richardson       Expires 2 May 2020                   [Page 9]
+
+Internet-Draft              Eliding RPL Info                October 2019
+
+
+   optionally transport the ROVR used in the IPv6 Registration (see
+   Section 3.2.3) so the RPL Root can generate a full EDAR Message.
 
 5.  Updating RFC 8505
 
@@ -553,17 +550,17 @@ Internet-Draft              Eliding RPL Info                October 2019
 
    [RFC8505] introduces error Status values in the NA(EARO) which can be
    received synchronously upon an NS(EARO) or asynchronously.  The RUL
+   MUST support both cases and refrain from using the Registered Address
+   as specified by [RFC8505] depending on the Status value.
 
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 10]
+
+Thubert & Richardson       Expires 2 May 2020                  [Page 10]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
-
-   MUST support both cases and refrain from using the Registered Address
-   as specified by [RFC8505] depending on the Status value.
 
    A RUL SHOULD support [AP-ND] to protect the ownership of its
    addresses.
@@ -613,7 +610,10 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 11]
+
+
+
+Thubert & Richardson       Expires 2 May 2020                  [Page 11]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -657,22 +657,28 @@ Internet-Draft              Eliding RPL Info                October 2019
    This specification extends the scope of the RPL status to be used in
    RPL DCO messages.  Furthermore, this specification enables to carry
    the status values defined for use in the IPv6 ND Extended Address
-   Registration Option (EARO) and listed in table 1 of [RFC8505].  Only
-   EARO status values in the range 0-63 can be transported.  The
-   resulting RPL status is as follows:
+   Registration Option (EARO) and listed in table 1 of [RFC8505] in a
+   RPL status.  Only EARO status values in the range 0-63 can be
+   transported.
 
-       0
-       0 1 2 3 4 5 6 7
-      +-+-+-+-+-+-+-+-+
-      |E|A|  Value    |
-      +-+-+-+-+-+-+-+-+
+   The resulting RPL status is as follows:
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 12]
+
+
+
+
+Thubert & Richardson       Expires 2 May 2020                  [Page 12]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
+
+                               0
+                               0 1 2 3 4 5 6 7
+                              +-+-+-+-+-+-+-+-+
+                              |E|A|  Value    |
+                              +-+-+-+-+-+-+-+-+
 
                         Figure 2: RPL status Format
 
@@ -687,12 +693,13 @@ Internet-Draft              Eliding RPL Info                October 2019
    Status Value:  6-bit unsigned integer.  If the 'A' flag is set this
       field transports a status value defined for IPv6 ND EARO.  When
       the 'A' flag is reset, the status value is defined in a RPL
-      extension
+      extension.
 
    When building a DCO message upon an IPv6 ND NA or DAC message, the
-   root MUST place the ARO status unchanged in a mapped DCO with the 'A'
-   bit set.  Conversely the 6LR MUST place the ARO status unchanged in
-   the NA(EARO) that is built upon a DCO with the 'A' bit set.
+   RPL Root MUST copy the ARO status unchanged in a RPL status with the
+   'A' bit set in a DCO or a DAO-ACK message.  Conversely the 6LR MUST
+   copy the status unchanged in the NA(EARO) that is built upon a RPL
+   status with the 'A' bit set in a DCO or a DAO-ACK message.
 
 8.  Updated RPL Target option
 
@@ -705,6 +712,23 @@ Internet-Draft              Eliding RPL Info                October 2019
    in a new ROVR Type field that is encoded to map the CodePfx in the
    EDAR message (see section 4.2 of [RFC8505]).  With this specification
    the ROVR is the remainder of the RPL Target Option.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Thubert & Richardson       Expires 2 May 2020                  [Page 13]
+
+Internet-Draft              Eliding RPL Info                October 2019
+
 
       0                   1                   2                   3
       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -721,14 +745,6 @@ Internet-Draft              Eliding RPL Info                October 2019
      ...            Registration Ownership Verifier (ROVR)           ...
       |                                                               |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
-
-
-
-Thubert & Richardson       Expires 1 May 2020                  [Page 13]
-
-Internet-Draft              Eliding RPL Info                October 2019
-
 
                       Figure 3: Updated Target Option
 
@@ -763,6 +779,13 @@ Internet-Draft              Eliding RPL Info                October 2019
    on a same network, that additional routing protocol may need to
    handle the keep alive procedure for the addresses that it serves.
 
+
+
+Thubert & Richardson       Expires 2 May 2020                  [Page 14]
+
+Internet-Draft              Eliding RPL Info                October 2019
+
+
    From the perspective of the 6LN, the registration flow happens
    transparently; it is not delayed by the proxy RPL operation, so the
    device does not need to change the amount of time it waits based upon
@@ -777,15 +800,6 @@ Internet-Draft              Eliding RPL Info                October 2019
    carry a specific information that the Extended Duplicate Address
    messages were already exchanged, so the Root proxies them anyway.
 
-
-
-
-
-Thubert & Richardson       Expires 1 May 2020                  [Page 14]
-
-Internet-Draft              Eliding RPL Info                October 2019
-
-
    Note that any of the functions 6LR, Root and 6LBR might be collapsed
    in a single node, in which case the flow above happens internally,
    and possibly through internal API calls as opposed to messaging.
@@ -795,6 +809,38 @@ Internet-Draft              Eliding RPL Info                October 2019
    In Non-Storing Mode, the flows can be nested as illustrated in
    Figure 4 and it is possible to carry information such as an updated
    lifetime from the 6LBR all the way to the 6LN.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Thubert & Richardson       Expires 2 May 2020                  [Page 15]
+
+Internet-Draft              Eliding RPL Info                October 2019
+
 
         6LN              6LR             Root             6LBR
          |                |               |                 |
@@ -834,17 +880,23 @@ Internet-Draft              Eliding RPL Info                October 2019
    This causes the RPL DODAG Root to refresh the state in the 6LBR with
    a keep-alive EDAC message.  The keep-alive EDAC lacks the
    Registration Ownership Verifier (ROVR) information, since it is not
-
-
-
-Thubert & Richardson       Expires 1 May 2020                  [Page 15]
-
-Internet-Draft              Eliding RPL Info                October 2019
-
-
    present in RPL DAO messages, but the EDAC message sent in response by
    the 6LBR contains the actual value of the ROVR field for that
    registration.
+
+
+
+
+
+
+
+
+
+
+Thubert & Richardson       Expires 2 May 2020                  [Page 16]
+
+Internet-Draft              Eliding RPL Info                October 2019
+
 
         6LN              6LR             Root             6LBR
          |                |               |                 |
@@ -873,27 +925,31 @@ Internet-Draft              Eliding RPL Info                October 2019
 
    If the Root could not return the negative Status in the DAO-ACK then
    it sends an asynchronous Destination Cleanup Object (DCO) message
-   [EFFICIENT-NPDAO] to the 6LR indicating the issue with the mapped
-   Status value.  Note that if both are used in a short interval of
-   time, the DAO-ACK and DCO messages are not guaranteed to arrive in
-   the same order at the 6LR.  So the 6LR must still expect a DAO-ACK
-   even if it received a DCO while it was waiting for an acknowledgement
-   for a short period of time, but the negative status in the DCO
-   supercedes a positive status in the DAO-ACK regardless of the order
-   in which they are received.
+   [EFFICIENT-NPDAO] to the 6LR placing the negative Status in the RPL
+   status with the 'A' flag set.  Note that if both are used in a short
+   interval of time, the DAO-ACK and DCO messages are not guaranteed to
+   arrive in the same order at the 6LR.  So the 6LR must still expect a
+   DAO-ACK even if it received a DCO while it was waiting for an
+   acknowledgement for a short period of time, but the negative status
+   in the DCO supercedes a positive status in the DAO-ACK regardless of
+   the order in which they are received.
 
    Upon the DAO-ACK - or the DCO if it arrives first - the 6LR responds
    to the RUL with a NA(EARO) and the 6LoWPAN ND Status value that is
-   mapped from the RPL status in the RPL message.  An asynchronous DCO
+   copied from the RPL status in the RPL message.  An asynchronous DCO
    is also translated in an asynchronous NA(EARO) to the RUL with a
-   mapped Status value.  The RPL Status values that are mapped with
+   copied Status value.  The RPL Status values that are copied with
    6LoWPAN ND are in the range 128 to 192 and listed in the same order
    (see Table 2).  A RPL Status Value of 128 maps to 6LoWPAN ND Status
    Code of 1 and so on.
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 16]
+
+
+
+
+Thubert & Richardson       Expires 2 May 2020                  [Page 17]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -949,7 +1005,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 17]
+Thubert & Richardson       Expires 2 May 2020                  [Page 18]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -1005,7 +1061,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 18]
+Thubert & Richardson       Expires 2 May 2020                  [Page 19]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -1061,7 +1117,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 19]
+Thubert & Richardson       Expires 2 May 2020                  [Page 20]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -1098,7 +1154,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
    Other status values above 128 indicate that the 6LR failed to inject
    the address into the RPL network.  In that case the the 6LR MUST send
-   a NA(EARO) to the RUL with the mapped Status value.  If for any other
+   a NA(EARO) to the RUL with the copied Status value.  If for any other
    reason the 6LR fails to inject the address into the RPL network, the
    6LR SHOULD send a NA(EARO) to the RUL with a status of 2 (Out of
    Storage) which indicates a possibility to retry later.
@@ -1112,12 +1168,12 @@ Internet-Draft              Eliding RPL Info                October 2019
 
    Upon a DCO message indicating that the address of a RUL should be
    removed from the routing table, the 6LR issues an asynchronous
-   NA(EARO) to the RUL with the mapped Status value.
+   NA(EARO) to the RUL with the copied Status value.
 
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 20]
+Thubert & Richardson       Expires 2 May 2020                  [Page 21]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -1173,7 +1229,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 21]
+Thubert & Richardson       Expires 2 May 2020                  [Page 22]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -1229,7 +1285,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 22]
+Thubert & Richardson       Expires 2 May 2020                  [Page 23]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -1285,7 +1341,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 23]
+Thubert & Richardson       Expires 2 May 2020                  [Page 24]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -1341,7 +1397,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 24]
+Thubert & Richardson       Expires 2 May 2020                  [Page 25]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -1397,7 +1453,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 25]
+Thubert & Richardson       Expires 2 May 2020                  [Page 26]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -1453,7 +1509,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 26]
+Thubert & Richardson       Expires 2 May 2020                  [Page 27]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -1509,7 +1565,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 27]
+Thubert & Richardson       Expires 2 May 2020                  [Page 28]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -1565,7 +1621,7 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 28]
+Thubert & Richardson       Expires 2 May 2020                  [Page 29]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -1621,7 +1677,7 @@ Authors' Addresses
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 29]
+Thubert & Richardson       Expires 2 May 2020                  [Page 30]
 
 Internet-Draft              Eliding RPL Info                October 2019
 
@@ -1677,4 +1733,4 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 1 May 2020                  [Page 30]
+Thubert & Richardson       Expires 2 May 2020                  [Page 31]
