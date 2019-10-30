@@ -622,11 +622,11 @@
     is reset, the status value is defined in a RPL extension.</dd>
 	</dl>
    <t>
-   When building a DCO message upon an IPv6 ND NA or DAC message, the RPL Root
-   MUST copy the ARO status unchanged in a RPL status with the 'A' bit set in a
-   DCO or a DAO-ACK message. Conversely the 6LR MUST copy the status unchanged
-   in the NA(EARO) that is built upon a RPL status with the 'A' bit set in a DCO
-   or a DAO-ACK message.
+   When building a DCO or a DAO-ACK message upon an IPv6 ND NA or a DAC message,
+   the RPL Root MUST copy the ARO status unchanged in a RPL status with the 'A'
+   bit set. Conversely the 6LR MUST copy the value of the RPL status unchanged
+   in the EARO of an NA message that is built upon a RPL status with the 'A' bit
+   set in a DCO or a DAO-ACK message.
     </t>
 
 </section><!-- Updated RPL Status -->
