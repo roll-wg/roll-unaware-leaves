@@ -6,11 +6,11 @@ ROLL                                                     P. Thubert, Ed.
 Internet-Draft                                             Cisco Systems
 Updates: 6550, 8505 (if approved)                          M. Richardson
 Intended status: Standards Track                               Sandelman
-Expires: 2 May 2020                                      30 October 2019
+Expires: 5 May 2020                                      2 November 2019
 
 
-                  Eliding and Querying RPL Information
-                   draft-ietf-roll-unaware-leaves-05
+                         Routing for RPL Leaves
+                   draft-ietf-roll-unaware-leaves-06
 
 Abstract
 
@@ -33,7 +33,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 May 2020.
+   This Internet-Draft will expire on 5 May 2020.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Thubert & Richardson       Expires 2 May 2020                   [Page 1]
+Thubert & Richardson       Expires 5 May 2020                   [Page 1]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
 Table of Contents
@@ -77,7 +77,7 @@ Table of Contents
    6.  6LN Requirements to be a RPL-Unware Leaf  . . . . . . . . . .  10
      6.1.  Support of 6LoWPAN ND . . . . . . . . . . . . . . . . . .  10
      6.2.  External Routes and RPL Artifacts . . . . . . . . . . . .  11
-       6.2.1.  Support of the HbH Header . . . . . . . . . . . . . .  11
+       6.2.1.  Support of the HbH Header . . . . . . . . . . . . . .  12
        6.2.2.  Support of the Routing Header . . . . . . . . . . . .  12
        6.2.3.  Support of IPv6 Encapsulation . . . . . . . . . . . .  12
    7.  Updated RPL Status  . . . . . . . . . . . . . . . . . . . . .  12
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Thubert & Richardson       Expires 2 May 2020                   [Page 2]
+Thubert & Richardson       Expires 5 May 2020                   [Page 2]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
 1.  Introduction
@@ -165,9 +165,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                   [Page 3]
+Thubert & Richardson       Expires 5 May 2020                   [Page 3]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
    "When to use RFC 6553, 6554 and IPv6-in-IPv6" [USEofRPLinfo]
@@ -221,9 +221,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                   [Page 4]
+Thubert & Richardson       Expires 5 May 2020                   [Page 4]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
    The Destination Cleanup Object (DCO) message is defined in
@@ -277,9 +277,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                   [Page 5]
+Thubert & Richardson       Expires 5 May 2020                   [Page 5]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
    (E)DAR:  (Extended) Duplicate Address Request
@@ -333,9 +333,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                   [Page 6]
+Thubert & Richardson       Expires 5 May 2020                   [Page 6]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
 3.1.  RFC 6775
@@ -389,9 +389,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                   [Page 7]
+Thubert & Richardson       Expires 5 May 2020                   [Page 7]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
 3.2.1.  R Flag
@@ -445,9 +445,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                   [Page 8]
+Thubert & Richardson       Expires 5 May 2020                   [Page 8]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
 3.3.  RFC 8505 Extended DAR/DAC
@@ -501,9 +501,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                   [Page 9]
+Thubert & Richardson       Expires 5 May 2020                   [Page 9]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
    optionally transport the ROVR used in the IPv6 Registration (see
@@ -557,9 +557,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 10]
+Thubert & Richardson       Expires 5 May 2020                  [Page 10]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
    A RUL SHOULD support [AP-ND] to protect the ownership of its
@@ -581,24 +581,42 @@ Internet-Draft              Eliding RPL Info                October 2019
    RPL artifacts - but possibly an RPI if packet was generated by a RAN
    in the same RPL domain as the destination RUL.
 
-   An IP-in-IP tunnel to a 6LR that injected the route is used for
-   external routes unless the final destination is known to handle or
-   ignore the RPL artifacts properly [RFC8200].  Non-Storing Mode
-   signaling is used to signal external routes to the Root, which
-   enables to advertise the tunnel endpoint.  A RUL is an example of
-   target that is reachable via an external host route and is expected
-   to ignore the RPI and the consumed SRH artifacts.  In the case of a
-   RUL, tunneling may not be necessary.
+   Non-Storing Mode DAO messages are used to signal external routes to
+   the Root, even if the DODAG is operated in Storing Mode.  This
+   enables to advertise the 6LR that injects the route for use as tunnel
+   endpoint in the data path.  For all external routes, the Root should
+   use an IP-in-IP tunnel to that 6LR, with the RPL artifacts in the
+   outer header to be stripped by the 6LR.  The IP-in-IP encapsulation
+   may be avoided in Storing Mode if the path to the external
+   destination beyond the 6LR is known to handle or ignore the RPL
+   artifacts properly [RFC8200].  A RUL is an example of a destination
+   that is reachable via an external (host) route for which IP-in-IP
+   tunneling may be avoided as it ignores the RPI and the consumed SRH
+   artifacts.  The use of non-Storing Mode signaling in Storing Mode and
+   the associated IP-in-IP encapsulation are transparent to intermediate
+   routers that only see packets back and forth between the Root and the
+   6LR and do not need a special support for external routes.
 
    A RUL may not support IP-in-IP tunneling [RFC8504], so if IP-in-IP is
    used, and unless the Root as a better knowledge, the tunnel should
    terminate at the 6LR that injected the external route to the RUL.
 
-   Additionally, the RUL cannot be expected to support the compression
-   method defined in [RFC8138].  The 6LR that injected the route
-   uncompresses the packet before forwarding over an external route,
-   even when delivering to a RUL, even when it is not the destination of
-   the incoming packet.
+   Additionally, the RUL is not expected to support the compression
+   method defined in [RFC8138].  The 6LR that injected the route should
+   uncompress the packet before forwarding over an external route, even
+   when delivering to a RUL, even when it is not the destination in the
+   outer header of the incoming packet.
+
+
+
+
+
+
+
+Thubert & Richardson       Expires 5 May 2020                  [Page 11]
+
+Internet-Draft             RPL Unaware Leaves              November 2019
+
 
 6.2.1.  Support of the HbH Header
 
@@ -606,17 +624,6 @@ Internet-Draft              Eliding RPL Info                October 2019
    Header as prescribed by section 4.2 of [RFC8200].  This means in
    particular that an RPI with an Option Type of 0x23 [USEofRPLinfo] is
    ignored when not understood.
-
-
-
-
-
-
-
-Thubert & Richardson       Expires 2 May 2020                  [Page 11]
-
-Internet-Draft              Eliding RPL Info                October 2019
-
 
 6.2.2.  Support of the Routing Header
 
@@ -642,37 +649,35 @@ Internet-Draft              Eliding RPL Info                October 2019
    The RPL Status is defined in section 6.5.1. of [RFC6550] for use in
    the DAO-Ack message and values are assigned as follows:
 
-                  +---------+---------------------------+
-                  | Range   | Meaning                   |
-                  +=========+===========================+
-                  | 0       | RFC 6550                  |
-                  +---------+---------------------------+
-                  | 1-127   | Not an outright rejection |
-                  +---------+---------------------------+
-                  | 128-255 | Rejection                 |
-                  +---------+---------------------------+
+               +---------+--------------------------------+
+               | Range   | Meaning                        |
+               +=========+================================+
+               | 0       | Success/Unqualified acceptance |
+               +---------+--------------------------------+
+               | 1-127   | Not an outright rejection      |
+               +---------+--------------------------------+
+               | 128-255 | Rejection                      |
+               +---------+--------------------------------+
 
-                      Table 1: RPL Status per RFC 6550
+                     Table 1: RPL Status per RFC 6550
 
    This specification extends the scope of the RPL status to be used in
    RPL DCO messages.  Furthermore, this specification enables to carry
    the status values defined for use in the IPv6 ND Extended Address
    Registration Option (EARO) and listed in table 1 of [RFC8505] in a
+
+
+
+
+Thubert & Richardson       Expires 5 May 2020                  [Page 12]
+
+Internet-Draft             RPL Unaware Leaves              November 2019
+
+
    RPL status.  Only EARO status values in the range 0-63 can be
    transported.
 
    The resulting RPL status is as follows:
-
-
-
-
-
-
-
-Thubert & Richardson       Expires 2 May 2020                  [Page 12]
-
-Internet-Draft              Eliding RPL Info                October 2019
-
 
                                0
                                0 1 2 3 4 5 6 7
@@ -685,14 +690,14 @@ Internet-Draft              Eliding RPL Info                October 2019
    RPL Status subfields:
 
    E:  1-bit flag.  Set to indicate a rejection.  When not set, a value
-      of 0 indicates success and other values indicate an non-outright-
-      rejection as per RFC 6550.
+      of 0 indicates Success/Unqualified acceptance and other values
+      indicate "not an outright rejection" as per RFC 6550.
 
    A:  1-bit flag.  Indicates the type of the status value.
 
    Status Value:  6-bit unsigned integer.  If the 'A' flag is set this
       field transports a status value defined for IPv6 ND EARO.  When
-      the 'A' flag is reset, the status value is defined in a RPL
+      the 'A' flag is not set, the status value is defined in a RPL
       extension.
 
    When building a DCO or a DAO-ACK message upon an IPv6 ND NA or a DAC
@@ -720,14 +725,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-
-
-
-
-
-Thubert & Richardson       Expires 2 May 2020                  [Page 13]
+Thubert & Richardson       Expires 5 May 2020                  [Page 13]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
       0                   1                   2                   3
@@ -781,9 +781,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 14]
+Thubert & Richardson       Expires 5 May 2020                  [Page 14]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
    From the perspective of the 6LN, the registration flow happens
@@ -837,9 +837,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 15]
+Thubert & Richardson       Expires 5 May 2020                  [Page 15]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
         6LN              6LR             Root             6LBR
@@ -893,9 +893,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 16]
+Thubert & Richardson       Expires 5 May 2020                  [Page 16]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
         6LN              6LR             Root             6LBR
@@ -949,9 +949,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 17]
+Thubert & Richardson       Expires 5 May 2020                  [Page 17]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
 9.1.2.  In RPL Storing-Mode
@@ -1005,9 +1005,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 18]
+Thubert & Richardson       Expires 5 May 2020                  [Page 18]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
 9.2.1.  By the 6LN
@@ -1061,9 +1061,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 19]
+Thubert & Richardson       Expires 5 May 2020                  [Page 19]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
 9.2.2.  By the 6LR
@@ -1117,9 +1117,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 20]
+Thubert & Richardson       Expires 5 May 2020                  [Page 20]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
       Root has to use an IP-in-IP [USEofRPLinfo], then this flag
@@ -1173,9 +1173,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 21]
+Thubert & Richardson       Expires 5 May 2020                  [Page 21]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
 9.2.3.  By the RPL Root
@@ -1229,9 +1229,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 22]
+Thubert & Richardson       Expires 5 May 2020                  [Page 22]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
    elsewhere in the network.  The RPL Status value that maps the 6LowpAN
@@ -1285,9 +1285,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 23]
+Thubert & Richardson       Expires 5 May 2020                  [Page 23]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
    for unsolicited Report and Done are sent reliably, for instance using
@@ -1341,9 +1341,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 24]
+Thubert & Richardson       Expires 5 May 2020                  [Page 24]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
         6LN                  6LR             Root                6LBR
@@ -1397,9 +1397,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 25]
+Thubert & Richardson       Expires 5 May 2020                  [Page 25]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
    direction by allowing the Root to challenge the RUL by the 6LR that
@@ -1453,9 +1453,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 26]
+Thubert & Richardson       Expires 5 May 2020                  [Page 26]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
 15.  Normative References
@@ -1509,9 +1509,9 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 27]
+Thubert & Richardson       Expires 5 May 2020                  [Page 27]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
               Wireless Personal Area Network (6LoWPAN) Routing",
@@ -1565,17 +1565,17 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 28]
+Thubert & Richardson       Expires 5 May 2020                  [Page 28]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
    [EFFICIENT-NPDAO]
               Jadhav, R., Thubert, P., Sahoo, R., and Z. Cao, "Efficient
               Route Invalidation", Work in Progress, Internet-Draft,
-              draft-ietf-roll-efficient-npdao-16, 5 September 2019,
+              draft-ietf-roll-efficient-npdao-17, 30 October 2019,
               <https://tools.ietf.org/html/draft-ietf-roll-efficient-
-              npdao-16>.
+              npdao-17>.
 
 16.  Informative References
 
@@ -1621,14 +1621,14 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 29]
+Thubert & Richardson       Expires 5 May 2020                  [Page 29]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
 Appendix A.  Example Compression
 
-   Figure 9 illustrates the case in Storing mode where the packet is
+   Figure 9 illustrates the case in Storing Mode where the packet is
    received from the Internet, then the Root encapsulates the packet to
    insert the RPI and deliver to the 6LR that is the parent and last hop
    to the final destination, which is not known to support [RFC8138].
@@ -1677,9 +1677,9 @@ Authors' Addresses
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 30]
+Thubert & Richardson       Expires 5 May 2020                  [Page 30]
 
-Internet-Draft              Eliding RPL Info                October 2019
+Internet-Draft             RPL Unaware Leaves              November 2019
 
 
    Pascal Thubert (editor)
@@ -1733,4 +1733,4 @@ Internet-Draft              Eliding RPL Info                October 2019
 
 
 
-Thubert & Richardson       Expires 2 May 2020                  [Page 31]
+Thubert & Richardson       Expires 5 May 2020                  [Page 31]
