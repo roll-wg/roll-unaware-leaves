@@ -468,20 +468,22 @@
 
 
 
-<section anchor='prereq'><name>6LN Requirements to be a RPL-Unware Leaf</name>
+<section anchor='prereq'><name>Requirements on the RPL-Unware Leaf</name>
 <t>
-   This document provides RPL routing for a RUL, that is a 6LN acting as a plain
+   This document provides RPL routing for a RUL, that is a 6LN acting as an IPv6
    host and not aware of RPL. Still, a minimal RPL-independent functionality is
-   expected from the 6LN in order to obtain routing services from the 6LR.
+   required from the RUL in order to obtain routing services from the 6LR.
 </t>
  <section anchor='prereq6lp'><name>Support of 6LoWPAN ND</name>
 <t>
-   A RUL MUST implement <xref target='RFC8505'/> and set the R flag in the EARO
-   option. A 6LN is considered to be a RUL if and only if it sets the R flag in
-   the EARO.
+   In order to obtain routing services from a RPL 6LR, a RUL MUST implement
+   <xref target='RFC8505'/> and set the R flag in the EARO option.
+   <!--
+   A RUL will get routing services if and only if it sets the R flag in
+   the EARO. -->
 </t>
 <t>
-   A RUL MUST register to all the 6LRs from which it expects to get routing
+   The RUL MUST register to all the 6LRs from which it expects to get routing
    services. The registrations SHOULD be performed in a rapid sequence, using
    the exact same EARO for a same Address. Gaps between the registrations will
    invalidate some of the routes till the registration finally shows on those
@@ -671,7 +673,7 @@
  </figure>
  <t> New fields:
 	</t><dl  spacing='normal'>
-	<dt>RVRsz:</dt><dd> Indicates the Size of the ROVR.
+	<dt>ROVRsz:</dt><dd> Indicates the Size of the ROVR.
                         It MAY be 1, 2, 3, or 4, denoting a ROVR size of
                         64, 128, 192, or 256 bits, respectively. </dd>
  <!--
@@ -1285,9 +1287,9 @@
 </t>
 </section>
 
-<section anchor='iana-stats-nonrej'><name>New Subsubregistry for the RPL Non-Rejection Status values </name>
+<section anchor='iana-stats-nonrej'><name>New Subregistry for the RPL Non-Rejection Status values </name>
  <t>
-	This specification creates a new subsubregistry for the RPL Non-Rejection Status values
+	This specification creates a new Subregistry for the RPL Non-Rejection Status values
     for use in RPL DAO-ACK and RCO Messages, under the ICMPv6 parameters registry.
 </t>
 <ul spacing='normal'>
@@ -1299,9 +1301,9 @@
 
 
 
-   <table anchor='iana-ack-status'><name>Status values of the RPL DAO-ACK Message</name>
+   <table anchor='iana-ack-status'><name>Acceptance values of the RPL Status</name>
    <thead>
-      <tr><td>Value</td><td>Meaning</td><td>Defining Spec</td></tr>
+      <tr><td>Value</td><td>Meaning</td><td>Reference</td></tr>
    </thead><tbody>
       <tr><td>0</td><td>Unqualified acceptance</td><td>RFC 6550</td></tr>
    </tbody>
@@ -1312,15 +1314,28 @@
 </section>
 
 
-<section anchor='iana-stats-rej'><name>New Subsubregistry for the RPL Rejection Status values </name>
+<section anchor='iana-stats-rej'><name>New Subregistry for the RPL Rejection Status values </name>
  <t>
-	This specification creates a new subsubregistry for the RPL Non-Rejection Status values
+	This specification creates a new Subregistry for the RPL Rejection Status values
     for use in RPL DAO-ACK and RCO Messages, under the ICMPv6 parameters registry.
 </t><ul spacing='normal'>
   <li> Possible values are 6-bit unsigned integers (0..63).</li>
   <li> Registration procedure is "Standards Action" <xref target='RFC8126'/>.</li>
-  <li> There is no initial allocation</li>
+  <li> Initial allocation is as indicated in <xref target='iana-nack-status'/>:</li>
 </ul>
+
+
+
+
+   <table anchor='iana-nack-status'><name>Rejection values of the RPL Status </name>
+   <thead>
+      <tr><td>Value</td><td>Meaning</td><td>Reference</td></tr>
+   </thead><tbody>
+      <tr><td>0</td><td>Unqualified rejection</td><td>This document</td></tr>
+   </tbody>
+
+   </table>
+
 
 </section>
 
