@@ -1010,13 +1010,14 @@
   </ul><t>
 </t>
 <t>
-   If a DAO-ACK is not requested, or has a Status that is less than 128,
-   indicating the DAO was accepted, respectively by a parent in Storing Mode
-   or by the Root in non-Storing Mode,, the 6LR replies with a
+   If a DAO-ACK is not requested, or has a Status that is not a rejection,
+   indicating the DAO was accepted respectively by a parent in Storing Mode
+   or by the Root in non-Storing Mode, the 6LR replies with a
    NA(EARO) to the RUL with a status of 0 (Success).
 </t>
 <t>
-   In case of a DAO-ACK or a DCO with a status of 132 (Validation Requested) the
+   In case of a DAO-ACK or a DCO indicating a rejection and transporting an EARO
+   Status Value of 5 (Validation Requested) the
    6LR challenges the 6LN for ownership of the address, as described in section
    6.1 of <xref target='RFC8505'/>. If the challenge succeeds then the
    operations continue as normal. In particular a DAO message is generated upon
@@ -1026,9 +1027,9 @@
 <xref target='security-considerations'/>
 </t>
 <t>
-   Other status values above 128 indicate that the 6LR failed to inject the
-   address into the RPL network. In that case the the 6LR MUST send a
-   NA(EARO) to the RUL with the copied Status value. If for any other reason the
+   The other rejection codes indicate that the 6LR failed to inject the address
+   into the RPL network. If an EARO Status is transported, the 6LR MUST send a
+   NA(EARO) to the RUL with that Status value. If for any other reason the
    6LR fails to inject the address into the RPL network, the 6LR SHOULD send a
    NA(EARO) to the RUL with a status of 2 (Out of Storage) which indicates a
    possibility to retry later.
