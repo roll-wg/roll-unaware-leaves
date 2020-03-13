@@ -13,7 +13,7 @@
 <?rfc subcompact="no"?>
 <?rfc authorship="yes"?>
 <?rfc tocappendix="yes"?>
-<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="std" ipr='trust200902' tocInclude="true"  obsoletes="" updates='6550, 8505' consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-roll-unaware-leaves-11" >
+<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="std" ipr='trust200902' tocInclude="true"  obsoletes="" updates='6550, 8505' consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-roll-unaware-leaves-12" >
 
 <front>
 
@@ -620,8 +620,8 @@
    A RUL is not expected to support the compression method defined in
    <xref target='RFC8138'/>. Unless configured otherwise, the border
    router MUST uncompress the outgoing packet before forwarding over an external
-   route, and if it is not the destination of the incoming packet, and even when
-   delivering to a RUL.
+   route, even if it is not the destination of the incoming packet, and even
+   when delivering to a RUL.
 
 </t>
 <section anchor='prereqv6ip'><name>Support of IPv6 Encapsulation</name>
