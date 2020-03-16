@@ -1025,7 +1025,8 @@
    within the Lifetime of the previous Address Registration, as prescribed by
 <xref target='RFC6775'/> and <xref target='RFC8505'/>.
 </li><li>
-   The 6LN can register to more than one 6LR at the same time. In that case, it
+   As stated in section 5.2 of <xref target='RFC8505'/>, the 6LN can register
+   to more than one 6LR at the same time. In that case, it
    MUST use the same value of TID for all of the parallel Address Registrations.
 
 </li><li>
