@@ -1409,7 +1409,7 @@
     anonymous EDAR that does not match an existing entry. All it can do is
     refresh the lifetime and the TID of an existing entry. So the
     message cannot be used to create a binding state in the 6LBR but it can be
- use to maitain one active longer than expected.
+ use to maintain one active longer than expected.
  </t><t>
  Note that a full EDAR message
  with a lifetime of 0 will destroy that state and the anonymous message will not recreate it. Note also that a rogue that has access to the network can attack the 6LBR with other (forged) addresses and ROVR, and that this is a much easier DoS
