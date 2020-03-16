@@ -807,8 +807,8 @@
 <section anchor='flow'><name>General Flow</name>
 
   <t>
-   This specification enables to save the exchange of keep-alive Extended
-   Duplicate Address messages, EDAR and EDAC, from a 6LN all the way to the 6LBR
+   This specification eliminates the need to exchange keep-alive Extended
+   Duplicate Address messages, EDAR and EDAC, all the way from a 6LN to the 6LBR
    across a RPL mesh. Instead, the EDAR/EDAC exchange with the 6LBR is proxied
    by the RPL Root upon a DAO message that refreshes the RPL routing state.
 
