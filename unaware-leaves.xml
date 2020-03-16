@@ -926,7 +926,7 @@
  </t> <t>
     If the Root could not return the negative Status in the DAO-ACK then it
     sends an asynchronous Destination Cleanup Object (DCO) message
-    <xref target='I-D.ietf-roll-efficient-npdao'/> to the 6LR placing the
+    <xref target='I-D.ietf-roll-efficient-npdao'/> to the 6LR by placing the
     negative Status in the RPL Status with the 'A' flag set. Note that if both
     are used in a short
     interval of time, the DAO-ACK and DCO messages are not guaranteed to arrive
