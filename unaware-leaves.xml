@@ -1130,12 +1130,13 @@
   message that cleans up the routes down to the Address of the 6LN;
   </li><li>
   the Path Sequence in the TIO is set to the TID value found in the EARO option;
-  </li>
+  </li><li>
+  Upon seeing the EARO in the ND with the "R" flag was set, the 6LR SHOULD
+  inject the Registered Address in RPL by sending a DAO message on behalf of
+  the 6LN. If the Registration Lifetime was 0, the effect is to remove the route and
+  then the NCE;
+</li>
   </ol><t>
-</t><t>
-   Upon an NS(EARO), iff the "R" flag was set, the 6LR SHOULD inject the Registered Address in RPL by sending a DAO message on behalf of the 6LN.
-   If the Registration Lifetime was 0, the effect is to remove the route and
-   then the NCE.
 </t>
 <t>
    If for whatever reason the 6LR does not inject the Registered Address in RPL,
