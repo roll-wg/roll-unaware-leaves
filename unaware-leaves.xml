@@ -1083,7 +1083,7 @@
 </t>
 
 <t>From then on, the 6LN periodically sends a new NS(EARO) to refresh the NCE
-   state before the lifetime indicated in the EARO expires, with TID that is
+   state before the lifetime indicated in the EARO expires, with a TID that is
    incremented each time till it wraps in a lollipop fashion (see section 5.2.1
    of <xref target='RFC8505'/> which is fully compatible with section 7.2 of
 <xref target='RFC6550'/>). As long as the "R"
