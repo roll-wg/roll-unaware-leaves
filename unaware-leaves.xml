@@ -52,10 +52,13 @@
 
 
 <abstract>
-<t>This specification extends RFC6550 and RFC8505 to provide unicast and
-   multicast routing services in a RPL domain to 6LNs that are plain Hosts and
-   do not participate to RPL, and enables the RPL Root to proxy the EDAR/EDAC
-   flow on behalf of the RULs and RANs in its DODAG.
+<t>
+  This specification extends RFC6550 and RFC8505 to provide unicast and
+  multicast routing services to Hosts which do not speak RPL.
+  These hosts, called RPL Unaware Leaves (RUN) do not participate to RPL
+  directly.  Such hosts may be unable to participate because they are very
+  energy constrained.  This specification enables the RPL Root to proxy the EDAR/EDAC
+  flow on behalf of the RULs and RANs in its DODAG.
 </t>
 </abstract>
 
@@ -113,6 +116,11 @@
    Storing Mode or to the Root indicating their parent in the Non-Storing Mode.
    This process effectively forms a DODAG back to the device that is a subset of
    the DODAG to the Root with all links reversed.
+</t>
+<t>
+  This specification leverages some of the Non-Storing Mode mechanisms to
+  extend the routing database with connectivity to unaware leaves.
+  These Non-Storing Mode mechanisms are still used in Storing-Mode DODAGs.
 </t>
 <t>
    RPL can be deployed as an extension to IPv6 Neighbor Discovery (ND)
