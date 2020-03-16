@@ -625,9 +625,11 @@
    the Root with that RPI still present in the inner header, and possibly an SRH
    in a Non-Storing Mode DODAG.
    <xref target='I-D.ietf-roll-useofrplinfo'/> expects the RUL to support the
-   basic <xref target='RFC8504'>"IPv6 Node Requirements"</xref>, in particular
-   to ignore the RPL artifacts that are either consumed or not applicable to a
-   Host, but not necessarily IP-in-IP encapsulation, more in the next sections.
+   basic <xref target='RFC8504'>"IPv6 Node Requirements"</xref>.
+   In particular the RUL is expected to ignore the RPL artifacts that are
+   either consumed or not applicable to a Host.
+   Such a host may not necessarily ignore IP-in-IP encapsulation, which is
+   dealt with below.
 
 </t><t>
    A RUL is not expected to support the compression method defined in
