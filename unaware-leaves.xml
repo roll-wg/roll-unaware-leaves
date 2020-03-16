@@ -562,8 +562,6 @@
    can provide the desired routing services.
    If there are no available routers, the connection of the RUL fails.
 
-   flags are all set .
-
 </t>
 <t>
    The RUL MUST register to all the 6LRs from which it requests routing services.
@@ -610,7 +608,7 @@
    The RPL data packets always carry a Hop-by-Hop Header to transport a RPL
    Packet Information (RPI) <xref target='RFC6550'/>.
    So unless the RUL originates its packets with an RPI, the 6LR needs to tunnel
-   them to the Root to add the RPI. As a rule of a thumb and except the very
+   them to the Root to add the RPI. As a rule of a thumb and except for the very
    special case above, the packets from and to a RUL are always encapsulated
    using an IP-in-IP tunnel between the Root and the 6LR that serves the RUL.
 </t><t>
