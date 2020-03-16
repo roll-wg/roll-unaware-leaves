@@ -851,7 +851,7 @@
  </t>
  <figure anchor='fReg1' suppress-title='false'><name>First Registration Flow in Non-Storing Mode</name>
  <artwork><![CDATA[
-     6LN              6LR            Root               6LBR
+   6LN/RUL            6LR            Root               6LBR
       |                |              |                   |
       |   NS(EARO)     |              |                   |
       |--------------->|                                  |
@@ -881,7 +881,7 @@
  </t>
  <figure anchor='fReg1.5' suppress-title='false'><name>Asynchronous Issue</name>
  <artwork><![CDATA[
-     6LN                6LR           Root              6LBR
+   6LN/RUL              6LR           Root              6LBR
       |                  |             |                  |
       |                  |             | NA(EARO, Status) |
       |                  |             |<-----------------|
@@ -900,7 +900,7 @@
  </t>
  <figure anchor='fReg2' suppress-title='false'><name>Next Registration Flow in Non-Storing Mode</name>
  <artwork><![CDATA[
-     6LN              6LR            Root               6LBR
+   6LN/RUL            6LR            Root               6LBR
       |                |              |                   |
       |   NS(EARO)     |              |                   |
       |--------------->|                                  |
@@ -954,7 +954,7 @@
 </t>
 <figure anchor='fReg2bis' suppress-title='false'><name>Next Registration Flow in Storing Mode</name>
  <artwork><![CDATA[
-6LN             6LR             6LR            Root              6LBR
+6LN/RUL         6LR             6LR            Root              6LBR
  |               |               |               |                  |
  |   NS(EARO)    |               |               |                  |
  |-------------->|               |               |                  |
@@ -988,7 +988,7 @@
 </t>
 <figure anchor='fReg2ter' suppress-title='false'><name>Issue in Storing Mode</name>
  <artwork><![CDATA[
-6LN                6LR           6LR          Root              6LBR
+6LN/RUL            6LR           6LR          Root              6LBR
  |                  |             |             |                  |
  |                  |             |             | NA(EARO, Status) |
  |                  |             |             |<-----------------|
@@ -1316,7 +1316,7 @@
  </t>
  <figure anchor='fReg3' suppress-title='false'><name>First Multicast Registration Flow</name>
  <artwork><![CDATA[
-     6LN                  6LR             Root                6LBR
+   6LN/RUL                6LR             Root                6LBR
       |                    |               |                    |
       | unsolicited Report |               |                    |
       |------------------->|               |                    |
@@ -1354,7 +1354,7 @@
  </t>
  <figure anchor='fReg4' suppress-title='false'><name>Next Registration Flow</name>
  <artwork><![CDATA[
-     6LN                  6LR             Root                6LBR
+   6LN/RUL                6LR             Root                6LBR
       |                    |               |                    |
       |       Query        |               |                    |
       |<-------------------|               |                    |
