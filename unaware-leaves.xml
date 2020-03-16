@@ -404,12 +404,10 @@
    that traverse the whole network, one to the Root and one to the 6LBR.
 </t><t>
 
-   This specification saves the extraneous keep-alive across the LLN. The 6LR
+   This specification removes the extraneous keep-alive across the LLN. The 6LR
    turns the periodic Address Registration from the RUL into a DAO message to
-   the Root every time, but only generates the EDAR upon the first registration,
-   for the purpose of DAD. Upon a refresher DAO,
-   the Root proxies the EDAR exchange to refresh the state at the 6LBR on behalf
-   of the 6LR, as illustrated in <xref target='fReg2'/>.
+   the Root on every refresh, but it only generates the EDAR upon the first registration, for the purpose of DAD.
+   Upon a refresher DAO, the Root proxies the EDAR exchange to refresh the state at the 6LBR on behalf of the 6LR, as illustrated in <xref target='fReg2'/>.
 </t>
 
 <section anchor='R7400'><name>RFC 7400 Capability Indication Option</name>
