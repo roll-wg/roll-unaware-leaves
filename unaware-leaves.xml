@@ -108,7 +108,7 @@
 <t>
    <xref target='RFC6550'/> provides unicast and multicast routing services
    back to RPL-Aware nodes (RANs), either as a collection tree or with routing
-   back. In tha latter case, a RAN injects routes to itself using Destination
+   back. In that latter case, a RAN injects routes to itself using Destination
    Advertisement Object (DAO) messages sent to either parent-nodes in the RPL
    Storing Mode or to the Root indicating their parent in the Non-Storing Mode.
    This process effectively forms a DODAG back to the device that is a subset of
@@ -130,8 +130,8 @@
    "When to use RFC 6553, 6554 and IPv6-in-IPv6"</xref> introduces the term
    RPL-Aware-Leaf (RAL) for a Leaf that injects routes in RPL to manage the
    reachability of its own IPv6 addresses.
-   In contrast, the term RPL-Unaware Leaf (RUL) designates a Leaf does not
-   participate to RPL at all. A RUL is a plain Host that needs a
+   In contrast, the term RPL-Unaware Leaf (RUL) designates a Leaf that does not
+   participate to RPL at all. A RUL is a plain <xref target="RFC8504" /> Host that needs a
    RPL-Aware Router to obtain routing services over the RPL network.
 </t>
 <t>
@@ -185,7 +185,7 @@
 </t>
 
 <t>"RPL", the "RPL Packet Information" (RPI), "RPL Instance" (indexed by a
-   RPLInstanceID)are defined in <xref target='RFC6550'>"RPL: IPv6 Routing
+   RPLInstanceID) are defined in <xref target='RFC6550'>"RPL: IPv6 Routing
    Protocol for Low-Power and Lossy Networks"</xref> .
    The DODAG Information Solicitation (DIS), Destination Advertisement Object
    (DAO) and DODAG Information Object (DIO) messages are also specified in
