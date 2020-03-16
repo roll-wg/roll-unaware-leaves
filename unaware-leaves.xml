@@ -1112,12 +1112,11 @@
 <t>
   The DAO message advertising the Registered Address MUST be constructed as
   follows:
-  </t><ul spacing='normal'>
-  <li>The Registered Address is placed in a RPL Target Option in the DAO
+  </t><ol spacing='normal'>
+  <li>The Registered Address is placed in an RPL Target Option in the DAO
   message as the Target Prefix, and the Prefix Length is set to 128;
   </li><li>
-  RPL Non-Storing Mode is used, and the 6LR indicates one of its global or unique-local IPv6 unicast addresses as the Parent Address in the associated
-  RPL Transit Information Option (TIO).
+  RPL Non-Storing Mode is to be used. The 6LR indicates one of its global or unique-local IPv6 unicast addresses as the Parent Address in the associated RPL Transit Information Option (TIO).
   </li><li>
   the External 'E' flag in the TIO is set to indicate that the 6LR redistributes
   an external target into the RPL network.  <!--When the Root has to use an IP-in-IP
@@ -1125,14 +1124,14 @@
   IP-in-IP should be addressed to this 6LR;-->
 
   </li><li>
-  the Path Lifetime in the TIO is computed from the Lifetime in the EARO Option
-  to adapt it to the Lifetime Units used in the RPL operation. Note that if the
-  lifetime is 0, then the 6LR generates a No-Path DAO message that cleans up
-  the routes down to the Address of the 6LN;
+  the Path Lifetime in the TIO is computed from the Lifetime in the EARO
+  Option. This adapts it to the Lifetime Units used in the RPL operation.
+  Note that if the lifetime is 0, then the 6LR generates a No-Path DAO
+  message that cleans up the routes down to the Address of the 6LN;
   </li><li>
   the Path Sequence in the TIO is set to the TID value found in the EARO option;
   </li>
-  </ul><t>
+  </ol><t>
 </t><t>
    Upon an NS(EARO), iff the "R" flag was set, the 6LR SHOULD inject the Registered Address in RPL by sending a DAO message on behalf of the 6LN.
    If the Registration Lifetime was 0, the effect is to remove the route and
