@@ -544,10 +544,17 @@
  <section anchor='prereq6lp'><name>Support of 6LoWPAN ND</name>
 <t>
    In order to obtain routing services from a 6LR, a RUL MUST implement
-   <xref target='RFC8505'/> and set the "R" flag in the EARO option.
-   The RUL MUST NOT request routing services from a 6LR unless
-   the 6LR originates RA messages with a CIO that has the L, P and E
-   flags are all set as discussed in <xref target='R7400'/>.
+   <xref target='RFC8505'/>. Such a RUL that receives a CIO from a potential
+   (6LR) router that has the L, P and E flags set, SHOULD set the "R" flag in
+   the EARO in order to request routing services from that 6LR.
+   and set the "R" flag in the EARO option.
+   This is detailed in in <xref target='R7400'/>
+
+   A RUL that has multiple potential routers SHOULD prefer the router that
+   can provide the desired routing services.
+   If there are no available routers, the connection of the RUL fails.
+
+   flags are all set .
 
 </t>
 <t>
