@@ -185,20 +185,19 @@
 
 <t>
    The Terminology used in this document is consistent with and incorporates
-   that described in <xref target='RFC7102'> Terms Used in Routing for Low-Power
-   and Lossy Networks (LLNs).</xref>.
+   that described in <xref target='RFC7102'>"Terms Used in Routing for Low-Power
+   and Lossy Networks (LLNs)"</xref>.
    A glossary of classical 6LoWPAN acronyms is given in <xref target='gloss'/>.
-   The term “byte” is used in its now customary sense as a synonym for “octet”.
    Other terms in use in LLNs are found in <xref target='RFC7228'>
-   Terminology for Constrained-Node Networks</xref>.
+   "Terminology for Constrained-Node Networks"</xref>.
 </t>
 
 <t>"RPL", the "RPL Packet Information" (RPI), "RPL Instance" (indexed by a
    RPLInstanceID) are defined in <xref target='RFC6550'>"RPL: IPv6 Routing
-   Protocol for Low-Power and Lossy Networks"</xref>. The RPI is
-   the abstract information RPL places in data packets as the RPL Option within
-   the IPv6 Hop-By-Hop Header, and by extension then term is used t refer to the
-   RPL Option itself.
+   Protocol for Low-Power and Lossy Networks"</xref>. The RPI is the abstract
+   information that RPL defines to be placed in data packets, e.g., as the RPL
+   Option <xref target='RFC6553'/> within the IPv6 Hop-By-Hop Header.
+   By extension the term "RPI" is often used to refer to the RPL Option itself.
    The DODAG Information Solicitation (DIS), Destination Advertisement Object
    (DAO) and DODAG Information Object (DIO) messages are also specified in
    <xref target='RFC6550'/>. The Destination Cleanup Object (DCO) message
@@ -228,9 +227,12 @@
 	    Wireless Personal Area Networks (6LoWPANs): Overview, Assumptions,
 	    Problem Statement, and Goals"</xref>, and</dd>
 	<dt>6LoWPAN ND:</dt><dd> <xref target='RFC6775'>Neighbor Discovery Optimization for Low-Power
-		and Lossy Networks</xref> and
+		and Lossy Networks</xref>,
 	    <xref target='RFC8505'>
-		"Registration Extensions for 6LoWPAN Neighbor Discovery"</xref>.
+		"Registration Extensions for 6LoWPAN Neighbor Discovery"</xref>,
+        and <xref target='I-D.ietf-6lo-ap-nd'>
+        "Address Protected Neighbor Discovery for Low-power and Lossy Networks"
+        </xref> .
 	</dd>
 	</dl>
 </section>	<!-- end section "References" -->
@@ -669,7 +671,7 @@
    A RUL is expected to process an unknown Routing Header Type as
    prescribed by section 4.4 of <xref target='RFC8200'/>.
    This means in particular that Routing Header with a Routing Type of 3
-   <xref target='RFC6553'/> is ignored when the Segments Left is zero, and
+   <xref target='RFC6554'/> is ignored when the Segments Left is zero, and
    the packet is dropped otherwise.
 </t>
 
@@ -1555,7 +1557,10 @@
 	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4862.xml'/>
 	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6550.xml'/>
 	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6553.xml'/>
+	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6554.xml'/>
 	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6775.xml'/>
+    <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7102.xml'/>
+    <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7228.xml'/>
 	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7400.xml'/>
    <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8126.xml'/>
    <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8138.xml'/>
@@ -1567,15 +1572,12 @@
    <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-roll-efficient-npdao.xml'/>
 
 
-	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7102.xml'/>
-
  </references>
  <references><name>Informative References</name>
 	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6606.xml'/>
 	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3315.xml'/>
 	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6282.xml'/>
 	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6687.xml'/>
-	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7228.xml'/>
       <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7416.xml'/>
 	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8025.xml'/>
 	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8504.xml'/>
