@@ -95,7 +95,7 @@
    of unused paths.
 
 </t><t>
-   In provide alternate paths in lossy networks, RPL forms Direction-Oriented
+   To provide alternate paths in lossy networks, RPL forms Direction-Oriented
    Directed Acyclic Graphs (DODAGs) using DODAG Information Solicitation (DIS)
    and DODAG Information Object (DIO) messages. For many of the nodes, though
    not all, a DODAG provides multiple forwarding solutions towards the Root of
