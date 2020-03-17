@@ -384,7 +384,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
      |                                                               |
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-                        Figure 1: EARO Option Format
+                        Figure 1: EARO Format
 
 
 
@@ -592,7 +592,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 6.1.  Support of 6LoWPAN ND
 
    In order to obtain routing services from a 6LR, a RUL MUST implement
-   [RFC8505] and set the "R" flag in the EARO option.  The RUL MUST NOT
+   [RFC8505] and set the "R" flag in the EARO.  The RUL MUST NOT
    request routing services from a 6LR unless the 6LR originates RA
    messages with a CIO that has the L, P and E flags are all set as
    discussed in Section 3.3.1.
@@ -1152,13 +1152,13 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
       redistributes an external target into the RPL network.
 
    *  the Path Lifetime in the TIO is computed from the Lifetime in the
-      EARO Option to adapt it to the Lifetime Units used in the RPL
+      EARO  to adapt it to the Lifetime Units used in the RPL
       operation.  Note that if the lifetime is 0, then the 6LR generates
       a No-Path DAO message that cleans up the routes down to the
       Address of the 6LN;
 
    *  the Path Sequence in the TIO is set to the TID value found in the
-      EARO option;
+      EARO;
 
 
    Upon an NS(EARO), iff the "R" flag was set, the 6LR SHOULD inject the
