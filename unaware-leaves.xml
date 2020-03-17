@@ -405,8 +405,8 @@
    place between the 6LR and the 6LBR using Extended DAR/DAC messages which can
    carry a ROVR field of variable size.
    The periodic EDAR/EDAC exchange is triggered by a NS(EARO)
-   message and is intended to create and then refresh the corresponding state in
-   the 6LBR for a lifetime that is indicated by the 6LN.
+   message and is intended to create, refresh and delete the corresponding state
+   in the 6LBR for a lifetime that is indicated by the 6LN.
 
 </t><t>
    Conversely, RPL
@@ -1011,21 +1011,24 @@
 <section anchor='oper'><name>Detailed Operation</name>
 
 
-<section anchor='ln'><name>By the 6LN</name>
+<section anchor='ln'><name>By the RUL Acting as 6LN</name>
 <t>
   This specification does not alter the operation of a 6LoWPAN ND-compliant 6LN,
   and a RUL is expected to operate as follows:
 </t>
 <ol spacing='normal'><li>
    The 6LN obtains an IPv6 global address, either using Stateless Address Autoconfiguration (SLAAC) <xref target='RFC4862'/> based on a Prefix
-   Information Option (PIO) <xref target='RFC4861'/> found in a Router
-   Advertisement message, or some other means such as DHCPv6
-   <xref target='RFC3315'/>.
+   Information Option (PIO) <xref target='RFC4861'/> found in a RA message, or
+   some other means such as DHCPv6 <xref target='RFC3315'/>.
 
 </li><li>
    Once it has formed an address, the 6LN (re)registers its address periodically,
    within the Lifetime of the previous Address Registration, as prescribed by
-<xref target='RFC6775'/> and <xref target='RFC8505'/>.
+   <xref target='RFC6775'/> and <xref target='RFC8505'/>, to refresh the NCE
+   before the lifetime indicated in the EARO expires. The TID is
+   incremented each time and wraps in a lollipop fashion (see section 5.2.1
+   of <xref target='RFC8505'/> which is fully compatible with section 7.2 of
+   <xref target='RFC6550'/>).
 </li><li>
    As stated in section 5.2 of <xref target='RFC8505'/>, the 6LN can register
    to more than one 6LR at the same time. In that case, it
@@ -1034,19 +1037,18 @@
 </li><li>
    Following section 5.1 of <xref target='RFC8505'/>,
    a 6LN acting as a RUL sets the "R" flag in the EARO of at least one
-   registration, whereas acting as a RAN it never does.
-   If the "R" flag is set in the NS but not echoed in the NA, the RUL SHOULD
-   attempt to use another 6LR.
-
+   registration, whereas acting as a RAN it never does. If the "R" flag is not
+   echoed in the NA, the RUL SHOULD attempt to use another 6LR.
+<!--
 </li><li>
    Upon each consecutive Address Registration, the 6LN increases the TID field in the
    EARO, as prescribed by <xref target='RFC8505'/> section 5.2.
-
+-->
 
 </li><li>
-   The 6LN may use any of the 6LRs to which it register to forward its packets.
+   The 6LN may use any of the 6LRs to which it registered as default gateway.
    Using a 6LR to which the 6LN is not registered may result in packets dropped
-   at the 6LR by a Source Address Validation function (SAVI) so it is NOT RECOMMENDED.
+   at the 6LR by a Source Address Validation function (SAVI) so it is not recommended.
 </li>
 
 </ol>
@@ -1072,27 +1074,27 @@
 </t>
 </section>
 
-<section anchor='lr'><name>By the 6LR</name>
+<section anchor='lr'><name>By the RPL Border Router Acting as 6LR</name>
 <t>
    Also as prescribed by <xref target='RFC8505'/>,
    the 6LR generates an EDAR message upon reception of a valid NS(EARO)
-   message for the Address Registration of a new IPv6 Address by a 6LN. If the Duplicate
-   Address exchange succeeds, then the 6LR installs an NCE.
+   message for the Address Registration of a new IPv6 Address by a 6LN
+   and for the termination of a registration (lifetime of 0).
+</t><t>
+   If the initial EDAR/EDAC exchange succeeds, then the 6LR installs an NCE
+   for the registration lifetime.
    If the "R" flag was set in the EARO of the NS message, and this 6LR can
    manage the reachability of Registered Address, then the 6LR sets the "R" flag
    in the EARO of the NA message that is sends in response.
 </t>
 
-<t>From then on, the 6LN periodically sends a new NS(EARO) to refresh the NCE
-   state before the lifetime indicated in the EARO expires, with a TID that is
-   incremented each time till it wraps in a lollipop fashion (see section 5.2.1
-   of <xref target='RFC8505'/> which is fully compatible with section 7.2 of
-<xref target='RFC6550'/>). As long as the "R"
-   flag is set and this Router can still manage the reachability of Registered
+<t>From then on, as long as the "R" flag is set in the periodic NS(EARO) from
+   the 6LN and this Router can still manage the reachability of Registered
    Address, the 6LR keeps setting the "R" flag in the EARO of the response NA
-   message, but the exchange of keep-alive Extended Duplicate Address messages
-   with the 6LBR is avoided if the RPL Root has indicated that it proxies for it
-   using the "P" flag in the RPL configuration option (see <xref target='upd'/>).
+   message. But if the RPL Root has indicated that it proxies the keep-alive
+   EDAR/EDAC exchange with the 6LBR (see <xref target='upd'/>),
+   the 6LR MUST refrain from sending the keep-alive EDAR itself.
+
 
 </t> <t>
    The Opaque field in the EARO hints the 6LR on the RPL Instance that should
@@ -1273,24 +1275,32 @@ t>
 
 
 <t>
-   Upon reception of an EDAR message with the ROVR field is set to zero
-   indicating an anonymous EDAR, the 6LBR checks whether an entry exists for the
-   and computes whether the TID in the DAR message is fresher than that in the
-   entry as prescribed in section 4.2.1. of <xref target='RFC8505'/>.
-
-</t><t>
+   Upon reception of an EDAR message with the ROVR field is set to 0 indicating
+   an anonymous EDAR, the 6LBR checks whether an entry exists for the address.
    If the entry does not exist, the 6LBR does not create the entry, and answers
    with a Status "Removed" in the EDAC message.
-   If the entry exists but is not fresher, the 6LBR does not update the entry,
-   and answers with a Status "Moved" in the EDAC message.
-   If the entry exists with the same TID, the 6LBR does not update the entry,
-   and answers with a Status "Success" in the EDAC message.
 </t><t>
-   If the entry exists and the TID in the anonymous EDAR message is fresher,
-   the 6LBR updates the TID in the entry, and answers with a Status "Success" in the EDAC message.
+   If the entry exists, the 6LBR computes whether the TID in the EDAR message is
+   fresher than the one in the entry as prescribed in section 4.2.1. of
+   <xref target='RFC8505'/> and MUST operate as below:
+</t>
+<ol>
+<li>
+   If the anonymous EDAR message is fresher, the 6LBR updates the TID in the
+   entry, restarts the heartbeat timer for the entry, and answers with a Status
+   "Success" in the EDAC message.
    If the duration of the lifetime of the entry is extended by the Registration
    Lifetime in the EDAR message, it also updates the lifetime of the entry.
-</t><t>
+</li><li>
+   If the TIDs are the same, the 6LBR does not update the entry,
+   and answers with a Status "Success" in the EDAC message.
+</li><li>
+   If the TID in the entry is fresher, the 6LBR does not update the entry,
+   and answers with a Status "Moved" in the EDAC message.
+</li>
+
+</ol>
+<t>
    The EDAC that is constructed is the same as if the anonymous EDAR was a full
    EDAR, and includes the ROVR that is associated to the Address Registration.
 </t>
@@ -1425,10 +1435,10 @@ t>
     <xref target='RFC8505'/> in the form of a ROVR and may be played by any node
     on the network without the need to know the ROVR.
     The 6LBR MUST NOT create an entry based on a
-    anonymous EDAR that does not match an existing entry. All it can do is
-    refresh the lifetime and the TID of an existing entry. So the
-    message cannot be used to create a binding state in the 6LBR but it can be
- use to maintain one active longer than expected.
+    anonymous EDAR and it MUST NOT decrease the value of the lifetime.
+    All it can do is refresh the lifetime and the TID of an existing entry.
+    So the message cannot be used to create a binding state in the 6LBR but it
+    can be used to maintain one active longer than expected.
  </t><t>
  Note that a full EDAR message
  with a lifetime of 0 will destroy that state and the anonymous message will not recreate it. Note also that a rogue that has access to the network can attack the 6LBR with other (forged) addresses and ROVR, and that this is a much easier DoS
