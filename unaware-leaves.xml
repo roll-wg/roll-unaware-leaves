@@ -1414,6 +1414,14 @@ t>
 
 <section anchor='security-considerations'><name>Security Considerations</name>
  <t>
+   First of all, it is worth noting that with <xref target='RFC6550'/>, every
+   node in the LLN is RPL-aware and can inject any RPL-based attack in the
+   network. This specification isolates edge nodes that can only interact with
+   the RPL routers using 6LoWPAN ND, meaning that they cannot perform RPL
+   insider attacks. 6LoWPAN ND can optionally provide SAVI features, which
+   reduces even more the attack perimeter that is available to the edge nodes.
+ </t>
+ <t>
 	The LLN nodes depend on the 6LBR and the RPL participants for their
     operation.
 	A trust model must be put in place to ensure that the right devices are
@@ -1445,7 +1453,7 @@ t>
  attack than trying to keep existing state alive longer.
  </t><t>
     At the time of this writing RPL does not have a zerotrust model whereby
-    the it is possible to validate the origin of an address that is injected
+    it is possible to validate the origin of an address that is injected
     in a DAO. This specification makes a first step in that direction by
     allowing the Root to challenge the RUL by the 6LR that serves it.
  </t>
