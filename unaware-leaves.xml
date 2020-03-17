@@ -146,7 +146,7 @@
 <t>
    Examples of routing-agnostic 6LNs include lightly-powered sensors such as
    window smash sensor (alarm system), and kinetically powered light switches.
-   Other application of this specification may include a smart grid network that
+   Other applications of this specification may include a smart grid network that
    controls appliances - such as washing machines or the heating system - in the
    home. Appliances may not participate to the RPL protocol operated in the
    Smartgrid network but can still interact with the Smartgrid for control and/or
