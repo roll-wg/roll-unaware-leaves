@@ -1015,7 +1015,8 @@
 <t>
   This specification does not alter the operation of a 6LoWPAN ND-compliant 6LN,
   and a RUL is expected to operate as follows:
-</t><ul spacing='normal'><li>
+</t>
+<ol spacing='normal'><li>
    The 6LN obtains an IPv6 global address, either using Stateless Address Autoconfiguration (SLAAC) <xref target='RFC4862'/> based on a Prefix
    Information Option (PIO) <xref target='RFC4861'/> found in a Router
    Advertisement message, or some other means such as DHCPv6
@@ -1048,8 +1049,7 @@
    at the 6LR by a Source Address Validation function (SAVI) so it is NOT RECOMMENDED.
 </li>
 
-</ul><t>
-</t>
+</ol>
 
 <t>
    Even without support for RPL, a RUL may be aware of opaque values to be
@@ -1114,7 +1114,8 @@
 <t>
   The DAO message advertising the Registered Address MUST be constructed as
   follows:
-  </t><ol spacing='normal'>
+  </t>
+<ol spacing='normal'>
   <li>The Registered Address is placed in an RPL Target Option in the DAO
   message as the Target Prefix, and the Prefix Length is set to 128;
   </li><li>
@@ -1138,8 +1139,7 @@
   6LN. If the Registration Lifetime was 0, the effect is to remove the route and
   then the NCE;
 </li>
-  </ol><t>
-</t>
+</ol>
 <t>
    If for whatever reason the 6LR does not inject the Registered Address in RPL,
    it MUST send an NA(EARO) back with the appropriate status and the "R" flag
@@ -1187,34 +1187,50 @@
 </section>
 
 <section anchor='Root'><name>By the RPL Root</name>
-
-
-<t>
+<!--
    In RPL Storing Mode of Operation (MOP), the DAO message is propagated from
    child to parent all the way to the Root along the DODAG, populating routing
    state as it goes. In Non-Storing Mode, The DAO message is sent directly to the
    RPL Root.
+-->
+<t>
+   A RPL Root SHOULD set the "P" flag in the RPL configuration option of the DIO
+   messages that it generates (see <xref target='upd'/>) to signal that it
+   proxies the keep-alive EDAR/EDAC echange. The remainder of this section
+   assumes that it does.
+
+</t><t>
    Upon reception of a DAO message, for each RPL Target option that creates or
-   updates an existing RPL state:
-</t><ul spacing='normal'>
-<li>
-   the Root notifies the 6LBR using an internal API if they are co-located, or
-   using a proxied EDAR/EDAC exchange if they are separated. If the RPL Target
+   updates an existing RPL state, the Root notifies the 6LBR.
+   This can be done using an internal API if they are co-located, or
+   using a proxied EDAR/EDAC exchange if they are separated.
+
+</t><t>
+   If the RPL Target
    option transports a ROVR, then the Root MUST use it to build
    a full EDAR message; else, an anonymous EDAR is used with
    the ROVR field set to zero.
+</t>
+
+<!--
+<ul spacing='normal'>
+<li>
+
 </li>
-<!--t>
+t>
    In a topology where the RPL Root and the 6LBR are directly connected at the
    Link-Layer, the Root may refresh the 6LBR with an NS(EARO) - respectively an
    anonymous NS(EARO) - on behalf of the 6LN that owns the address indicated in
    the Target Option as opposed to an EDAR - respectively an anonymous EDAR -
    on behalf of the 6LR.
-</t-->
-</ul><t>
-</t><t>
+
+</ul>
+
+-->
+  <t>
   The EDAR <!--and the NS(EARO)--> message MUST be constructed as follows:
-  </t><ul spacing='normal'>
+  </t>
+<ol spacing='normal'>
   <li>
   The Target IPv6 address from the RPL Target Option is placed in the
   Registered Address field of the EDAR message;
@@ -1238,8 +1254,7 @@
   else, the ROVR field in the EDAR is set to zero indicating an anonymous EDAR.
   <!-- and used in the proxy NS(EARO).-->
   </li>
-  </ul><t>
-</t>
+</ol>
 
 <t>
   Upon a Status value in an EDAC message that is not "Success", the Root SHOULD
@@ -1267,13 +1282,14 @@
    If the entry does not exist, the 6LBR does not create the entry, and answers
    with a Status "Removed" in the EDAC message.
    If the entry exists but is not fresher, the 6LBR does not update the entry,
+   and answers with a Status "Moved" in the EDAC message.
+   If the entry exists with the same TID, the 6LBR does not update the entry,
    and answers with a Status "Success" in the EDAC message.
 </t><t>
-   If the entry exists and the TID in the DAR message is fresher, the 6LBR
-   updates the TID in the entry, and if the
-   lifetime of the entry is extended by the Registration Lifetime in the DAR
-   message, it also updates the lifetime of the entry.
-   In that case, the 6LBR replies with a Status "Success" in the DAC message.
+   If the entry exists and the TID in the anonymous EDAR message is fresher,
+   the 6LBR updates the TID in the entry, and answers with a Status "Success" in the EDAC message.
+   If the duration of the lifetime of the entry is extended by the Registration
+   Lifetime in the EDAR message, it also updates the lifetime of the entry.
 </t><t>
    The EDAC that is constructed is the same as if the anonymous EDAR was a full
    EDAR, and includes the ROVR that is associated to the Address Registration.
@@ -1311,10 +1327,7 @@
  </t><t>
      On the first Address Registration, as illustrated in <xref target='fReg3'/>, the
      6LN, as an MLD listener, sends an unsolicited Report to the 6LR in order to
-     start receiving the flow immediately. Since multicast Layer-2 messages are
-     avoided, it is important that the asynchronous messages for unsolicited
-     Report and Done are sent reliably, for instance using an Layer-2
-     acknoledgement, or attempted multiple times.
+     start receiving the flow immediately.
 
  </t>
  <figure anchor='fReg3' suppress-title='false'><name>First Multicast Registration Flow</name>
@@ -1335,7 +1348,11 @@
       |                    |               |                    |
     ]]></artwork>
  </figure>
- <t>
+ <t> Since multicast Layer-2 messages are
+     avoided, it is important that the asynchronous messages for unsolicited
+     Report and Done are sent reliably, for instance using a Layer-2
+     acknoledgement, or attempted multiple times.
+ </t><t>
      The 6LR acts as a generic MLD querier and generates a DAO for the multicast
      target. The lifetime of the DAO is set to be in the order of the Query
      Interval, yet larger to account for variable propagation delays.
