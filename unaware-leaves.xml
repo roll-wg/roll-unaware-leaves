@@ -77,8 +77,8 @@
 <t>The IETF produced the <xref target='RFC6550'>"Routing Protocol for Low Power
    and Lossy Networks"</xref> (RPL) to provide IPv6 <xref target='RFC8200'/>
    routing services within such constraints. RPL belongs to the class of
-   Distance-Vector protocol, which, compared to link-state protocols,
-   limits the amount of topological knowledge that needs to be installed and
+   Distance-Vector protocols, which, compared to link-state protocols,
+   limit the amount of topological knowledge that needs to be installed and
    maintained in each node.
 </t>
 <t> In order to operate in constrained networks,
@@ -108,9 +108,9 @@
 <t>
    <xref target='RFC6550'/> provides unicast and multicast routing services
    back to RPL-Aware nodes (RANs), either as a collection tree or with routing
-   back. In tha latter case, a RAN injects routes to itself using Destination
-   Advertisement Object (DAO) messages sent to either parent-nodes in the RPL
-   Storing Mode or to the Root indicating their parent in the Non-Storing Mode.
+   back. In the latter case, a RAN injects routes to itself using Destination
+   Advertisement Object (DAO) messages sent either to parent-nodes, in the RPL
+   Storing Mode, or to the Root indicating their parent, in the Non-Storing Mode.
    This process effectively forms a DODAG back to the device that is a subset of
    the DODAG to the Root with all links reversed.
 </t>
@@ -130,7 +130,7 @@
    "When to use RFC 6553, 6554 and IPv6-in-IPv6"</xref> introduces the term
    RPL-Aware-Leaf (RAL) for a Leaf that injects routes in RPL to manage the
    reachability of its own IPv6 addresses.
-   In contrast, the term RPL-Unaware Leaf (RUL) designates a Leaf does not
+   In contrast, the term RPL-Unaware Leaf (RUL) designates a Leaf that does not
    participate to RPL at all. A RUL is a plain Host that needs a
    RPL-Aware Router to obtain routing services over the RPL network.
 </t>
