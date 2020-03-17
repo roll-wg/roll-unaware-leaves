@@ -78,8 +78,8 @@
 <t>The IETF produced the <xref target='RFC6550'>"Routing Protocol for Low Power
    and Lossy Networks"</xref> (RPL) to provide IPv6 <xref target='RFC8200'/>
    routing services within such constraints. RPL belongs to the class of
-   Distance-Vector protocol, which, compared to link-state protocols,
-   limits the amount of topological knowledge that needs to be installed and
+   Distance-Vector protocols, which, compared to link-state protocols,
+   limit the amount of topological knowledge that needs to be installed and
    maintained in each node.
 </t>
 <t> To save signaling and routing state in constrained networks,
@@ -108,10 +108,11 @@
 </t>
 <t>
    <xref target='RFC6550'/> provides unicast and multicast routing services
-   back to RPL-Aware nodes (RANs), either as a collection tree or with routing
-   back. In that latter case, a RAN injects routes to itself using Destination
-   Advertisement Object (DAO) messages sent to either parent-nodes in the RPL
-   Storing Mode or to the Root indicating their parent in the Non-Storing Mode.
+   to RPL-Aware nodes (RANs), either as a collection tree or with routing
+   back. In the latter case, a RAN injects routes to itself using Destination
+   Advertisement Object (DAO) messages sent either to parent-nodes, in the RPL
+   Storing Mode, or to the Root indicating their parent, in the Non-Storing Mode.
+
    This process effectively forms a DODAG back to the device that is a subset of
    the DODAG to the Root with all links reversed.
 </t>
@@ -154,7 +155,7 @@
 <t>
    Examples of routing-agnostic 6LNs include lightly-powered sensors such as
    window smash sensor (alarm system), and kinetically powered light switches.
-   Other application of this specification may include a smart grid network that
+   Other applications of this specification may include a smart grid network that
    controls appliances - such as washing machines or the heating system - in the
    home. Appliances may not participate to the RPL protocol operated in the
    Smartgrid network but can still interact with the Smartgrid for control and/or
