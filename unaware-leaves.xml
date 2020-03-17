@@ -53,12 +53,10 @@
 
 <abstract>
 <t>
-  This specification extends RFC6550 and RFC8505 to provide unicast and
-  multicast routing services to Hosts which do not speak RPL.
-  These hosts, called RPL Unaware Leaves (RUN) do not participate to RPL
-  directly.  Such hosts may be unable to participate because they are very
-  energy constrained.  This specification enables the RPL Root to proxy the EDAR/EDAC
-  flow on behalf of the RULs and RANs in its DODAG.
+  This specification extends RFC6550 and RFC8505 to provide routing services
+  to Hosts called RPL Unaware Leaves that implement 6LoWPAN ND but do not
+  participate to RPL.  This specification also enables the RPL Root to
+  proxy the 6LoWPAN keep-alive flows in its DODAG.
 </t>
 </abstract>
 
@@ -84,7 +82,7 @@
    limits the amount of topological knowledge that needs to be installed and
    maintained in each node.
 </t>
-<t> In order to operate in constrained networks,
+<t> To save signaling and routing state in constrained networks,
    RPL allows a routing stretch (see <xref target='RFC6687'/>), whereby routing
    is only performed along an acyclic graph optimized to reach a Root node,
    as opposed to straight along a shortest path
@@ -97,7 +95,7 @@
    of unused paths.
 
 </t><t>
-   In order to cope with lossy transmissions, RPL forms Direction-Oriented
+   In provide alternate paths in lossy networks, RPL forms Direction-Oriented
    Directed Acyclic Graphs (DODAGs) using DODAG Information Solicitation (DIS)
    and DODAG Information Object (DIO) messages. For many of the nodes, though
    not all, a DODAG provides multiple forwarding solutions towards the Root of
@@ -118,11 +116,6 @@
    the DODAG to the Root with all links reversed.
 </t>
 <t>
-  This specification leverages some of the Non-Storing Mode mechanisms to
-  extend the routing database with connectivity to unaware leaves.
-  These Non-Storing Mode mechanisms are still used in Storing-Mode DODAGs.
-</t>
-<t>
    RPL can be deployed as an extension to IPv6 Neighbor Discovery (ND)
    <xref target='RFC4861'/><xref target='RFC4862'/> and 6LoWPAN ND
    <xref target='RFC6775'/><xref target='RFC8505'/> to maintain reachability
@@ -139,8 +132,15 @@
    RPL-Aware-Leaf (RAL) for a Leaf that injects routes in RPL to manage the
    reachability of its own IPv6 addresses.
    In contrast, the term RPL-Unaware Leaf (RUL) designates a Leaf that does not
-   participate to RPL at all. A RUL is a plain <xref target="RFC8504" /> Host that needs a
-   RPL-Aware Router to obtain routing services over the RPL network.
+   participate to RPL at all.
+   RULs may be unable to participate because they are very energy constrained.
+</t>
+<t>
+
+   A RUL is an IPv6 Host <xref target="RFC8504" />
+   that needs a RPL-Aware Router to obtain routing services over the RPL network.
+   The Non-Storing Mode mechanisms are used to extend the routing state with
+   connectivity to RULs even when the DODAG is operated in Storing-Mode DODAGs.
 </t>
 <t>
    This specification leverages the Address Registration mechanism defined in
@@ -186,15 +186,18 @@
    The Terminology used in this document is consistent with and incorporates
    that described in <xref target='RFC7102'> Terms Used in Routing for Low-Power
    and Lossy Networks (LLNs).</xref>.
-</t><t>
    A glossary of classical 6LoWPAN acronyms is given in <xref target='gloss'/>.
-</t><t>
    The term “byte” is used in its now customary sense as a synonym for “octet”.
+   Other terms in use in LLNs are found in <xref target='RFC7228'>
+   Terminology for Constrained-Node Networks</xref>.
 </t>
 
 <t>"RPL", the "RPL Packet Information" (RPI), "RPL Instance" (indexed by a
    RPLInstanceID) are defined in <xref target='RFC6550'>"RPL: IPv6 Routing
-   Protocol for Low-Power and Lossy Networks"</xref> .
+   Protocol for Low-Power and Lossy Networks"</xref>. The RPI is
+   the abstract information RPL places in data packets as the RPL Option within
+   the IPv6 Hop-By-Hop Header, and by extension then term is used t refer to the
+   RPL Option itself.
    The DODAG Information Solicitation (DIS), Destination Advertisement Object
    (DAO) and DODAG Information Object (DIO) messages are also specified in
    <xref target='RFC6550'/>. The Destination Cleanup Object (DCO) message
@@ -208,28 +211,27 @@
    its addresses and prefixes by injecting them in RPL by itself.
 </t><t>
 
-   Other terms in use in LLNs are found in <xref target='RFC7228'>
-   Terminology for Constrained-Node Networks</xref>.
-</t><t>
-    Readers are expected to be familiar with all the terms and concepts
-    that are discussed in
- </t><ul spacing='normal'>
- <li> <xref target='RFC4861'>"Neighbor Discovery for IP version 6"
-	</xref>, </li>
- <li> <xref target='RFC4862'>"IPv6 Stateless Address Autoconfiguration"
-	</xref>, </li>
- <li><xref target='RFC6606'>"Problem Statement and Requirements for
-    IPv6 over Low-Power Wireless Personal Area Network (6LoWPAN) Routing"
-    </xref>, </li>
- <li> <xref target='RFC4919'>"IPv6 over Low-Power
+
+	In this document, readers will encounter terms and concepts
+	that are discussed in the following documents:
+	</t>
+    <dl>
+	<dt>Classical IPv6 ND:</dt><dd> <xref target='RFC4861'>"Neighbor Discovery for IP version 6"
+		</xref> and
+	    <xref target='RFC4862'>"IPv6 Stateless Address Autoconfiguration"
+		</xref>, </dd>
+
+	<dt>6LoWPAN:</dt><dd> <xref target='RFC6606'>"Problem Statement and Requirements for
+		IPv6 over Low-Power Wireless Personal Area Network (6LoWPAN)
+		Routing" </xref> and <xref target='RFC4919'>"IPv6 over Low-Power
 	    Wireless Personal Area Networks (6LoWPANs): Overview, Assumptions,
-	    Problem Statement, and Goals"</xref>, </li>
- <li> <xref target='RFC6775'>"Neighbor Discovery Optimization
-		 for Low-power and Lossy Networks"</xref>, and </li>
- <li> <xref target='RFC8505'>"Registration Extensions for IPv6 over
- Low-Power Wireless Personal Area Network (6LoWPAN) Neighbor Discovery"</xref>. </li>
-</ul><t>
-</t>
+	    Problem Statement, and Goals"</xref>, and</dd>
+	<dt>6LoWPAN ND:</dt><dd> <xref target='RFC6775'>Neighbor Discovery Optimization for Low-Power
+		and Lossy Networks</xref> and
+	    <xref target='RFC8505'>
+		"Registration Extensions for 6LoWPAN Neighbor Discovery"</xref>.
+	</dd>
+	</dl>
 </section>	<!-- end section "References" -->
 <section anchor='gloss'><name>Glossary</name>
  <t> This document often uses the following acronyms:
@@ -254,7 +256,7 @@
     <dt>NS:</dt><dd>  Neighbor Solicitation  </dd>
     <dt>RA:</dt><dd>  Router Advertisement  </dd>
     <dt>ROVR:</dt><dd> Registration Ownership Verifier </dd>
-    <dt>RPI:</dt><dd> RPL Packet Information (the abstract information RPL places in data packets as the RPL Option within the IPv6 Hop-By-Hop Header, and by extension the RPL Option itself)</dd>
+    <dt>RPI:</dt><dd> RPL Packet Information </dd>
     <dt>RAL:</dt><dd> RPL-Aware Leaf </dd>
     <dt>RAN:</dt><dd> RPL-Aware Node (either a RPL Router or a RPL-Aware Leaf) </dd>
     <dt>RUL:</dt><dd> RPL-Unaware Leaf</dd>
@@ -547,24 +549,23 @@
 <t>
    This document provides RPL routing for a RUL, that is a 6LN acting as an IPv6
    Host and not aware of RPL. Still, a minimal RPL-independent functionality is
-   required from the RUL in order to obtain routing services from the 6LR.
+   required from the RUL to obtain routing services.
 </t>
  <section anchor='prereq6lp'><name>Support of 6LoWPAN ND</name>
 <t>
    In order to obtain routing services from a 6LR, a RUL MUST implement
-   <xref target='RFC8505'/>. Such a RUL that receives a CIO from a potential
-   (6LR) router that has the L, P and E flags set, SHOULD set the "R" flag in
-   the EARO in order to request routing services from that 6LR.
-   and set the "R" flag in the EARO option.
-   This is detailed in in <xref target='R7400'/>
-
-   A RUL that has multiple potential routers SHOULD prefer the router that
-   can provide the desired routing services.
-   If there are no available routers, the connection of the RUL fails.
-
+   <xref target='RFC8505'/> and set the "R" flag in the EARO.
+   The RUL SHOULD support <xref target='I-D.ietf-6lo-ap-nd'/> and use it to
+   protect the ownership of its addresses.
+   The RUL MUST NOT
+   request routing services from a 6LR that does not originate RA
+   messages with a CIO that has the L, P, and E flags all set as
+   discussed in <xref target='R7400'/>.
 </t>
 <t>
-   The RUL MUST register to all the 6LRs from which it requests routing services.
+   A RUL that has multiple potential routers MUST prefer those that provide routing services.
+   The RUL MUST register to all the 6LRs from which it desires routing services.
+   If there are no available routers, the connection of the RUL fails.
    The Address Registrations SHOULD be performed in a rapid sequence, using the
    exact same EARO for a same Address. Gaps between the Address Registrations
    will invalidate some of the routes till the Address Registration finally
@@ -575,10 +576,6 @@
    which can be received synchronously upon an NS(EARO) or asynchronously. The
    RUL MUST support both cases and MUST refrain from using the address
    when the Status value indicates a rejection.
-
-</t><t>
-   A RUL SHOULD support <xref target='I-D.ietf-6lo-ap-nd'/> to protect the
-   ownership of its addresses.
 
 </t>
 
@@ -621,15 +618,16 @@
    forwarded by the Root to a RUL in a Storing Mode DODAG.
 </t><t>
    The inner packet that is forwarded to the RUL may carry some RPL artifacts,
-   e.g., an RPI if the original packet was generated with it and encapsulated by
-   the Root with that RPI still present in the inner header, and possibly an SRH
+   e.g., an RPI if the original packet was generated with it and possibly an SRH
    in a Non-Storing Mode DODAG.
    <xref target='I-D.ietf-roll-useofrplinfo'/> expects the RUL to support the
    basic <xref target='RFC8504'>"IPv6 Node Requirements"</xref>.
    In particular the RUL is expected to ignore the RPL artifacts that are
    either consumed or not applicable to a Host.
+   <!--
    Such a host may not necessarily ignore IP-in-IP encapsulation, which is
    dealt with below.
+   -->
 
 </t><t>
    A RUL is not expected to support the compression method defined in
@@ -1131,9 +1129,9 @@
   </li><li>
   the Path Sequence in the TIO is set to the TID value found in the EARO option;
   </li><li>
-  Upon seeing the EARO in the ND with the "R" flag was set, the 6LR SHOULD
-  inject the Registered Address in RPL by sending a DAO message on behalf of
-  the 6LN. If the Registration Lifetime was 0, the effect is to remove the route and
+  Upon receiving an NS message with an EARO and the "R" flag set, the 6LR SHOULD
+  inject the Registered Address in RPL by sending a DAO message on behalf of the
+  6LN. If the Registration Lifetime was 0, the effect is to remove the route and
   then the NCE;
 </li>
   </ol><t>
