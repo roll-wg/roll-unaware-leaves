@@ -1112,8 +1112,8 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
    the 6LR keeps setting the "R" flag in the EARO of the response NA
    message, but the exchange of keep-alive Extended Duplicate Address
    messages with the 6LBR is avoided if the RPL Root has indicated that
-   it proxies for it.
-
+   it proxies for it using the "P" flag in the RPL configuration option
+   (see Section 4).
 
 
 
