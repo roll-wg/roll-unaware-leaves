@@ -10,7 +10,7 @@ Expires: 18 September 2020                                 17 March 2020
 
 
                          Routing for RPL Leaves
-                   draft-ietf-roll-unaware-leaves-12
+                   draft-ietf-roll-unaware-leaves-13
 
 Abstract
 
@@ -140,7 +140,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
    demand, based on dataplane inconsistency discovery, which avoids
    wasting energy in the proactive repair of unused paths.
 
-   In provide alternate paths in lossy networks, RPL forms Direction-
+   To provide alternate paths in lossy networks, RPL forms Direction-
    Oriented Directed Acyclic Graphs (DODAGs) using DODAG Information
    Solicitation (DIS) and DODAG Information Object (DIO) messages.  For
    many of the nodes, though not all, a DODAG provides multiple
@@ -645,8 +645,8 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
    add the RPI.  As a rule of a thumb and except for the very special
    case above, the packets from and to a RUL are always encapsulated
    using an IP-in-IP tunnel between the Root and the 6LR that serves the
-   RUL.  (see sections 7.1.4, 7.2.3, 7.2.4, 7.3.3, 7.3.4, 8.1.3, 8.1.4,
-   8.2.3, 8.2.4, 8.3.3 and 8.3.4 of [USEofRPLinfo] for details)
+   RUL (see sections 7.1.4, 7.2.3, 7.2.4, 7.3.3, 7.3.4, 8.1.3, 8.1.4,
+   8.2.3, 8.2.4, 8.3.3 and 8.3.4 of [USEofRPLinfo] for details).
 
    In Non-Storing Mode, packets going down carry a Source Routing Header
    (SRH).  The IP-in-IP encapsulation, the RPI and the SRH are

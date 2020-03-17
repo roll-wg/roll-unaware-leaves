@@ -610,9 +610,9 @@
    So unless the RUL originates its packets with an RPI, the 6LR needs to tunnel
    them to the Root to add the RPI. As a rule of a thumb and except for the very
    special case above, the packets from and to a RUL are always encapsulated
-   using an IP-in-IP tunnel between the Root and the 6LR that serves the RUL.
+   using an IP-in-IP tunnel between the Root and the 6LR that serves the RUL
    (see sections 7.1.4, 7.2.3, 7.2.4, 7.3.3, 7.3.4, 8.1.3, 8.1.4, 8.2.3,
-   8.2.4, 8.3.3 and 8.3.4 of <xref target='I-D.ietf-roll-useofrplinfo'/> for details)
+   8.2.4, 8.3.3 and 8.3.4 of <xref target='I-D.ietf-roll-useofrplinfo'/> for details).
 </t><t>
    In Non-Storing Mode, packets going down carry a Source Routing Header (SRH).
    The IP-in-IP encapsulation, the RPI and the SRH are collectively called the
