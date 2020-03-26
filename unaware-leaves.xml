@@ -133,15 +133,9 @@
    RPL-Aware-Leaf (RAL) for a Leaf that injects routes in RPL to manage the
    reachability of its own IPv6 addresses.
    In contrast, the term RPL-Unaware Leaf (RUL) designates a Leaf that does not
-   participate to RPL at all.
-   RULs may be unable to participate because they are very energy constrained.
-</t>
-<t>
-
-   A RUL is an IPv6 Host <xref target="RFC8504" />
+   participate to RPL at all. A RUL is an IPv6 Host <xref target="RFC8504" />
    that needs a RPL-Aware Router to obtain routing services over the RPL network.
-   The Non-Storing Mode mechanisms are used to extend the routing state with
-   connectivity to RULs even when the DODAG is operated in Storing-Mode DODAGs.
+
 </t>
 <t>
    This specification leverages the Address Registration mechanism defined in
@@ -149,6 +143,14 @@
    RPL-Aware Router as a 6LoWPAN Router (6LR) to request that the 6LR injects
    the relevant routing information for the Registered Address in the RPL domain
    on its behalf.
+   A RUL may be unable to participate because it is very energy-constrained,
+   or because it is unsafe to let it inject routes in RPL, in which case using
+   6LowPAN ND as the interface for the RUL limits the surface of the possible
+   attacks and optionally protects the address ownership.
+</t>
+<t>
+   The Non-Storing Mode mechanisms are used to extend the routing state with
+   connectivity to RULs even when the DODAG is operated in Storing-Mode DODAGs.
    The unicast packet forwarding operation by the 6LR serving a 6LN that is a
    RPL Leaf is described in <xref target='I-D.ietf-roll-useofrplinfo'/>.
 </t>
@@ -1277,8 +1279,8 @@ t>
 <t>
    Upon reception of an EDAR message with the ROVR field is set to 0 indicating
    an anonymous EDAR, the 6LBR checks whether an entry exists for the address.
-   If the entry does not exist, the 6LBR does not create the entry, and answers
-   with a Status "Removed" in the EDAC message.
+   If the entry does not exist, the 6LBR MUST NOT create the entry, and it MUST
+   answer with a Status "Removed" in the EDAC message.
 </t><t>
    If the entry exists, the 6LBR computes whether the TID in the EDAR message is
    fresher than the one in the entry as prescribed in section 4.2.1. of
@@ -1302,7 +1304,7 @@ t>
 </ol>
 <t>
    The EDAC that is constructed is the same as if the anonymous EDAR was a full
-   EDAR, and includes the ROVR that is associated to the Address Registration.
+   EDAR, but for the ROVR that is set to zero.
 </t>
 
 </section>

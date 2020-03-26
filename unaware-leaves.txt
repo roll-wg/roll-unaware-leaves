@@ -6,11 +6,11 @@ ROLL                                                     P. Thubert, Ed.
 Internet-Draft                                             Cisco Systems
 Updates: 6550, 8505 (if approved)                          M. Richardson
 Intended status: Standards Track                               Sandelman
-Expires: 18 September 2020                                 17 March 2020
+Expires: 27 September 2020                                 26 March 2020
 
 
                          Routing for RPL Leaves
-                   draft-ietf-roll-unaware-leaves-13
+                   draft-ietf-roll-unaware-leaves-14
 
 Abstract
 
@@ -34,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 September 2020.
+   This Internet-Draft will expire on 27 September 2020.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Thubert & Richardson    Expires 18 September 2020               [Page 1]
+Thubert & Richardson    Expires 27 September 2020               [Page 1]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -95,21 +95,21 @@ Table of Contents
    10. Protocol Operations for Multicast Addresses . . . . . . . . .  24
    11. Security Considerations . . . . . . . . . . . . . . . . . . .  26
    12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  26
-     12.1.  Resizing the ARO Status values . . . . . . . . . . . . .  26
+     12.1.  Resizing the ARO Status values . . . . . . . . . . . . .  27
      12.2.  New DODAG Configuration Option Flag  . . . . . . . . . .  27
      12.3.  RPL Target Option Flags  . . . . . . . . . . . . . . . .  27
      12.4.  New Subregistry for the RPL Non-Rejection Status
             values . . . . . . . . . . . . . . . . . . . . . . . . .  27
-     12.5.  New Subregistry for the RPL Rejection Status values  . .  27
+     12.5.  New Subregistry for the RPL Rejection Status values  . .  28
    13. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  28
    14. Normative References  . . . . . . . . . . . . . . . . . . . .  28
    15. Informative References  . . . . . . . . . . . . . . . . . . .  30
-   Appendix A.  Example Compression  . . . . . . . . . . . . . . . .  31
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  32
+   Appendix A.  Example Compression  . . . . . . . . . . . . . . . .  32
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  33
 
 
 
-Thubert & Richardson    Expires 18 September 2020               [Page 2]
+Thubert & Richardson    Expires 27 September 2020               [Page 2]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -165,7 +165,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020               [Page 3]
+Thubert & Richardson    Expires 27 September 2020               [Page 3]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -182,21 +182,24 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
    introduces the term RPL-Aware-Leaf (RAL) for a Leaf that injects
    routes in RPL to manage the reachability of its own IPv6 addresses.
    In contrast, the term RPL-Unaware Leaf (RUL) designates a Leaf that
-   does not participate to RPL at all.  RULs may be unable to
-   participate because they are very energy constrained.
-
-   A RUL is an IPv6 Host [RFC8504] that needs a RPL-Aware Router to
-   obtain routing services over the RPL network.  The Non-Storing Mode
-   mechanisms are used to extend the routing state with connectivity to
-   RULs even when the DODAG is operated in Storing-Mode DODAGs.
+   does not participate to RPL at all.  A RUL is an IPv6 Host [RFC8504]
+   that needs a RPL-Aware Router to obtain routing services over the RPL
+   network.
 
    This specification leverages the Address Registration mechanism
    defined in 6LoWPAN ND to enable a RUL as a 6LoWPAN Node (6LN) to
    interface with a RPL-Aware Router as a 6LoWPAN Router (6LR) to
    request that the 6LR injects the relevant routing information for the
-   Registered Address in the RPL domain on its behalf.  The unicast
-   packet forwarding operation by the 6LR serving a 6LN that is a RPL
-   Leaf is described in [USEofRPLinfo].
+   Registered Address in the RPL domain on its behalf.  A RUL may be
+   unable to participate because it is very energy-constrained, or
+   because it is unsafe to let it inject routes in RPL, in which case
+   using 6LowPAN ND as the interface for the RUL limits the surface of
+   the possible attacks and optionally protects the address ownership.
+
+   The Non-Storing Mode mechanisms are used to extend the routing state
+   with connectivity to RULs even when the DODAG is operated in Storing-
+   Mode DODAGs.  The unicast packet forwarding operation by the 6LR
+   serving a 6LN that is a RPL Leaf is described in [USEofRPLinfo].
 
    Examples of routing-agnostic 6LNs include lightly-powered sensors
    such as window smash sensor (alarm system), and kinetically powered
@@ -218,10 +221,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-
-
-
-Thubert & Richardson    Expires 18 September 2020               [Page 4]
+Thubert & Richardson    Expires 27 September 2020               [Page 4]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -277,7 +277,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020               [Page 5]
+Thubert & Richardson    Expires 27 September 2020               [Page 5]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -333,7 +333,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020               [Page 6]
+Thubert & Richardson    Expires 27 September 2020               [Page 6]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -389,7 +389,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020               [Page 7]
+Thubert & Richardson    Expires 27 September 2020               [Page 7]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -445,7 +445,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020               [Page 8]
+Thubert & Richardson    Expires 27 September 2020               [Page 8]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -501,7 +501,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020               [Page 9]
+Thubert & Richardson    Expires 27 September 2020               [Page 9]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -557,7 +557,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 10]
+Thubert & Richardson    Expires 27 September 2020              [Page 10]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -613,7 +613,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 11]
+Thubert & Richardson    Expires 27 September 2020              [Page 11]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -669,7 +669,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 12]
+Thubert & Richardson    Expires 27 September 2020              [Page 12]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -725,7 +725,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 13]
+Thubert & Richardson    Expires 27 September 2020              [Page 13]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -781,7 +781,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 14]
+Thubert & Richardson    Expires 27 September 2020              [Page 14]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -837,7 +837,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 15]
+Thubert & Richardson    Expires 27 September 2020              [Page 15]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -893,7 +893,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 16]
+Thubert & Richardson    Expires 27 September 2020              [Page 16]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -949,7 +949,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 17]
+Thubert & Richardson    Expires 27 September 2020              [Page 17]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -1005,7 +1005,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 18]
+Thubert & Richardson    Expires 27 September 2020              [Page 18]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -1061,7 +1061,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 19]
+Thubert & Richardson    Expires 27 September 2020              [Page 19]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -1117,7 +1117,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 20]
+Thubert & Richardson    Expires 27 September 2020              [Page 20]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -1173,7 +1173,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 21]
+Thubert & Richardson    Expires 27 September 2020              [Page 21]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -1229,7 +1229,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 22]
+Thubert & Richardson    Expires 27 September 2020              [Page 22]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -1267,9 +1267,9 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
    Upon reception of an EDAR message with the ROVR field is set to 0
    indicating an anonymous EDAR, the 6LBR checks whether an entry exists
-   for the address.  If the entry does not exist, the 6LBR does not
-   create the entry, and answers with a Status "Removed" in the EDAC
-   message.
+   for the address.  If the entry does not exist, the 6LBR MUST NOT
+   create the entry, and it MUST answer with a Status "Removed" in the
+   EDAC message.
 
    If the entry exists, the 6LBR computes whether the TID in the EDAR
    message is fresher than the one in the entry as prescribed in section
@@ -1285,7 +1285,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 23]
+Thubert & Richardson    Expires 27 September 2020              [Page 23]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -1297,8 +1297,7 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
        entry, and answers with a Status "Moved" in the EDAC message.
 
    The EDAC that is constructed is the same as if the anonymous EDAR was
-   a full EDAR, and includes the ROVR that is associated to the Address
-   Registration.
+   a full EDAR, but for the ROVR that is set to zero.
 
 10.  Protocol Operations for Multicast Addresses
 
@@ -1341,7 +1340,8 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 24]
+
+Thubert & Richardson    Expires 27 September 2020              [Page 24]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
@@ -1397,12 +1397,20 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-Thubert & Richardson    Expires 18 September 2020              [Page 25]
+Thubert & Richardson    Expires 27 September 2020              [Page 25]
 
 Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 11.  Security Considerations
+
+   First of all, it is worth noting that with [RFC6550], every node in
+   the LLN is RPL-aware and can inject any RPL-based attack in the
+   network.  This specification isolates edge nodes that can only
+   interact with the RPL routers using 6LoWPAN ND, meaning that they
+   cannot perform RPL insider attacks. 6LoWPAN ND can optionally provide
+   SAVI features, which reduces even more the attack perimeter that is
+   available to the edge nodes.
 
    The LLN nodes depend on the 6LBR and the RPL participants for their
    operation.  A trust model must be put in place to ensure that the
@@ -1435,28 +1443,26 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
    attack than trying to keep existing state alive longer.
 
    At the time of this writing RPL does not have a zerotrust model
-   whereby the it is possible to validate the origin of an address that
-   is injected in a DAO.  This specification makes a first step in that
+   whereby it is possible to validate the origin of an address that is
+   injected in a DAO.  This specification makes a first step in that
    direction by allowing the Root to challenge the RUL by the 6LR that
    serves it.
 
 12.  IANA Considerations
+
+
+
+
+Thubert & Richardson    Expires 27 September 2020              [Page 26]
+
+Internet-Draft             RPL Unaware Leaves                 March 2020
+
 
 12.1.  Resizing the ARO Status values
 
    IANA is requested to modify the Address Registration Option Status
    Values Registry as follows: The unassigned values range is reduced
    from 11-255 to 11-63.
-
-
-
-
-
-
-Thubert & Richardson    Expires 18 September 2020              [Page 26]
-
-Internet-Draft             RPL Unaware Leaves                 March 2020
-
 
 12.2.  New DODAG Configuration Option Flag
 
@@ -1498,6 +1504,16 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
                Table 3: Acceptance values of the RPL Status
 
+
+
+
+
+
+Thubert & Richardson    Expires 27 September 2020              [Page 27]
+
+Internet-Draft             RPL Unaware Leaves                 March 2020
+
+
 12.5.  New Subregistry for the RPL Rejection Status values
 
    This specification creates a new Subregistry for the RPL Rejection
@@ -1505,14 +1521,6 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
    ICMPv6 parameters registry.
 
    *  Possible values are 6-bit unsigned integers (0..63).
-
-
-
-
-Thubert & Richardson    Expires 18 September 2020              [Page 27]
-
-Internet-Draft             RPL Unaware Leaves                 March 2020
-
 
    *  Registration procedure is "Standards Action" [RFC8126].
 
@@ -1554,6 +1562,14 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
               RFC 4919, DOI 10.17487/RFC4919, August 2007,
               <https://www.rfc-editor.org/info/rfc4919>.
 
+
+
+
+Thubert & Richardson    Expires 27 September 2020              [Page 28]
+
+Internet-Draft             RPL Unaware Leaves                 March 2020
+
+
    [RFC4861]  Narten, T., Nordmark, E., Simpson, W., and H. Soliman,
               "Neighbor Discovery for IP version 6 (IPv6)", RFC 4861,
               DOI 10.17487/RFC4861, September 2007,
@@ -1561,15 +1577,6 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
    [RFC4862]  Thomson, S., Narten, T., and T. Jinmei, "IPv6 Stateless
               Address Autoconfiguration", RFC 4862,
-
-
-
-
-Thubert & Richardson    Expires 18 September 2020              [Page 28]
-
-Internet-Draft             RPL Unaware Leaves                 March 2020
-
-
               DOI 10.17487/RFC4862, September 2007,
               <https://www.rfc-editor.org/info/rfc4862>.
 
@@ -1612,19 +1619,17 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
               (6LoWPANs)", RFC 7400, DOI 10.17487/RFC7400, November
               2014, <https://www.rfc-editor.org/info/rfc7400>.
 
+
+
+Thubert & Richardson    Expires 27 September 2020              [Page 29]
+
+Internet-Draft             RPL Unaware Leaves                 March 2020
+
+
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,
               RFC 8126, DOI 10.17487/RFC8126, June 2017,
               <https://www.rfc-editor.org/info/rfc8126>.
-
-
-
-
-
-Thubert & Richardson    Expires 18 September 2020              [Page 29]
-
-Internet-Draft             RPL Unaware Leaves                 March 2020
-
 
    [RFC8138]  Thubert, P., Ed., Bormann, C., Toutain, L., and R. Cragie,
               "IPv6 over Low-Power Wireless Personal Area Network
@@ -1656,9 +1661,9 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
               Robles, I., Richardson, M., and P. Thubert, "Using RPI
               Option Type, Routing Header for Source Routes and IPv6-in-
               IPv6 encapsulation in the RPL Data Plane", Work in
-              Progress, Internet-Draft, draft-ietf-roll-useofrplinfo-37,
-              14 March 2020, <https://tools.ietf.org/html/draft-ietf-
-              roll-useofrplinfo-37>.
+              Progress, Internet-Draft, draft-ietf-roll-useofrplinfo-38,
+              23 March 2020, <https://tools.ietf.org/html/draft-ietf-
+              roll-useofrplinfo-38>.
 
    [EFFICIENT-NPDAO]
               Jadhav, R., Thubert, P., Sahoo, R., and Z. Cao, "Efficient
@@ -1669,18 +1674,19 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 15.  Informative References
 
+
+
+
+Thubert & Richardson    Expires 27 September 2020              [Page 30]
+
+Internet-Draft             RPL Unaware Leaves                 March 2020
+
+
    [RFC6606]  Kim, E., Kaspar, D., Gomez, C., and C. Bormann, "Problem
               Statement and Requirements for IPv6 over Low-Power
               Wireless Personal Area Network (6LoWPAN) Routing",
               RFC 6606, DOI 10.17487/RFC6606, May 2012,
               <https://www.rfc-editor.org/info/rfc6606>.
-
-
-
-Thubert & Richardson    Expires 18 September 2020              [Page 30]
-
-Internet-Draft             RPL Unaware Leaves                 March 2020
-
 
    [RFC3315]  Droms, R., Ed., Bound, J., Volz, B., Lemon, T., Perkins,
               C., and M. Carney, "Dynamic Host Configuration Protocol
@@ -1715,9 +1721,22 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
    [6BBR]     Thubert, P., Perkins, C., and E. Levy-Abegnoli, "IPv6
               Backbone Router", Work in Progress, Internet-Draft, draft-
-              ietf-6lo-backbone-router-19, 3 March 2020,
+              ietf-6lo-backbone-router-20, 23 March 2020,
               <https://tools.ietf.org/html/draft-ietf-6lo-backbone-
-              router-19>.
+              router-20>.
+
+
+
+
+
+
+
+
+
+Thubert & Richardson    Expires 27 September 2020              [Page 31]
+
+Internet-Draft             RPL Unaware Leaves                 March 2020
+
 
 Appendix A.  Example Compression
 
@@ -1725,18 +1744,6 @@ Appendix A.  Example Compression
    received from the Internet, then the Root encapsulates the packet to
    insert the RPI and deliver to the 6LR that is the parent and last hop
    to the final destination, which is not known to support [RFC8138].
-
-
-
-
-
-
-
-
-Thubert & Richardson    Expires 18 September 2020              [Page 31]
-
-Internet-Draft             RPL Unaware Leaves                 March 2020
-
 
    +-+ ... -+-+ ... +-+- ... -+-+ ... -+-+-+ ... +-+-+ ... -+ ... +-...
    |11110001|SRH-6LoRH| RPI-  |IP-in-IP| NH=1      |11110CPP| UDP | UDP
@@ -1779,20 +1786,19 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
    The Paging Dispatch [RFC8025] may also be removed if there was no
    previous Page change to a Page other than 0 or 1, since the
+
+
+
+Thubert & Richardson    Expires 27 September 2020              [Page 32]
+
+Internet-Draft             RPL Unaware Leaves                 March 2020
+
+
    LOWPAN_IPHC is encoded in the same fashion in the default Page 0 and
    in Page 1.  The resulting packet to the destination is the inner
    packet compressed with [RFC6282].
 
 Authors' Addresses
-
-
-
-
-
-Thubert & Richardson    Expires 18 September 2020              [Page 32]
-
-Internet-Draft             RPL Unaware Leaves                 March 2020
-
 
    Pascal Thubert (editor)
    Cisco Systems, Inc
@@ -1839,10 +1845,4 @@ Internet-Draft             RPL Unaware Leaves                 March 2020
 
 
 
-
-
-
-
-
-
-Thubert & Richardson    Expires 18 September 2020              [Page 33]
+Thubert & Richardson    Expires 27 September 2020              [Page 33]
