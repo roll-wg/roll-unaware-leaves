@@ -13,7 +13,7 @@
 <?rfc subcompact="no"?>
 <?rfc authorship="yes"?>
 <?rfc tocappendix="yes"?>
-<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="std" ipr='trust200902' tocInclude="true"  obsoletes="" updates='6550, 8505' consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-roll-unaware-leaves-14" >
+<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="std" ipr='trust200902' tocInclude="true"  obsoletes="" updates='6550, 8505' consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-roll-unaware-leaves-15" >
 
 <front>
 
@@ -489,7 +489,7 @@
    defines a new flag "Root Proxies EDAR/EDAC" (P) that is encoded in
    one of the reserved control bits in the option. The new flag is set to
    indicate that the Root performs the proxy operation and that all nodes in
-   the network must refrain from renewing the 6LBR state directly. The bit
+   the RPL network must refrain from renewing the 6LBR state directly. The bit
    position of the "P" flag is indicated in <xref target='iana-conf'/>.
 
 </t><t>
@@ -822,7 +822,7 @@
    from the 6LN.
 
  </t><t>
-   The proxy operation applies to both RULs and RANs. In a RPL
+   In a RPL
    network where the function is enabled, refreshing the state in the 6LBR is
    the responsibility of the Root. Consequently, only addresses that are
    injected in RPL will be kept alive by the RPL Root.
@@ -846,9 +846,8 @@
 
 </t><t>
    The 6LN signals the termination of a registration with a 6LR using an
-   NS(EARO) with a Registration Lifetime set to 0. If the 6LR does not use
-   the ROVR in the RPL Target Option then it MUST perform an EDAR/EDAC exchange
-   to cleanup the state at the 6LBR, as illustrated in
+   NS(EARO) with a Registration Lifetime set to 0. Upon this, the 6LR MUST perform an EDAR/EDAC exchange to clean up the state at the 6LBR, as illustrated in <xref target='fReg1A'/>, unless it uses the
+   ROVR in the RPL Target Option and, in Storing Mode, it is propagated to the Root.
  </t>
  <section anchor='rnsm'><name>In RPL Non-Storing-Mode</name>
 <t>
@@ -1016,6 +1015,15 @@
  |               |-------------->|               |                  |
  |               |    DAO-ACK    |               |                  |
  |               |<--------------|               |                  |
+ |               |               |      DAO      |                  |
+ |               |               |-------------->|                  |
+ |               |               |    DAO-ACK    |                  |
+ |               |               |<--------------|                  |
+ |               |               |               | (anonymous) EDAR |
+ |               |               |               |----------------->|
+ |               |               |               |   EDAC(ROVR)     |
+ |               |               |               |<-----------------|
+ |               |               |               |                  |
 ]]></artwork>
  </figure>
 
@@ -1166,8 +1174,11 @@
    If the "R" flag is set in the NS(EARO), the 6LR SHOULD attempt to inject the
    host route in RPL, unless this is barred for other reasons, like a saturation
    of the network or if its RPL parent.
-   The "R" flag MUST set in the NA(EARO) back if 6LR successfully injected the
-   Registered Address in RPL and MUST be reset otherwise.
+   The 6LR MUST set "R" flag in the NA(EARO) back if and only if it successfully injected the Registered Address in RPL.
+</t>
+
+<t>
+   The 6LR may at any time send a unicast asynchronous NA(EARO) with the "R" flag reset to signal that it stops providing routing services, and/or with the EARO Status 2 "Neighbor Cache full" to signal that it removes the NCE. It may also send a final RA, unicast or multicast, with a Router Lifetime field of zero, to signal that it stops serving as router, as specified in section 6.2.5 of <xref target='RFC4861'/>.
 </t>
 
 
@@ -1589,7 +1600,7 @@ t>
 <section anchor='iana-stats-nonrej'><name>New Subregistry for the RPL Non-Rejection Status values </name>
  <t>
 	This specification creates a new Subregistry for the RPL Non-Rejection Status values
-    for use in RPL DAO-ACK and DCO messages, under the ICMPv6 parameters registry.
+    for use in RPL DAO-ACK and DCO messages with the 'A' flag reset, under the ICMPv6 parameters registry.
 </t>
 <ul spacing='normal'>
   <li> Possible values are 6-bit unsigned integers (0..63).</li>
@@ -1608,15 +1619,13 @@ t>
    </tbody>
 
    </table>
-
-
 </section>
 
 
 <section anchor='iana-stats-rej'><name>New Subregistry for the RPL Rejection Status values </name>
  <t>
 	This specification creates a new Subregistry for the RPL Rejection Status values
-    for use in RPL DAO-ACK and RCO messages, under the ICMPv6 parameters registry.
+    for use in RPL DAO-ACK and RCO messages with the 'A' flag reset, under the ICMPv6 parameters registry.
 </t><ul spacing='normal'>
   <li> Possible values are 6-bit unsigned integers (0..63).</li>
   <li> Registration procedure is "Standards Action" <xref target='RFC8126'/>.</li>
@@ -1634,7 +1643,6 @@ t>
    </tbody>
 
    </table>
-
 
 </section>
 
