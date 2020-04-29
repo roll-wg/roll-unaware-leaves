@@ -13,7 +13,7 @@
 <?rfc subcompact="no"?>
 <?rfc authorship="yes"?>
 <?rfc tocappendix="yes"?>
-<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="std" ipr='trust200902' tocInclude="true"  obsoletes="" updates='6550, 8505' consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-roll-unaware-leaves-15" >
+<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="std" ipr='trust200902' tocInclude="true"  obsoletes="" updates='6550, 8505' consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-roll-unaware-leaves-16" >
 
 <front>
 
@@ -855,7 +855,7 @@
     Registration flow as illustrated in <xref target='fReg1'/>.
  </t>
  <figure anchor='fReg1' suppress-title='false'><name>First Registration Flow in Non-Storing Mode</name>
- <artwork><![CDATA[
+ <artwork align="center"><![CDATA[
    6LN/RUL            6LR            Root               6LBR
       |                |              |                   |
       |   NS(EARO)     |              |                   |
@@ -885,7 +885,7 @@
    from 6LoWPAN ND to RPL and back as illustrated in <xref target='fReg1.5'/>.
  </t>
  <figure anchor='fReg1.5' suppress-title='false'><name>Asynchronous Issue</name>
- <artwork><![CDATA[
+ <artwork align="center"><![CDATA[
    6LN/RUL              6LR           Root              6LBR
       |                  |             |                  |
       |                  |             | NA(EARO, Status) |
@@ -904,7 +904,7 @@
     the 6LR redistributes the Registered Address NS(EARO) in RPL.
  </t>
  <figure anchor='fReg2' suppress-title='false'><name>Next Registration Flow in Non-Storing Mode</name>
- <artwork><![CDATA[
+ <artwork align="center"><![CDATA[
    6LN/RUL            6LR            Root               6LBR
       |                |              |                   |
       |   NS(EARO)     |              |                   |
@@ -957,30 +957,30 @@
     the 6LBR separately using as illustrated in <xref target="fReg1A"/>.
 </t>
  <figure anchor='fReg1A' suppress-title='false'><name>Last Registration Flow in Non-Storing Mode, No ROVR</name>
- <artwork><![CDATA[
-   6LN/RUL            6LR            Root               6LBR
-      |                |              |                   |
-      |NS(EARO,Lifet=0)|              |                   |
-      |--------------->|                                  |
-      |                |          Extended DAR            |
-      |                |--------------------------------->|
-      |                |                                  |
-      |                |          Extended DAC            |
-      |                |<---------------------------------|
-      |                |DAO (Lifeti=0)|                   |
-      |                |------------->|                   |
-      |                |              |  anonymous EDAR   |
-      |                |              |------------------>|
-      |                |              |       EDAC        |
-      |                |              |<------------------|
-      |                |    DAO-ACK   |                   |
-      |                |<-------------|                   |
-      |   NA(EARO)     |              |                   |
-      |<---------------|              |                   |
-      |                |              |                   |
-      |           <Remove NCE>        |                   |
-      |                |              |                   |
-    ]]></artwork>
+ <artwork align="center"><![CDATA[
+6LN/RUL           6LR                Root               6LBR
+  |                |                  |                   |
+  |NS(EARO,Lifet=0)|                  |                   |
+  |--------------->|                                      |
+  |                |            Extended DAR              |
+  |                |------------------------------------->|
+  |                |                                      |
+  |                |            Extended DAC              |
+  |                |<-------------------------------------|
+  |                | DAO (Lifetime=0) |                   |
+  |                |----------------->|                   |
+  |                |                  |  anonymous EDAR   |
+  |                |                  |------------------>|
+  |                |                  |       EDAC        |
+  |                |                  |<------------------|
+  |                |      DAO-ACK     |                   |
+  |                |<-----------------|                   |
+  |   NA(EARO)     |                  |                   |
+  |<---------------|                  |                   |
+  |                |                  |                   |
+  |           <Remove NCE>            |                   |
+  |                |                  |                   |
+]]></artwork>
  </figure>
 
 </section>
@@ -999,7 +999,7 @@
 </t>
 
  <figure anchor='fReg1B' suppress-title='false'><name>First Registration Flow in Storing Mode</name>
- <artwork><![CDATA[
+ <artwork align="center"><![CDATA[
 6LN/RUL         6LR             6LR            Root              6LBR
  |               |               |               |                  |
  |   NS(EARO)    |               |               |                  |
@@ -1037,7 +1037,7 @@
   it tries another sequence of EDAR.
 </t>
 <figure anchor='fReg2bis' suppress-title='false'><name>Next Registration Flow in Storing Mode</name>
- <artwork><![CDATA[
+ <artwork align="center"><![CDATA[
 6LN/RUL         6LR             6LR            Root              6LBR
  |               |               |               |                  |
  |   NS(EARO)    |               |               |                  |
@@ -1068,7 +1068,7 @@
   <xref target='Root'/>.
 </t>
 <figure anchor='fReg2ter' suppress-title='false'><name>Issue in Storing Mode</name>
- <artwork><![CDATA[
+ <artwork align="center"><![CDATA[
 6LN/RUL            6LR           6LR          Root              6LBR
  |                  |             |             |                  |
  |                  |             |             | NA(EARO, Status) |
