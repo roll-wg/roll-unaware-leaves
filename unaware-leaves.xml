@@ -510,7 +510,7 @@
 
 </t><t>
    The RPL Status defined in section 6.5.1 of <xref target="RFC6550"/>
-   for use in the DAO-Ack message is extended to be used in the DCO messages
+   for use in the DAO-ACK message is extended to be used in the DCO messages
    <xref target='I-D.ietf-roll-efficient-npdao'/> as well. Furthermore, this
    specification enables to use a RPL Status to embed the IPv6 ND Status
    defined for use in the EARO, more in <xref target='stat'/>.
@@ -685,7 +685,7 @@
 <section anchor='stat'><name>Updated RPL Status</name>
 
     <t>The RPL Status is defined in section 6.5.1 of <xref target="RFC6550"/>
-    for use in the DAO-Ack message and values are assigned as follows:</t>
+    for use in the DAO-ACK message and values are assigned as follows:</t>
 
    <table anchor="irplStatusbl"><name>RPL Status per RFC 6550</name>
    <thead>
@@ -834,7 +834,7 @@
    as prescribed by <xref target='RFC8505'/>. If the exchange fails, the 6LR returns an NA message with a negative status to the 6LN, the NCE is not created and the address is not injected in RPL.
 
    If it is successful, the 6LR creates an NCE and injects the Registered
-   Address in the RPL routing  using a DAO/DAO-ACK exchange with the RPL DODAG
+   Address in the RPL routing using a DAO/DAO-ACK exchange with the RPL DODAG
    Root.
 
 </t><t>
@@ -917,28 +917,16 @@
     EDAC message or an anonymous EDAC if the ROVR is not indicated in the
     Target Option. In both cases, the EDAC message sent in response by the 6LBR
     contains the actual value of the ROVR field for that Address Registration.
-    In case of an error on the proxied EDAR flow, the error MUST be
-    returned in the DAO-ACK - if one was requested - using a RPL Status with the 'A' flag set that imbeds a 6LoWPAN Status value as discussed in <xref target='stat'/>.
+    In case of an error on the proxied EDAR flow, the error is
+    returned in the DAO-ACK using a RPL Status with the 'A' flag set that imbeds a 6LoWPAN Status value as discussed in <xref target='stat'/>.
 
  </t> <t>
-    If the Root could not return the negative Status in a DAO-ACK then it
-    sends an asynchronous Destination Cleanup Object (DCO) message
-    <xref target='I-D.ietf-roll-efficient-npdao'/> directly to the 6LR by
-    placing the
-    negative Status in the RPL Status with the 'A' flag set. Note that if both
-    are used in a short
-    interval of time, the DAO-ACK and DCO messages are not guaranteed to arrive
-    in the same order at the 6LR.
 
- </t> <t>
-    The 6LR may receive a requested DAO-ACK even after it received a
+    The 6LR may receive a requested DAO-ACK after it received an asynchronous
     DCO, but the negative Status in the DCO supercedes a positive
     Status in the DAO-ACK regardless of the order in which they are received.
-    Upon the DAO-ACK - or the DCO if it arrives first - the 6LR responds to the
-    RUL with an NA(EARO). If the RPL Status has the 'A' flag set, then the ND
-    Status is extracted and passed in the EARO; else, if the 'E' flag is set,
-    indicating a rejection, then the status 4 "Removed" is used; else, the
-    ND Status of 0 indicating "Success" is used.
+    Upon the DAO-ACK - or the DCO if one arrives first - the 6LR responds to the
+    RUL with an NA(EARO).
 
  </t> <t>
     The RUL may terminate the registration at anytime by using a Registration
@@ -1059,18 +1047,9 @@
    If the "R" flag is set in the NS(EARO), the 6LR SHOULD attempt to inject the
    host route in RPL, unless this is barred for other reasons, like a saturation
    of the network or if its RPL parent. The 6LR MUST use a RPL Non-Storing Mode
-   signaling.
-</t>
-<t>
-   The 6LR SHOULD request a DAO-ACK, failure to do so may incur an asynchronous
-   error flow that will tear down a state just installed with the RUL.
-   The 6LR MUST set "R" flag in the NA(EARO) back if and only if it injected the
-   Registered Address in the RPL routing. If a DAO-ACK was requested, this is
-   done upon receiving the DAO-ACK from the Root with a positive status.
-</t>
-
-<t>
-   The 6LR may at any time send a unicast asynchronous NA(EARO) with the "R" flag reset to signal that it stops providing routing services, and/or with the EARO Status 2 "Neighbor Cache full" to signal that it removes the NCE. It may also send a final RA, unicast or multicast, with a Router Lifetime field of zero, to signal that it stops serving as router, as specified in section 6.2.5 of <xref target='RFC4861'/>.
+   signaling. The 6LR MUST request a DAO-ACK by setting the 'K' flag in the DAO
+   message. Success injecting the route to the RUL is indicated by the 'E' flag
+   set to 0 in the RPL status of the DAO-ACK message.
 </t>
 
 
@@ -1114,27 +1093,36 @@
   </li>
 
 </ol>
-<t>
-   The NCE is removed if the 6LR tries to inject the route
-   is RPL and fails for reasons related to ND, which is recognized by both the
-   'E' and the 'A' flags set in the RPL Status of the DAO-ACK or the DCO, as detailed below.
- </t><t>
-   Otherwise, success injecting the route is assumed if a DAO-ACK was not requested or if it is received with a RPL Status that is not a rejection (i.e., the 'E' flag not set).
- </t><t>
-   In case of success, if the 'A' flag is set in the RPL Status of the DAO-ACK, then the 6LR MUST use the Status Value in the RPL Status for the Status in the NA(EARO), else a Status of 0 (Success) is returned.
 
- </t><t>
-   The status of 0 MUST also be used if the 6LR could not
-   even try to inject the route - note that the "R" flag is reset in that case.
-</t>
 <t>
+
+   Upon receiving the DAO-ACK, or an asynchronous DCO message later, the 6LR
+   MUST send the NA(EARO) back to the RUL. If the 'A' flag is set in the RPL
+   Status of the DAO-ACK, then the 6LR MUST use the Status Value embedded in the
+   RPL Status for the Status in the NA(EARO). If the 'E' flag is also set, the
+   registration failed and the NCE is removed.
+
+</t><t>
+
+   The 6LR MUST set "R" flag in the NA(EARO) back if and only if the 'E' flag is
+   set to 0, indicating that the 6LR injected the Registered Address in the RPL
+   routing successfully.
+
+</t><t>
+
+   If the 'A' flag is not set in the RPL Status of the DAO-ACK, then a Status of
+   0 (Success) MUST be returned, even if the 'E' flag is set. The status of 0
+   (Success) MUST also be used if the 6LR could not even try to inject the route. This means that, in case of an error injecting the route that is not related to ND, the registration succeeds but the RPL route is not installed.
+   It is up to the 6LN to keep the binding with the 6LR or destroy it.
+
+</t><t>
    In a network where Address Protected Neighbor Discovery (AP-ND) is enabled,
    in case of a DAO-ACK or a DCO indicating transporting an EARO
    Status Value of 5 (Validation Requested), the 6LR MUST
    challenge the 6LN for ownership of the address, as described in section
    6.1 of <xref target='I-D.ietf-6lo-ap-nd'/>, before the Registration is
-   complete. This ensures that the address validated before it is injected in
-   RPL.
+   complete. This ensures that the address is validated before it is injected in
+   the RPL routing.
 </t>
 <t>
    If the challenge succeeds then the operations continue as normal.
@@ -1143,20 +1131,15 @@
    failed, the 6LR rejects the registration as prescribed by AP-ND and may take
    actions to protect itself against DoS attacks by a rogue 6LN, see
    <xref target='security-considerations'/>.
-</t>
-<t>
-   The other rejection codes indicate that the 6LR failed to inject the address
-   into the RPL network. If an EARO Status is transported, the 6LR MUST send a
-   NA(EARO) to the RUL with that Status value, and the "R" flag not set. Similarly, upon receiving a DCO message indicating that the address of a RUL
-   should be removed from the routing table, the 6LR issues an asynchronous NA(EARO) to the RUL with the embedded ND Status value if there was one, and
-   the "R" flag not set.
-</t>
-<t>
+
+</t><t>
+   The 6LR may at any time send a unicast asynchronous NA(EARO) with the "R" flag reset to signal that it stops providing routing services, and/or with the EARO Status 2 "Neighbor Cache full" to signal that it removes the NCE. It may also send a final RA, unicast or multicast, with a Router Lifetime field of zero, to signal that it stops serving as router, as specified in section 6.2.5 of <xref target='RFC4861'/>.
+</t><t>
 
    If a 6LR receives a valid NS(EARO) message with the "R" flag reset and a
    Registration Lifetime that is not 0, and the 6LR
-   was redistributing the Registered Address due to previous NS(EARO) messages
-   with the flag set, then it MUST stop injecting the address.
+   was injecting the Registered Address due to previous NS(EARO) messages
+   with the "R" flag set, then the 6LR MUST stop injecting the address.
    It is up to the Registering 6LN to maintain the corresponding route from then
    on, either keeping it active via a different 6LR or by acting as an RAN and
    managing its own reachability.
@@ -1480,13 +1463,13 @@
 <ul spacing='normal'>
   <li> Possible values are 6-bit unsigned integers (0..63).</li>
   <li> Registration procedure is "Standards Action" <xref target='RFC8126'/>.</li>
-  <li> Initial allocation is as indicated in <xref target='iana-ack-Status'/>:</li>
+  <li> Initial allocation is as indicated in <xref target='iana-ACK-Status'/>:</li>
 </ul>
 
 
 
 
-   <table anchor='iana-ack-Status'><name>Acceptance values of the RPL Status</name>
+   <table anchor='iana-ACK-Status'><name>Acceptance values of the RPL Status</name>
    <thead>
       <tr><td>Value</td><td>Meaning</td><td>Reference</td></tr>
    </thead><tbody>
