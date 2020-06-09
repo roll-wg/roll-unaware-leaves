@@ -13,7 +13,7 @@
 <?rfc subcompact="no"?>
 <?rfc authorship="yes"?>
 <?rfc tocappendix="yes"?>
-<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="std" ipr='trust200902' tocInclude="true"  obsoletes="" updates='6550, 8505' consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-roll-unaware-leaves-16" >
+<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="std" ipr='trust200902' tocInclude="true"  obsoletes="" updates='6550, 8505' consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-roll-unaware-leaves-17" >
 
 <front>
 
@@ -150,7 +150,7 @@
 </t>
 <t>
    The Non-Storing Mode mechanisms are used to extend the routing state with
-   connectivity to RULs even when the DODAG is operated in Storing-Mode DODAGs.
+   connectivity to RULs even when the DODAG is operated in Storing Mode DODAGs.
    The unicast packet forwarding operation by the 6LR serving a 6LN that is a
    RPL Leaf is described in <xref target='I-D.ietf-roll-useofrplinfo'/>.
 </t>
@@ -370,7 +370,7 @@
 </section> <!-- end section "TID, I Field and Opaque Fields" -->
 <section anchor='R8505EROVR'><name>ROVR</name>
 <t>
-   Section 5.3. of <xref target='RFC8505'/> introduces the Registration
+   Section 5.3 of <xref target='RFC8505'/> introduces the Registration
    Ownership Verifier (ROVR) field of variable length from 64 to 256 bits.
    <!-- A ROVR is created by the Registering Node and associated to the Address Registration
    of an IPv6 Address. -->
@@ -484,31 +484,32 @@
    6LR (more in <xref target='upd2'/>), for any 6LN, RUL or RAN.
 
 </t><t>
-   RPL defines a configuration option that is registered to
-   IANA in section 20.14. of <xref target='RFC6550'/>. This specification
-   defines a new flag "Root Proxies EDAR/EDAC" (P) that is encoded in
-   one of the reserved control bits in the option. The new flag is set to
-   indicate that the Root performs the proxy operation and that all nodes in
-   the RPL network must refrain from renewing the 6LBR state directly. The bit
-   position of the "P" flag is indicated in <xref target='iana-conf'/>.
+   Section 6.7.6 of <xref target='RFC6550'/> defines the DODAG Configuration
+   option with reserved flags. This specification defines the new "Root Proxies
+   EDAR/EDAC" (P) flag and consumes one of the reserved flags to encode it.
+   The "P" flag is set to indicate that the Root performs the proxy operation
+   and that all nodes in the RPL network must refrain from renewing the 6LBR
+   state directly. It also indicates that the Root supports the Updated RPL
+   Target Option (see <xref target='tgt'/>).
+   The position of the "P" flag is indicated in <xref target='iana-conf'/>.
 
 </t><t>
-   Section 6.3.1.
-   of <xref target='RFC6550'/> defines a 3-bit Mode of Operation (MOP) in the
+   Section 6.3.1 of <xref target='RFC6550'/> defines a 3-bit Mode of Operation
+   (MOP) in the
    DIO Base Object. The new "P" flag is defined only for MOP value between 0 to
-   6. For a MOP value of 7 or above, the flag MAY indicate something different
+   6. For a MOP value of 7 or above, the flag MAY be redefined
    and MUST NOT be interpreted as "Root Proxies EDAR/EDAC" unless the
    specification of the MOP indicates to do so.
 
 </t><t>
-   The RPL Status defined in section 6.5.1. of <xref target="RFC6550"/>
+   The RPL Status defined in section 6.5.1 of <xref target="RFC6550"/>
    for use in the DAO-Ack message is extended to be used in the DCO messages
    <xref target='I-D.ietf-roll-efficient-npdao'/> as well. Furthermore, this
-   specification enables to use a RPL Status to transport the IPv6 ND Status
+   specification enables to use a RPL Status to embed the IPv6 ND Status
    defined for use in the EARO, more in <xref target='stat'/>.
 
 </t><t>
-   Section 6.7. of <xref target='RFC6550'/> introduces the RPL Control message
+   Section 6.7 of <xref target='RFC6550'/> introduces the RPL Control message
    Options such as the RPL Target Option that can be included in a RPL Control
    message such as the DAO. <xref target='tgt'/> updates the RPL Target Option
    to optionally transport the ROVR used in the IPv6 Registration
@@ -535,11 +536,11 @@
    Upon the renewal of a 6LoWPAN ND Address Registration, this specification
    changes the behavior of a RPL Router acting as 6LR for the registration. If
    the Root indicates the capability to proxy the EDAR/EDAC exchange to the 6LBR
-   then the 6LR refrains from sending an EDAR message; if the Root is separated
+   by setting the "P" flag, the 6LR refrains from sending the keep-alive EDAR
+   message; if the Root is separated
    from the 6LBR, the Root regenerates the EDAR message to the 6LBR upon a DAO
    message that signals the liveliness of the Address. The regenerated message
-   is anonymous iff the DAO is a legacy message that does not carry a ROVR as
-   specified in <xref target='tgt'/>.
+   is anonymous if and only if the DAO is a legacy message that does not carry a ROVR as specified in <xref target='tgt'/>.
 </t>
 
 </section> <!-- end section "Updating RFC 8505" -->
@@ -585,11 +586,11 @@
 <section anchor='prereqv6'><name>External Routes and RPL Artifacts</name>
 
 <t>
-   Section 4.1. of <xref target='I-D.ietf-roll-useofrplinfo'/> provides a set of
+   Section 4.1 of <xref target='I-D.ietf-roll-useofrplinfo'/> provides a set of
    rules that MUST be followed for the routing operations to a RUL.
 </t><t>
    A 6LR that is upgraded to act as a border router for external routes
-   advertises them using  Non-Storing Mode DAO messages that are unicast
+   advertises them using Non-Storing Mode DAO messages that are unicast
    directly to the Root, even if the DODAG is operated in Storing Mode.
    Non-Storing Mode routes are not visible inside the RPL domain and all packets
    are routed via the Root. An upgraded Root tunnels the packets directly to the
@@ -683,7 +684,7 @@
 
 <section anchor='stat'><name>Updated RPL Status</name>
 
-    <t>The RPL Status is defined in section 6.5.1. of <xref target="RFC6550"/>
+    <t>The RPL Status is defined in section 6.5.1 of <xref target="RFC6550"/>
     for use in the DAO-Ack message and values are assigned as follows:</t>
 
    <table anchor="irplStatusbl"><name>RPL Status per RFC 6550</name>
@@ -726,8 +727,8 @@
     is not set, the Status value is defined in a RPL extension.</dd>
 	</dl>
    <t>
-   When building a DCO or a DAO-ACK message upon an IPv6 ND NA or a DAC message,
-   the RPL Root MUST copy the ARO Status unchanged in a RPL Status with the 'A'
+   When building a DCO or a DAO-ACK message upon an IPv6 ND NA or a EDAC message,
+   the RPL Root MUST copy the ND Status unchanged in a RPL Status with the 'A'
    bit set. The RPL Root MUST set the 'E' flag for all values in range 1-10
    which are all considered rejections.
    </t>
@@ -746,9 +747,9 @@
     anonymous EDAR that has restricted properties.
    </t>
    <t>
-    The Target Prefix field MUST be aligned to the next 4-byte boundary after
-    the size indicated by the Prefix Length.
-    If necessary the transported prefix MUST be padded with zeros.
+    The Target Prefix field MUST be aligned to the next byte boundary after
+    the size (expressed in bits) indicated by the Prefix Length.
+    If necessary the prefix MUST be padded with bits set to zero.
    </t>
    <t>
     With this specification the ROVR is the remainder of the RPL Target Option.
@@ -770,9 +771,7 @@
    |   Type = 0x05 | Option Length |ROVRsz | Flags | Prefix Length |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |                                                               |
-   +                                                               +
    |                Target Prefix (Variable Length)                |
-   .                Aligned to 4-byte boundary                     .
    .                                                               .
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |                                                               |
@@ -835,26 +834,20 @@
    for RPL Non-Storing Mode, the Extended Duplicate Address exchange takes place
    as prescribed by <xref target='RFC8505'/>. If the exchange fails, the 6LR returns an NA message with a negative status to the 6LN, the NCE is not created and the address is not injected in RPL.
 
-   If it is successful, the 6LR creates an NCE and injects
-   the Registered Address in RPL using DAO/DAO-ACK exchanges all the way to the
-   RPL DODAG Root.
-   <!--
-   The protocol does not carry a specific information that the Extended
-   Duplicate Address messages were already exchanged, so the Root proxies
-   them anyway.
-   -->
+   If it is successful, the 6LR creates an NCE and injects the Registered
+   Address in the RPL routing  using a DAO/DAO-ACK exchange with the RPL DODAG
+   Root.
 
 </t><t>
    The 6LN signals the termination of a registration with a 6LR using an
-   NS(EARO) with a Registration Lifetime set to 0. Upon this, the 6LR MUST perform an EDAR/EDAC exchange to clean up the state at the 6LBR, as illustrated in <xref target='fReg1A'/>, unless it uses the
-   ROVR in the RPL Target Option and, in Storing Mode, it is propagated to the Root.
+   NS(EARO) with a Registration Lifetime set to 0. Upon this, the 6LR ensures that an EDAR/EDAC exchange happens to clean up the state at the 6LBR, either directly as shown in <xref target='fReg1A'/>, or, if the Root sets the "P" flag, by setting the ROVR in the RPL Target Option.
  </t>
- <section anchor='rnsm'><name>In RPL Non-Storing-Mode</name>
 <t>
-    In Non-Storing Mode, the DAO message flow can be nested within the Address
-    Registration flow as illustrated in <xref target='fReg1'/>.
+    Since RULs are advertised using Non-Storing Mode, the DAO message flow can
+    be nested within the Address Registration flow as illustrated in
+    <xref target='fReg1'/>.
  </t>
- <figure anchor='fReg1' suppress-title='false'><name>First Registration Flow in Non-Storing Mode</name>
+ <figure anchor='fReg1' suppress-title='false'><name>First RUL Registration Flow</name>
  <artwork align="center"><![CDATA[
    6LN/RUL            6LR            Root               6LBR
       |                |              |                   |
@@ -903,7 +896,7 @@
     illustrated in <xref target='fReg2'/>,
     the 6LR redistributes the Registered Address NS(EARO) in RPL.
  </t>
- <figure anchor='fReg2' suppress-title='false'><name>Next Registration Flow in Non-Storing Mode</name>
+ <figure anchor='fReg2' suppress-title='false'><name>Next RUL Registration Flow</name>
  <artwork align="center"><![CDATA[
    6LN/RUL            6LR            Root               6LBR
       |                |              |                   |
@@ -929,7 +922,7 @@
     returned in the DAO-ACK - if one was requested - using a RPL Status with the 'A' flag set that imbeds a 6LoWPAN Status value as discussed in <xref target='stat'/>.
 
  </t> <t>
-    If the Root could not return the negative Status in the DAO-ACK then it
+    If the Root could not return the negative Status in a DAO-ACK then it
     sends an asynchronous Destination Cleanup Object (DCO) message
     <xref target='I-D.ietf-roll-efficient-npdao'/> to the 6LR by placing the
     negative Status in the RPL Status with the 'A' flag set. Note that if both
@@ -956,7 +949,7 @@
     If the 6LR could not add the ROVR to the DAO message, then it MUST inform
     the 6LBR separately using as illustrated in <xref target="fReg1A"/>.
 </t>
- <figure anchor='fReg1A' suppress-title='false'><name>Last Registration Flow in Non-Storing Mode, No ROVR</name>
+ <figure anchor='fReg1A' suppress-title='false'><name>Last RUL Registration Flow, No ROVR</name>
  <artwork align="center"><![CDATA[
 6LN/RUL           6LR                Root               6LBR
   |                |                  |                   |
@@ -983,120 +976,12 @@
 ]]></artwork>
  </figure>
 
-</section>
-<section anchor='rsm'><name>In RPL Storing-Mode</name>
 
-<t>
-  In RPL Storing Mode, the DAO-ACK is optional. When it is used, it is generated
-  by the RPL parent, which does not need to wait for the grand-parent to send
-  the acknowledgment. A successful DAO-ACK is not a guarantee that the DAO
-  has yet reached the Root or that the EDAR was successfully proxied by the
-  Root.
-</t>
-<t>
-  The 6LR uses the EDAR/EDAC exchange as in Non-Storing Mode, for the initial
-  registration, and also possibly at the termination in the case the 6LR could not add the ROVR to the RPL Target option of the DAO message.
-</t>
-
- <figure anchor='fReg1B' suppress-title='false'><name>First Registration Flow in Storing Mode</name>
- <artwork align="center"><![CDATA[
-6LN/RUL         6LR             6LR            Root              6LBR
- |               |               |               |                  |
- |   NS(EARO)    |               |               |                  |
- |-------------->|               |               |                  |
- |               |                 Extended DAR                     |
- |               |------------------------------------------------->|
- |               |                                                  |
- |               |                 Extended DAC                     |
- |               |<-------------------------------------------------|
- |   NA(EARO)    |               |               |                  |
- |<--------------|               |               |                  |
- |               |      DAO      |               |                  |
- |               |-------------->|               |                  |
- |               |    DAO-ACK    |               |                  |
- |               |<--------------|               |                  |
- |               |               |      DAO      |                  |
- |               |               |-------------->|                  |
- |               |               |    DAO-ACK    |                  |
- |               |               |<--------------|                  |
- |               |               |               | (anonymous) EDAR |
- |               |               |               |----------------->|
- |               |               |               |   EDAC(ROVR)     |
- |               |               |               |<-----------------|
- |               |               |               |                  |
-]]></artwork>
- </figure>
-
-<t>
-  The Storing Mode of RPL does not provide and end-to-end confirmation that a
-  DAO reached the root. When the 6LR has just joined, and later if DAO messages
-  are lost before reaching the Root, the 6LR might not be reachable back from
-  the Root. Performing an EDAR/EDAC exchange on behalf of a RUL provides that
-  confirmation. On the other hand, if the 6LR retries an EDAR and never gets
-  and EDAC back, it SHOULD resend a DAO to become reachable again, before
-  it tries another sequence of EDAR.
-</t>
-<figure anchor='fReg2bis' suppress-title='false'><name>Next Registration Flow in Storing Mode</name>
- <artwork align="center"><![CDATA[
-6LN/RUL         6LR             6LR            Root              6LBR
- |               |               |               |                  |
- |   NS(EARO)    |               |               |                  |
- |-------------->|               |               |                  |
- |   NA(EARO)    |               |               |                  |
- |<--------------|               |               |                  |
- |               |      DAO      |               |                  |
- |               |-------------->|               |                  |
- |               |    DAO-ACK    |               |                  |
- |               |<--------------|               |                  |
- |               |               |      DAO      |                  |
- |               |               |-------------->|                  |
- |               |               |    DAO-ACK    |                  |
- |               |               |<--------------|                  |
- |               |               |               | (anonymous) EDAR |
- |               |               |               |----------------->|
- |               |               |               |   EDAC(ROVR)     |
- |               |               |               |<-----------------|
- |               |               |               |                  |
-    ]]></artwork>
- </figure>
-
-<t>
-  If the keep-alive fails, or an asynchronous issue is reported,
-  the path can be cleaned up asynchronously using a DCO message
-  <xref target='I-D.ietf-roll-efficient-npdao'/> as illustrated in
-  <xref target='fReg2ter'/> and described in further details in
-  <xref target='Root'/>.
-</t>
-<figure anchor='fReg2ter' suppress-title='false'><name>Issue in Storing Mode</name>
- <artwork align="center"><![CDATA[
-6LN/RUL            6LR           6LR          Root              6LBR
- |                  |             |             |                  |
- |                  |             |             | NA(EARO, Status) |
- |                  |             |             |<-----------------|
- |                  |             |             |                  |
- |                  |             | DCO(Status) |                  |
- |                  |             |<------------|                  |
- |                  |             |             |                  |
- |                  | DCO(Status) |             |                  |
- |                  |<------------|             |                  |
- |                  |             |             |                  |
- | NA(EARO, Status) |             |             |                  |
- |<-----------------|             |             |                  |
- |                  |             |             |                  |
-    ]]></artwork>
- </figure>
-<t>
-  In the case illustrated here, the issue is actually detected in the ND protocol
-  and reported in the State of a NA(EARO) message. That statis is transported in
-  the DCO message as a RPL Status with the 'A' and typically the 'E' flags set.
-</t>
-
- </section>
 </section>
 <section anchor='oper'><name>Detailed Operation</name>
 
 
-<section anchor='ln'><name>By the RUL Acting as 6LN</name>
+<section anchor='ln'><name>Perspective of the RUL Acting as 6LN</name>
 <t>
   This specification does not alter the operation of a 6LoWPAN ND-compliant 6LN,
   and a RUL is expected to operate as follows:
@@ -1161,7 +1046,7 @@
 
 
 
-<section anchor='lr'><name>By the RPL Border Router Acting as 6LR</name>
+<section anchor='lr'><name>Perspective of the RPL Border Router Acting as 6LR</name>
 <t>
    Also as prescribed by <xref target='RFC8505'/>,
    the 6LR generates an EDAR message upon reception of a valid NS(EARO)
@@ -1173,8 +1058,15 @@
 <t>
    If the "R" flag is set in the NS(EARO), the 6LR SHOULD attempt to inject the
    host route in RPL, unless this is barred for other reasons, like a saturation
-   of the network or if its RPL parent.
-   The 6LR MUST set "R" flag in the NA(EARO) back if and only if it successfully injected the Registered Address in RPL.
+   of the network or if its RPL parent. The 6LR MUST use a RPL Non-Storing Mode
+   signaling.
+</t>
+<t>
+   The 6LR SHOULD request a DAO-ACK, failure to do so may incur an asynchronous
+   error flow that will tear down a state just installed with the RUL.
+   The 6LR MUST set "R" flag in the NA(EARO) back if and only if it injected the
+   Registered Address in the RPL routing. If a DAO-ACK was requested, this is
+   done upon receiving the DAO-ACK from the Root with a positive status.
 </t>
 
 <t>
@@ -1274,49 +1166,31 @@
 
 </section>
 
-<section anchor='Root'><name>By the RPL Root</name>
-<!--
-   In RPL Storing Mode of Operation (MOP), the DAO message is propagated from
-   child to parent all the way to the Root along the DODAG, populating routing
-   state as it goes. In Non-Storing Mode, The DAO message is sent directly to the
-   RPL Root.
--->
+<section anchor='Root'><name>Perspective of the RPL Root</name>
+
 <t>
    A RPL Root SHOULD set the "P" flag in the RPL configuration option of the DIO
    messages that it generates (see <xref target='upd'/>) to signal that it
-   proxies the keep-alive EDAR/EDAC echange. The remainder of this section
-   assumes that it does.
+   proxies the EDAR/EDAC exchange and supports the Updated RPL Target
+   option. The remainder of this section assumes that it does.
 
 </t><t>
    Upon reception of a DAO message, for each RPL Target option that creates or
-   updates an existing RPL state, the Root notifies the 6LBR.
-   This can be done using an internal API if they are co-located, or
-   using a proxied EDAR/EDAC exchange if they are separated.
+   updates an existing RPL state, the Root MUST notify the 6LBR. This can be
+   done using an internal API if they are co-located, or using a proxied
+   EDAR/EDAC exchange if they are separated.
 
-</t><t>
-   If the RPL Target
-   option transports a ROVR, then the Root MUST use it to build
-   a full EDAR message; else, an anonymous EDAR is used with
-   the ROVR field set to zero.
+</t>
+<t>
+   Upon receiving an EDAC message from the 6LBR, if a DAO is pending, then the
+   Root MUST send a DAO-ACK back to the 6LR. Else, if the Status in the EDAC message is not "Success", then it MUST send an asynchronous DCO to the 6LR.
+   In either case, the EDAC Status is embedded in the RPL Status with the 'A'
+   flag set.
 </t>
 
-<!--
-<ul spacing='normal'>
-<li>
 
-</li>
-t>
-   In a topology where the RPL Root and the 6LBR are directly connected at the
-   Link-Layer, the Root may refresh the 6LBR with an NS(EARO) - respectively an
-   anonymous NS(EARO) - on behalf of the 6LN that owns the address indicated in
-   the Target Option as opposed to an EDAR - respectively an anonymous EDAR -
-   on behalf of the 6LR.
-
-</ul>
-
--->
   <t>
-  The EDAR <!--and the NS(EARO)--> message MUST be constructed as follows:
+  The EDAR message MUST be constructed as follows:
   </t>
 <ol spacing='normal'>
   <li>
@@ -1340,29 +1214,21 @@ t>
   EDAR and the ICMP Code Suffix is set to the appropriate value as shown in
   Table 4 of <xref target='RFC8505'/> depending on the size of the ROVR field;
   else, the ROVR field in the EDAR is set to zero indicating an anonymous EDAR.
-  <!-- and used in the proxy NS(EARO).-->
   </li>
 </ol>
-
-<t>
-  Upon a Status value in an EDAC message that is not "Success", the Root SHOULD
-  destroy the formed paths using either a DAO-ACK (in Non-Storing Mode) or a DCO
-  downwards as specified in <xref target='I-D.ietf-roll-efficient-npdao'/>.
-  Failure to destroy the former path would result in Stale routing state and
-  local black holes if the address belongs to another party elsewhere in the
-  network. The RPL Status value that maps the 6LoWPAN ND Status value MUST be
-  embedded in the RPL Status in the DCO.
-</t>
 
 
 </section>
 
-<section anchor='lbr'><name>By the 6LBR</name>
+<section anchor='lbr'><name>Perspective of the 6LBR</name>
 
 
 <t>
    Upon reception of an EDAR message with the ROVR field set to a non-zero value,
-   the 6LBR acts as prescribed by <xref target='RFC8505'/>. If the ROVR is set to 0, indicating an anonymous EDAR, the 6LBR MUST act as below:
+   the 6LBR acts as prescribed by <xref target='RFC8505'/> and returns an EDAC message to the sender.
+</t>
+<t>
+   If the ROVR is set to 0, indicating an anonymous EDAR, the 6LBR MUST act as below:
 </t>
 
 <ol>
@@ -1371,7 +1237,7 @@ t>
    If the entry does not exist, the 6LBR MUST NOT create the entry, and it MUST
    answer with a Status "Removed" in the EDAC message.
    If the entry exists, the 6LBR computes whether the TID in the EDAR message is
-   fresher than the one in the entry as prescribed in section 4.2.1. of
+   fresher than the one in the entry as prescribed in section 4.2.1 of
    <xref target='RFC8505'/>, and continues as follows:
 </li><li>
    If the anonymous EDAR message is fresher, the 6LBR updates the TID in the
@@ -1435,10 +1301,12 @@ t>
       |                    |               |                    |
       | unsolicited Report |               |                    |
       |------------------->|               |                    |
-      |     <L2 ack>       | DAO           |                    |
+      |     <L2 ack>       |               |                    |
+      |                    | DAO           |                    |
       |                    |-------------->|                    |
       |                    |    DAO-ACK    |                    |
-      |                    |<--------------| <if not listening> |
+      |                    |<--------------|                    |
+      |                    |               | <if not listening> |
       |                    |               | unsolicited Report |
       |                    |               |------------------->|
       |                    |               |                    |
@@ -1476,6 +1344,7 @@ t>
       |<-------------------|               |                    |
       |       Report       |               |                    |
       |------------------->|               |                    |
+      |     <L2 ack>       |               |                    |
       |                    | DAO           |                    |
       |                    |-------------->|                    |
       |                    |    DAO-ACK    |                    |
@@ -1504,7 +1373,10 @@ t>
    node in the LLN is RPL-aware and can inject any RPL-based attack in the
    network. This specification isolates edge nodes that can only interact with
    the RPL routers using 6LoWPAN ND, meaning that they cannot perform RPL
-   insider attacks. 6LoWPAN ND can optionally provide SAVI features, which
+   insider attacks.
+ </t>
+ <t>
+   6LoWPAN ND can optionally provide SAVI features with <xref target='I-D.ietf-6lo-ap-nd'/>, which
    reduces even more the attack perimeter that is available to the edge nodes.
  </t>
  <t>
@@ -1550,31 +1422,34 @@ t>
 <section anchor='iana-considerations'><name>IANA Considerations</name>
 
     <section anchor="iana-aro"><name>Resizing the ARO Status values</name>
-	<t> IANA is requested to modify the
-    Address Registration Option Status Values Registry as follows:
-    The unassigned values range is reduced from 11-255 to 11-63.
-
-	</t>
-
-    </section>	<!-- end section "New ARO Status values" -->
-<!--
-   <section anchor="iana-cio"><name>New 6CIO Flag</name>
+	<t> Section 12 of <xref target='RFC6775'/> creates the
+    Address Registration Option Status Values Registry with a range 0-255.
+    This specification reduces that range to 0-63.
+    </t>
     <t>
-    This specification updates the Registry for the "6LoWPAN Capability Bits"
-    that was created for <xref target='RFC7400'/> as follows:
+   IANA is requested to reduce the unassigned values range from 11-255 to 11-63.
     </t>
 
-   <table  anchor="newciobit"><name>New 6CIO Bit</name>
-   <thead>
-      <tr><td>Bit Number</td><td>Capability Description</td><td>Reference</td></tr>
-   </thead><tbody>
-      <tr><td>9</td><td>6LR supports RPL Unaware Leaves</td><td>THIS RFC</td></tr>
-   </tbody>
-   </table>
+<section anchor='iana-lgds'><name>RPL Target Option Flags</name>
+<t>Section 20.15 of <xref target='RFC6550'/> creates a Registry for the 8-bit
+    RPL Target Option Flags field.
+    </t>
+    <t>
+    IANA is requested to reduce the size of the field in the Registry to 4 bits.
+</t>
+</section>
 
-   </section>
+<section anchor='iana-arof'><name>Address Registration Option Flags</name>
+<t>Section 9.1 of <xref target='RFC8505'/> creates a Registry for the 8-bit
+    Address Registration Option Flags field.
+    </t>
+    <t>
+    IANA is requested to rename the first column of the table from "ARO Status" to "Bit number".
+</t>
+</section>
 
-  -->
+    </section>	<!-- end section "New ARO Status values" -->
+
    <section anchor="iana-conf"><name>New DODAG Configuration Option Flag</name>
     <t>
     This specification updates the Registry for the "DODAG Configuration Option
@@ -1590,12 +1465,6 @@ t>
    </table>
 
    </section>
-<section anchor='iana-lgds'><name>RPL Target Option Flags</name>
-<t>Section 20.15 of <xref target='RFC6550'/> creates a registry for the 8-bit
-    RPL Target Option Flags field. This specification reduces the field to 4
-    bits. The IANA is requested to reduce the size of the registry accordingly.
-</t>
-</section>
 
 <section anchor='iana-stats-nonrej'><name>New Subregistry for the RPL Non-Rejection Status values </name>
  <t>
@@ -1648,10 +1517,10 @@ t>
 
 
 </section>
-<section anchor='acknowledgments'><name>acknowledgments</name>
+<section anchor='Acks'><name>Acknowledgments</name>
 <t>
-   The authors wish to thank Georgios Papadopoulos and Rahul Jadhav
-   for their early reviews of and contributions to this document
+   The authors wish to thank Ines Robles, Georgios Papadopoulos and Rahul Jadhav
+   for their reviews and contributions to this document.
   </t>
 
 </section>
@@ -1741,9 +1610,10 @@ t>
      In <xref target='rtghc'/>, the source of the IP-in-IP encapsulation is
           the Root, so it is elided in the IP-in-IP 6LoRH. The destination is
           the parent 6LR of the destination of the inner packet so it cannot be
-          elided. In Storing Mode, it is placed as the single entry in an
-          SRH-6LoRH as the first 6LoRH. Since there is a single entry so the
-          SRH-6LoRH Size is 0. In this particular example, the 6LR address can
+          elided. If the DODAG is operated in Storing Mode, it is the single
+          entry in the SRH-6LoRH and the SRH-6LoRH Size is encoded as 0.
+          The SRH-6LoRH is the first 6LoRH in the chain.
+          In this particular example, the 6LR address can
           be compressed to 2 bytes so a Type of 1 is used.
           It results that the total length of the SRH-6LoRH is 4 bytes.
 
