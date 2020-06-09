@@ -484,13 +484,20 @@
    6LR (more in <xref target='upd2'/>), for any 6LN, RUL or RAN.
 
 </t><t>
+   Section 6.7.7 of <xref target='RFC6550'/> introduces RPL Target Option, which
+   can be used in RPL Control messages such as the DAO message to signal a
+   destination prefix.
+   <xref target='tgt'/> adds the capabilities to
+   transport the ROVR field (see <xref target='R8505EROVR'/>) and the IPv6
+   Address of the prefix advertiser when the Target is a shorter prefix,
+   signaled by a new "F" flag.
+   The position of the "F" flag is indicated in <xref target='iana-full'/>.
+</t><t>
    Section 6.7.6 of <xref target='RFC6550'/> defines the DODAG Configuration
    option with reserved flags. This specification defines the new "Root Proxies
    EDAR/EDAC" (P) flag and consumes one of the reserved flags to encode it.
    The "P" flag is set to indicate that the Root performs the proxy operation
-   and that all nodes in the RPL network must refrain from renewing the 6LBR
-   state directly. It also indicates that the Root supports the Updated RPL
-   Target Option (see <xref target='tgt'/>).
+   and that it supports the Updated RPL Target Option (see <xref target='tgt'/>).
    The position of the "P" flag is indicated in <xref target='iana-conf'/>.
 
 </t><t>
@@ -508,13 +515,6 @@
    specification enables to use a RPL Status to embed the IPv6 ND Status
    defined for use in the EARO, more in <xref target='stat'/>.
 
-</t><t>
-   Section 6.7 of <xref target='RFC6550'/> introduces the RPL Control message
-   Options such as the RPL Target Option that can be included in a RPL Control
-   message such as the DAO. <xref target='tgt'/> updates the RPL Target Option
-   to optionally transport the ROVR used in the IPv6 Registration
-   (see <xref target='R8505EROVR'/>) so the RPL Root can generate a full
-   EDAR message.
 </t>
    <t>
    </t>
@@ -747,9 +747,11 @@
     anonymous EDAR that has restricted properties.
    </t>
    <t>
-    The Target Prefix field MUST be aligned to the next byte boundary after
-    the size (expressed in bits) indicated by the Prefix Length.
-    If necessary the prefix MUST be padded with bits set to zero.
+   The new "F" flag is set to indicate that the Target Prefix field contains the address of the advertising node in full, in which case the length of the
+   Target Prefix field is 16 bytes regardless of the value of the Prefix Length field. If the "F" flag is reset, the Target Prefix field  MUST be aligned to
+   the next byte boundary after the size (expressed in bits) indicated by the
+   Prefix Length field. Padding bits are reserved and set to 0 a prescribed by
+   section 6.7.7 of <xref target='RFC6550'/>.
    </t>
    <t>
     With this specification the ROVR is the remainder of the RPL Target Option.
@@ -768,7 +770,7 @@
    0                   1                   2                   3
    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |   Type = 0x05 | Option Length |ROVRsz | Flags | Prefix Length |
+   |   Type = 0x05 | Option Length |ROVRsz |F|Flags| Prefix Length |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |                                                               |
    |                Target Prefix (Variable Length)                |
@@ -785,13 +787,10 @@
 	<dt>ROVRsz:</dt><dd> Indicates the Size of the ROVR.
                         It MAY be 1, 2, 3, or 4, denoting a ROVR size of
                         64, 128, 192, or 256 bits, respectively. </dd>
- <!--
-    t hangText="C:"> This "C" flag is set to indicate that the ROVR field
-                      contains a Crypto-ID and that the 6LN MAY be
-                      challenged for ownership as specified in this
-                      document. </
-                      -->
- <dt>Registration Ownership Verifier (ROVR):</dt><dd>
+	<dt>F:</dt><dd> 1-bit flag. Set to indicate that Target Prefix field
+    contains an Address of prefix advertiser in full. </dd>
+
+    <dt>Registration Ownership Verifier (ROVR):</dt><dd>
                   This is the same field as in the EARO,
                   see <xref target='RFC8505'/> </dd>
 	</dl>
@@ -924,7 +923,8 @@
  </t> <t>
     If the Root could not return the negative Status in a DAO-ACK then it
     sends an asynchronous Destination Cleanup Object (DCO) message
-    <xref target='I-D.ietf-roll-efficient-npdao'/> to the 6LR by placing the
+    <xref target='I-D.ietf-roll-efficient-npdao'/> directly to the 6LR by
+    placing the
     negative Status in the RPL Status with the 'A' flag set. Note that if both
     are used in a short
     interval of time, the DAO-ACK and DCO messages are not guaranteed to arrive
@@ -1421,7 +1421,10 @@
 
 <section anchor='iana-considerations'><name>IANA Considerations</name>
 
-    <section anchor="iana-aro"><name>Resizing the ARO Status values</name>
+
+
+
+<section anchor="iana-aro"><name>Resizing the ARO Status values</name>
 	<t> Section 12 of <xref target='RFC6775'/> creates the
     Address Registration Option Status Values Registry with a range 0-255.
     This specification reduces that range to 0-63.
@@ -1429,26 +1432,11 @@
     <t>
    IANA is requested to reduce the unassigned values range from 11-255 to 11-63.
     </t>
-
-<section anchor='iana-lgds'><name>RPL Target Option Flags</name>
-<t>Section 20.15 of <xref target='RFC6550'/> creates a Registry for the 8-bit
-    RPL Target Option Flags field.
-    </t>
-    <t>
-    IANA is requested to reduce the size of the field in the Registry to 4 bits.
-</t>
 </section>
 
-<section anchor='iana-arof'><name>Address Registration Option Flags</name>
-<t>Section 9.1 of <xref target='RFC8505'/> creates a Registry for the 8-bit
-    Address Registration Option Flags field.
-    </t>
-    <t>
-    IANA is requested to rename the first column of the table from "ARO Status" to "Bit number".
-</t>
-</section>
+<!-- end section "New ARO Status values" -->
 
-    </section>	<!-- end section "New ARO Status values" -->
+
 
    <section anchor="iana-conf"><name>New DODAG Configuration Option Flag</name>
     <t>
@@ -1464,7 +1452,25 @@
    </tbody>
    </table>
 
+</section>
+<section anchor="iana-full"><name>New RPL Target Option Flag</name>
+
+<t>Section 20.15 of <xref target='RFC6550'/> creates a Registry for the 8-bit
+    "RPL Target Option Flags" field.
+    IANA is requested to reduce the size of the field in the Registry to 4 bits.
+    This specification also defines a new entry in the Registry as follows:
+    </t>
+
+   <table  anchor="ianatarget"><name>New RPL Target Option Flag</name>
+   <thead>
+      <tr><td>Bit Number</td><td>Capability Description</td><td>Reference</td></tr>
+   </thead><tbody>
+      <tr><td>1</td><td>Advertiser Address in Full (F)</td><td>THIS RFC</td></tr>
+   </tbody>
+   </table>
+
    </section>
+
 
 <section anchor='iana-stats-nonrej'><name>New Subregistry for the RPL Non-Rejection Status values </name>
  <t>
@@ -1515,6 +1521,14 @@
 
 </section>
 
+<section anchor='iana-arof'><name>Fixing the Address Registration Option Flags</name>
+<t>Section 9.1 of <xref target='RFC8505'/> creates a Registry for the 8-bit
+    Address Registration Option Flags field.
+    </t>
+    <t>
+    IANA is requested to rename the first column of the table from "ARO Status" to "Bit number".
+</t>
+</section>
 
 </section>
 <section anchor='Acks'><name>Acknowledgments</name>
