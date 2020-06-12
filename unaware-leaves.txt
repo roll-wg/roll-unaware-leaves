@@ -1011,7 +1011,7 @@ Internet-Draft             RPL Unaware Leaves                  June 2020
 
 
    4.  Following section 5.1 of [RFC8505], a 6LN acting as a RUL sets
-       the "R" flags in the EARO of at least one registration, whereas
+       the "R" flag in the EARO of at least one registration, whereas
        acting as a RAN it never does.  If the "R" flag is not echoed in
        the NA, the RUL SHOULD attempt to use another 6LR.  The RUL
        SHOULD send the registration(s) with the "R" flag set and ensure
@@ -1186,7 +1186,7 @@ Internet-Draft             RPL Unaware Leaves                  June 2020
    Updated RPL Target option.  The remainder of this section assumes
    that it does.
 
-   Upon reception of a DAO message, for each RPL updated Target Option
+   Upon reception of a DAO message, for each updated RPL Target Option
    (see Section 9) that creates or updates an existing RPL state, the
    Root MUST notify the 6LBR.  This can be done using an internal API if
    they are integrated, or using a proxied EDAR/EDAC exchange if they
@@ -1389,7 +1389,7 @@ Internet-Draft             RPL Unaware Leaves                  June 2020
    This specification reduces that range to 0-63.
 
    IANA is requested to reduce the upper bound of the unassigned values
-   in th e Address Registration Option Status Values Registry from -255
+   in the Address Registration Option Status Values Registry from -255
    to -63.
 
 
@@ -1481,7 +1481,8 @@ Internet-Draft             RPL Unaware Leaves                  June 2020
 18.  Acknowledgments
 
    The authors wish to thank Ines Robles, Georgios Papadopoulos and
-   Rahul Jadhav for their reviews and contributions to this document.
+   especially Rahul Jadhav for their reviews and contributions to this
+   document.
 
 19.  Normative References
 
@@ -1505,7 +1506,6 @@ Internet-Draft             RPL Unaware Leaves                  June 2020
               Overview, Assumptions, Problem Statement, and Goals",
               RFC 4919, DOI 10.17487/RFC4919, August 2007,
               <https://www.rfc-editor.org/info/rfc4919>.
-
 
 
 

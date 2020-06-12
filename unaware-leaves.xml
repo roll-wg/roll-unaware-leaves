@@ -996,7 +996,7 @@ This specification leverages the DCO between the Root and the 6LR that serves as
 
 </li><li>
    Following section 5.1 of <xref target='RFC8505'/>,
-   a 6LN acting as a RUL sets the "R" flags in the EARO of at least one
+   a 6LN acting as a RUL sets the "R" flag in the EARO of at least one
    registration, whereas acting as a RAN it never does. If the "R" flag is not
    echoed in the NA, the RUL SHOULD attempt to use another 6LR. The RUL SHOULD send the registration(s) with the "R" flag set and ensure that one succeeds
    before it sends the registrations with the flag reset. In case of a conflict
@@ -1162,7 +1162,7 @@ This specification leverages the DCO between the Root and the 6LR that serves as
    option. The remainder of this section assumes that it does.
 
 </t><t>
-   Upon reception of a DAO message, for each RPL updated Target Option
+   Upon reception of a DAO message, for each updated RPL Target Option
    (see <xref target='tgt'/>) that
    creates or updates an existing RPL state, the Root MUST notify the 6LBR.
    This can be done using an internal API if they are integrated, or using a
@@ -1394,7 +1394,7 @@ This specification leverages the DCO between the Root and the 6LR that serves as
     This specification reduces that range to 0-63.
     </t>
     <t>
-   IANA is requested to reduce the upper bound of the unassigned values in th e
+   IANA is requested to reduce the upper bound of the unassigned values in the
    Address Registration Option Status Values Registry from -255 to -63.
     </t>
 </section> <!-- end section "New ARO Status values" -->
@@ -1489,7 +1489,8 @@ This specification leverages the DCO between the Root and the 6LR that serves as
 
 <section anchor='Acks'><name>Acknowledgments</name>
 <t>
-   The authors wish to thank Ines Robles, Georgios Papadopoulos and Rahul Jadhav
+   The authors wish to thank Ines Robles, Georgios Papadopoulos and
+   especially Rahul Jadhav
    for their reviews and contributions to this document.
   </t>
 
