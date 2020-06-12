@@ -1399,8 +1399,6 @@ This specification leverages the DCO between the Root and the 6LR that serves as
     </t>
 </section> <!-- end section "New ARO Status values" -->
 
-</section>
-
 
 
 
@@ -1484,6 +1482,8 @@ This specification leverages the DCO between the Root and the 6LR that serves as
    </tbody>
 
    </table>
+
+</section>
 
 </section>
 
