@@ -13,7 +13,7 @@
 <?rfc subcompact="no"?>
 <?rfc authorship="yes"?>
 <?rfc tocappendix="yes"?>
-<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="std" ipr='trust200902' tocInclude="true" updates='6550, 8505' obsoletes="" consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-roll-unaware-leaves-19" >
+<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="std" ipr='trust200902' tocInclude="true" updates='6550, 8505' obsoletes="" consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-roll-unaware-leaves-20" >
 
 <!-- updates='draft-ietf-roll-efficient-npdao,6550, 8505' consensus="true" submissionType="IETF" -->
 
@@ -785,7 +785,13 @@
 
 
 
+
    <section anchor='pflag'><name>Updated DODAG Configuration Option</name>
+
+
+
+
+
    <t>
    The DODAG Configuration Option is defined in Section 6.7.6 of <xref target=
    'RFC6550'/>. Its purpose is extended to distribute configuration
@@ -819,25 +825,33 @@
    which implies that it supports the Updated RPL Target Option
    (see <xref target='tgt'/>).
    </t>
+
+
+   <!--t>
+   Section 6.3.1 of <xref target='RFC6550'/>  defines a 3-bit Mode of Operation
+   (MOP) in the DIO Base Object. This specification applies to MOP values 0 to 6.
+   For a MOP value of 7, the bit in position 1 is considered unallocated and <xref target='RFC8138'/> MUST be used by default.
+   </t -->
+
+   <t>
+   Section 4.3 of <xref target='I-D.ietf-roll-useofrplinfo'/> updates
+   <xref target='RFC6550'/> to indicate that the definition of the Flags applies to Mode of Operation (MOP) values zero (0) to six (6) only,
+   leaving the flags reserved for MOP value seven (7).
+   For a MOP value of 7, the bit in position 1 is considered unallocated
+   and the Root is expected to perform the proxy operation by default.
+
+   </t>
       <t>
    The RPL DODAG Configuration Option is typically placed in
    a DODAG Information Object (DIO) message. The DIO message propagates down the
    DODAG to form and then maintain its structure. The DODAG Configuration Option
    is copied unmodified from parents to children.
-      </t>
-
-   <t>
-   Section 6.3.1 of <xref target='RFC6550'/>  defines a 3-bit Mode of Operation
-   (MOP) in the DIO Base Object. This specification applies to MOP values 0 to 6.
-   For a MOP value of 7, the bit in position 1 is considered unallocated and <xref target='RFC8138'/> MUST be used by default.
-   </t>
-   <t>
    <xref target='RFC6550'/> states that "Nodes other than the DODAG Root MUST
    NOT modify this information when propagating the DODAG Configuration option".
-   Therefore, a legacy parent propagates the "P" flag as set by the Root
-   whether it supports this specification or not. So when the "P" flag is set,
-   it is transparently flooded to all the nodes in the DODAG.
+   Therefore, a legacy parent propagates the "T" flag as set by the Root, and
+   when the "T" flag is set, it is transparently flooded to all the nodes in the DODAG.
   </t>
+
    </section><!-- The RPL DODAG Configuration Option -->
 
 
@@ -1512,8 +1526,6 @@ This specification leverages the DCO between the Root and the 6LR that serves as
 <section anchor='iana-arof'><name>Fixing the Address Registration Option Flags</name>
 <t>Section 9.1 of <xref target='RFC8505'/> creates a Registry for the 8-bit
     Address Registration Option Flags field.
-    </t>
-    <t>
     IANA is requested to rename the first column of the table from "ARO Status" to "Bit number".
 </t>
 </section> <!--  Fixing the Address Registration Option Flags -->
@@ -1539,8 +1551,8 @@ This specification leverages the DCO between the Root and the 6LR that serves as
 
    <section anchor="iana-conf"><name>New DODAG Configuration Option Flag</name>
     <t>
-    This specification updates the Registry for the "DODAG Configuration Option
-    Flags" that was created for <xref target='RFC6550'/> as follows:
+    This specification updates the Registry that was created for <xref target='RFC6550'/> as the registry for "DODAG Configuration Option Flags" and updated as the registry for "DODAG Configuration Option Flags for MOP 0..6" by <xref target='I-D.ietf-roll-useofrplinfo'/>, by allocating one
+    new Flag as follows:
     </t>
 
    <table  anchor="nexndopt"><name>New DODAG Configuration Option Flag</name>
@@ -1625,7 +1637,7 @@ This specification leverages the DCO between the Root and the 6LR that serves as
 <section anchor='Acks'><name>Acknowledgments</name>
 <t>
    The authors wish to thank Ines Robles, Georgios Papadopoulos and
-   especially Rahul Jadhav
+   especially Rahul Jadhav and Alvaro Retana
    for their reviews and contributions to this document.
   </t>
 
