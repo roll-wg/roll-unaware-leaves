@@ -155,7 +155,8 @@
 <t>
    The RPL Non-Storing Mode mechanism is used to extend the routing state with
    connectivity to the RULs even when the DODAG is operated in Storing Mode.
-   The unicast packet forwarding operation by the 6LR serving a RUL, as described in section 4.1 of <xref target='I-D.ietf-roll-useofrplinfo'/>.
+   The unicast packet forwarding operation by the 6LR serving a RUL is described
+   in section 4.1 of <xref target='I-D.ietf-roll-useofrplinfo'/>.
 </t>
 <t>
    Examples of possible RULs include lightly powered sensors such as
@@ -380,7 +381,7 @@
 <section anchor='R6775'><name>RFC 6775 Address Registration</name>
 
 <t>
-   The classic "IPv6 Neighbor Discovery (IPv6 ND) Protocol"
+   The classical "IPv6 Neighbor Discovery (IPv6 ND) Protocol"
    <xref target='RFC4861'/> <xref target='RFC4862'/> was defined for serial
    links and transit media such as Ethernet. It is a reactive protocol that
    relies heavily on multicast operations for address discovery (aka lookup) and
@@ -612,7 +613,7 @@
 </t>
 <t><xref target='RFC8505'/> introduces error Status values in the NA(EARO)
    which can be received synchronously upon an NS(EARO) or asynchronously. The
-   RUL MUST support both cases and MUST refrain from using the address
+   RUL needs to support both cases and should refrain from using the address
    when the Status Value indicates a rejection.
 
 </t>
@@ -810,6 +811,7 @@
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |   Type = 0x04 |Opt Length = 14| |P| | |A|       ...           |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                     +
+                                <- Flags ->
 ]]></artwork>
 </figure>
 
@@ -835,10 +837,9 @@
 
    <t>
    Section 4.3 of <xref target='I-D.ietf-roll-useofrplinfo'/> updates
-   <xref target='RFC6550'/> to indicate that the definition of the Flags applies to Mode of Operation (MOP) values zero (0) to six (6) only,
-   leaving the flags reserved for MOP value seven (7).
-   For a MOP value of 7, the bit in position 1 is considered unallocated
-   and the Root is expected to perform the proxy operation by default.
+   <xref target='RFC6550'/> to indicate that the definition of the Flags applies to Mode of Operation (MOP) values zero (0) to six (6) only.
+   For a MOP value of 7, the Root is expected to perform the proxy operation
+   by default.
 
    </t>
       <t>
