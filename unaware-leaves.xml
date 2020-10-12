@@ -124,7 +124,7 @@
    RPL can be deployed in conjunction with IPv6 Neighbor Discovery (ND)
    <xref target='RFC4861'/> <xref target='RFC4862'/> and 6LoWPAN ND
    <xref target='RFC6775'/> <xref target='RFC8505'/> to maintain reachability
-   within a Non-Broadcast Multi-     (NBMA) Multi-Link subnet.
+   within a Non-Broadcast Multiple-Access     (NBMA) Multi-Link subnet.
 </t>
 <t>
    In that mode, IPv6 addresses are advertised individually as Host routes.
