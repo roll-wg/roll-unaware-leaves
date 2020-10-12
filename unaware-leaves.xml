@@ -146,11 +146,12 @@
 <t>
    This specification leverages the Address Registration mechanism defined in
    6LoWPAN ND to enable a 6LoWPAN Node (6LN) acting as a RUL to interface with a
-   6LoWPAN Router (6LR) that is RPL-Aware router, and request that the router
-   injects a Host route for the Registered Address in RPL on its behalf.
+   6LoWPAN Router (6LR) that is also an RPL-Aware router, and request that this router
+   inject a Host route for the Registered Address in RPL on its behalf.
    A RUL may be unable to participate because it is very energy-constrained,
-   or because it is unsafe to let it inject routes in RPL, in which case using
-   6LowPAN ND as the interface for the RUL limits the surface of the possible
+   code-space constrained, or because it would be unsafe to let it inject
+   routes in RPL.
+   Using 6LowPAN ND as the interface for the RUL limits the surface of the possible
    attacks and optionally protects the address ownership.
 </t>
 <t>
