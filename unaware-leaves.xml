@@ -124,7 +124,7 @@
    RPL can be deployed in conjunction with IPv6 Neighbor Discovery (ND)
    <xref target='RFC4861'/> <xref target='RFC4862'/> and 6LoWPAN ND
    <xref target='RFC6775'/> <xref target='RFC8505'/> to maintain reachability
-   within a Non-Broadcast Multi-     (NBMA) Multi-Link subnet.
+   within a Non-Broadcast Multiple-Access     (NBMA) Multi-Link subnet.
 </t>
 <t>
    In that mode, IPv6 addresses are advertised individually as Host routes.
@@ -139,18 +139,19 @@
    Conversely, a RUL does not participate to RPL and cannot inject routes.
    <xref target='prereq'/> details a Host-to-Router interface that the RUL
    needs to implement to advertise its IPv6 addresses to a Router that supports
-   this specification. The document specifies how the Router injects those
+   this specification. This document specifies how the Router injects those
    addresses as Host routes in the RPL network on behalf of the RUL.
 
 </t>
 <t>
    This specification leverages the Address Registration mechanism defined in
    6LoWPAN ND to enable a 6LoWPAN Node (6LN) acting as a RUL to interface with a
-   6LoWPAN Router (6LR) that is RPL-Aware router, and request that the router
-   injects a Host route for the Registered Address in RPL on its behalf.
+   6LoWPAN Router (6LR) that is also an RPL-Aware router, and request that this router
+   inject a Host route for the Registered Address in RPL on its behalf.
    A RUL may be unable to participate because it is very energy-constrained,
-   or because it is unsafe to let it inject routes in RPL, in which case using
-   6LowPAN ND as the interface for the RUL limits the surface of the possible
+   code-space constrained, or because it would be unsafe to let it inject
+   routes in RPL.
+   Using 6LowPAN ND as the interface for the RUL limits the surface of the possible
    attacks and optionally protects the address ownership.
 </t>
 <t>
@@ -489,7 +490,9 @@
 
    <xref target='I-D.ietf-6lo-ap-nd'>"Address Protected Neighbor Discovery for
    Low-power and Lossy Networks"</xref> leverages the ROVR field as a
-   cryptographic proof of ownership to prevent a rogue third party from registering an address that is already owned and enable the 6LR to block traffic that is not sourced at a owned address.
+   cryptographic proof of ownership to prevent a rogue third party from
+   registering an address that is already owned.
+   The use of ROVR field enable the 6LR to block traffic that is not sourced at an owned address. 
 </t><t>
 
    This specification does not address how the protection by
@@ -922,7 +925,7 @@
 <section anchor='updnpdao'><name>Enhancements to draft-ietf-roll-efficient-npdao</name>
 
 <t>
-<xref target='I-D.ietf-roll-efficient-npdao'/> defines the DCO message for RPL Storing Mode only, with a link-local scope. All nodes in the RPL network are expected to support the specification since the message in processed hop by hop along the path this is being cleaned up.
+<xref target='I-D.ietf-roll-efficient-npdao'/> defines the DCO message for RPL Storing Mode only, with a link-local scope. All nodes in the RPL network are expected to support the specification since the message in processed hop by hop along the path that is being cleaned up.
 </t><t>
 This specification extends the use of the DCO message to the Non-Storing MOP, whereby the DCO is sent end-to-end by the Root directly to the RAN that injected the DAO message for the considered target.
 In that case, intermediate nodes do not need to support <xref target='I-D.ietf-roll-efficient-npdao'/>; they forward the DCO message as a plain IPv6 packet between the Root and the RAN.
@@ -1029,7 +1032,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
  <t>
    This flow requires that the lifetimes and sequence counters in 6LoWPAN ND and RPL are aligned.
    </t><t>
-   ITo achieve this, the Path
+   To achieve this, the Path
    Sequence and the Path Lifetime in the DAO message are taken from the
    Transaction ID and the Address Registration lifetime in the NS(EARO) message
    from the 6LN.
@@ -1151,7 +1154,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
 </li><li>
    As stated in section 5.2 of <xref target='RFC8505'/>, the 6LN can register
    to more than one 6LR at the same time. In that case, it
-   uses the same EARO for all of the parallel Address Registrations, with the exception of the Registration Lifetime field and the setting of the R flag that may differ. The 6LN SHOULD send the NS(EARO), if any, that maintain a registration active (i.e., with a non-zero Registration Lifetime) and ensure that one succeeds before it sends an NS(EARO) that terminates another registration, to avoid the churn related to transient route invalidation in the RPL network.
+   uses the same EARO for all of the parallel Address Registrations, with the exception of the Registration Lifetime field and the setting of the R flag that may differ. The 6LN SHOULD send the NS(EARO), if any, that maintains the registration active (i.e., with a non-zero Registration Lifetime) and ensure that one succeeds before it sends an NS(EARO) that terminates another registration, to avoid the churn related to transient route invalidation in the RPL network.
 
 </li><li>
    Following section 5.1 of <xref target='RFC8505'/>,
