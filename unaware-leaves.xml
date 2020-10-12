@@ -1032,7 +1032,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
  <t>
    This flow requires that the lifetimes and sequence counters in 6LoWPAN ND and RPL are aligned.
    </t><t>
-   ITo achieve this, the Path
+   To achieve this, the Path
    Sequence and the Path Lifetime in the DAO message are taken from the
    Transaction ID and the Address Registration lifetime in the NS(EARO) message
    from the 6LN.
