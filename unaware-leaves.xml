@@ -925,7 +925,7 @@
 <section anchor='updnpdao'><name>Enhancements to draft-ietf-roll-efficient-npdao</name>
 
 <t>
-<xref target='I-D.ietf-roll-efficient-npdao'/> defines the DCO message for RPL Storing Mode only, with a link-local scope. All nodes in the RPL network are expected to support the specification since the message in processed hop by hop along the path this is being cleaned up.
+<xref target='I-D.ietf-roll-efficient-npdao'/> defines the DCO message for RPL Storing Mode only, with a link-local scope. All nodes in the RPL network are expected to support the specification since the message in processed hop by hop along the path that is being cleaned up.
 </t><t>
 This specification extends the use of the DCO message to the Non-Storing MOP, whereby the DCO is sent end-to-end by the Root directly to the RAN that injected the DAO message for the considered target.
 In that case, intermediate nodes do not need to support <xref target='I-D.ietf-roll-efficient-npdao'/>; they forward the DCO message as a plain IPv6 packet between the Root and the RAN.
