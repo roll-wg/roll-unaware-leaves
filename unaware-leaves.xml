@@ -490,7 +490,9 @@
 
    <xref target='I-D.ietf-6lo-ap-nd'>"Address Protected Neighbor Discovery for
    Low-power and Lossy Networks"</xref> leverages the ROVR field as a
-   cryptographic proof of ownership to prevent a rogue third party from registering an address that is already owned and enable the 6LR to block traffic that is not sourced at a owned address.
+   cryptographic proof of ownership to prevent a rogue third party from
+   registering an address that is already owned.
+   The use of ROVR field enable the 6LR to block traffic that is not sourced at an owned address. 
 </t><t>
 
    This specification does not address how the protection by
