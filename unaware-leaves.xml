@@ -1154,7 +1154,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
 </li><li>
    As stated in section 5.2 of <xref target='RFC8505'/>, the 6LN can register
    to more than one 6LR at the same time. In that case, it
-   uses the same EARO for all of the parallel Address Registrations, with the exception of the Registration Lifetime field and the setting of the R flag that may differ. The 6LN SHOULD send the NS(EARO), if any, that maintain a registration active (i.e., with a non-zero Registration Lifetime) and ensure that one succeeds before it sends an NS(EARO) that terminates another registration, to avoid the churn related to transient route invalidation in the RPL network.
+   uses the same EARO for all of the parallel Address Registrations, with the exception of the Registration Lifetime field and the setting of the R flag that may differ. The 6LN SHOULD send the NS(EARO), if any, that maintains the registration active (i.e., with a non-zero Registration Lifetime) and ensure that one succeeds before it sends an NS(EARO) that terminates another registration, to avoid the churn related to transient route invalidation in the RPL network.
 
 </li><li>
    Following section 5.1 of <xref target='RFC8505'/>,
