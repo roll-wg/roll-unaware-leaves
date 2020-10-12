@@ -13,7 +13,7 @@
 <?rfc subcompact="no"?>
 <?rfc authorship="yes"?>
 <?rfc tocappendix="yes"?>
-<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="std" ipr='trust200902' tocInclude="true" updates='6550,6775,8505' obsoletes="" consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-roll-unaware-leaves-22" >
+<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="std" ipr='trust200902' tocInclude="true" updates='6550,6775,8505' obsoletes="" consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-roll-unaware-leaves-23" >
 
 <!-- updates='draft-ietf-roll-efficient-npdao,6550, 8505' consensus="true" submissionType="IETF" -->
 
@@ -1801,7 +1801,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
     The difference with the example presented in Figure 19 of
     <xref target='RFC8138'/> is the addition of a SRH-6LoRH before the RPI-6LoRH
     to transport the compressed address of the 6LR as the destination address of
-    the outer IPv6 header. In the  <xref target='RFC8138'/> example the destination IP of the
+    the outer IPv6 header. In the <xref target='RFC8138'/> example the destination IP of the
     outer header was elided and was implicitly the same address as the
     destination of the inner header.
 
