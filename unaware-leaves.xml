@@ -139,7 +139,7 @@
    Conversely, a RUL does not participate to RPL and cannot inject routes.
    <xref target='prereq'/> details a Host-to-Router interface that the RUL
    needs to implement to advertise its IPv6 addresses to a Router that supports
-   this specification. The document specifies how the Router injects those
+   this specification. This document specifies how the Router injects those
    addresses as Host routes in the RPL network on behalf of the RUL.
 
 </t>
