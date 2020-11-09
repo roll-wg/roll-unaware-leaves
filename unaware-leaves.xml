@@ -363,7 +363,7 @@
    using an IP-in-IP tunnel between the Root and the 6LR that serves the RUL
    (see sections 7 and 8 of <xref target='I-D.ietf-roll-useofrplinfo'/> for details).
    If the packet from the RUL has an RPI, the 6LR as a RPL border router
-   MUST rewrite the RPI to indicate the selected Instance and set the flags,
+   SHOULD rewrite the RPI to indicate the selected Instance and set the flags,
    but it does not need to encapsulate the packet.
 </t><t>
    In Non-Storing Mode, packets going down carry a Source Routing Header (SRH).
@@ -787,7 +787,7 @@
                         It SHOULD be 1, 2, 3, or 4, indicating a ROVR size of
                         64, 128, 192, or 256 bits, respectively.
                         If a legacy Target Option is used, then the value must
-                        remain 0, as specified in <xref target='RFC6550'/>;
+                        remain 0, as specified in <xref target='RFC6550'/>.
                         In case of a value above 4, the size of the ROVR is
                         undetermined and this node cannot validate the ROVR;
                         an implementation SHOULD propagate the whole Target
@@ -1749,7 +1749,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
 
 <section anchor='iana-stats-nonrej'><name>New Subregistry for RPL Non-Rejection Status values </name>
  <t>
-	This specification creates a new Subregistry for the RPL Non-Rejection Status values for use in the RPL DAO-ACK and DCO messages with the 'A' flag reset, under the RPL registry.
+	This specification creates a new Subregistry for the RPL Non-Rejection Status values for use in the RPL DAO-ACK, DCO, and DCO-ACK messages with the 'A' flag reset, under the RPL registry.
 </t>
 <ul spacing='normal'>
   <li> Possible values are 6-bit unsigned integers (0..63).</li>
