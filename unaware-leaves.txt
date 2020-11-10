@@ -10,7 +10,7 @@ Expires: 13 May 2021                                     9 November 2020
 
 
                          Routing for RPL Leaves
-                   draft-ietf-roll-unaware-leaves-23
+                   draft-ietf-roll-unaware-leaves-24
 
 Abstract
 
@@ -1821,7 +1821,7 @@ Internet-Draft             RPL Unaware Leaves              November 2020
          +-------+------------------------+---------------------+
          | 0     | Unqualified acceptance | THIS RFC / RFC 6550 |
          +-------+------------------------+---------------------+
-         | 2..63 | Unassigned             |                     |
+         | 1..63 | Unassigned             |                     |
          +-------+------------------------+---------------------+
 
                Table 4: Acceptance values of the RPL Status
