@@ -10,7 +10,7 @@ Expires: 12 June 2021                                    9 December 2020
 
 
                          Routing for RPL Leaves
-                   draft-ietf-roll-unaware-leaves-24
+                   draft-ietf-roll-unaware-leaves-25
 
 Abstract
 
