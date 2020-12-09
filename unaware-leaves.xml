@@ -134,25 +134,29 @@
    that is reachable over the RPL network is called a Leaf.
 </t>
 <t>
-   <xref target='I-D.ietf-roll-useofrplinfo'/> introduces the terms
-   RPL-Aware-Leaf (RAL) and RPL-Unaware Leaf (RUL). A RAL is a Leaf that injects Host routes in RPL to manage the reachability of its IPv6 addresses.
-   Conversely, a RUL does not participate to RPL and cannot inject routes.
-   <xref target='prereq'/> details a Host-to-Router interface that the RUL
-   needs to implement to advertise its IPv6 addresses to a Router that supports
-   this specification. This document specifies how the Router injects those
-   addresses as Host routes in the RPL network on behalf of the RUL.
-
+   Section 2 of <xref target='I-D.ietf-roll-useofrplinfo'/> defines the terms
+   RPL Leaf, RPL-Aware-Leaf (RAL) and RPL-Unaware Leaf (RUL).
+   A RPL Leaf is a Host attached to one or more RPL router(s); as such, it
+   relies on the RPL router(s) to forward its traffic across the RPL domain but
+   does not forward traffic from another node. As opposed to the RAL, the
+   RUL does not participate to RPL, and relies on its RPL router(s) also to
+   inject the routes to its IPv6 addresses in the RPL domain.
 </t>
 <t>
-   This specification leverages the Address Registration mechanism defined in
-   6LoWPAN ND to enable a 6LoWPAN Node (6LN) acting as a RUL to interface with a
-   6LoWPAN Router (6LR) that is also an RPL-Aware router, and request that this router
-   inject a Host route for the Registered Address in RPL on its behalf.
    A RUL may be unable to participate because it is very energy-constrained,
    code-space constrained, or because it would be unsafe to let it inject
-   routes in RPL.
-   Using 6LowPAN ND as the interface for the RUL limits the surface of the possible
-   attacks and optionally protects the address ownership.
+   routes in RPL. Using 6LoWPAN ND as opposed to RPL as the Host-to-Router
+   interface limits the surface of the possible attacks by the RUL against the
+   RPL domain, and can protect RUL for its address ownership.
+</t>
+<t>
+   This document specifies how the Router injects the Host routes in the RPL
+   domain on behalf of the RUL. <xref target='prereq'/> details how the RUL
+   can leverage 6LoWPAN ND to obtain the routing services from the router.
+   In that model, the RUL is also a 6LoWPAN Node (6LN) and the RPL-Aware router
+   is also a 6LoWPAN Router (6LR). Using the 6LoWPAN ND Address Registration
+   mechanism, the RUL signals that the router must inject a Host route for the
+   Registered Address.
 </t>
 <t>
    The RPL Non-Storing Mode mechanism is used to extend the routing state with
@@ -161,7 +165,7 @@
    in section 4.1 of <xref target='I-D.ietf-roll-useofrplinfo'/>.
 </t>
 <t>
-   Examples of possible RULs include lightly powered sensors such as
+   Examples of possible RULs include severely energy constrained sensors such as
    window smash sensor (alarm system), and kinetically powered light switches.
    Other applications of this specification may include a smart grid network that
    controls appliances - such as washing machines or the heating system - in the
@@ -178,9 +182,10 @@
 <ul spacing='normal'>
 
 <li>
-    <xref target='prereqv6'/> and <xref target='lpnd'/> present salient aspects
-    of RPL and 6LoWPAN ND, respectively, that are leveraged in this
-    specification to provide connectivity to a RUL across a RPL network.
+    <xref target='prereqv6'/> and <xref target='lpnd'/> present in a
+    non-normative fashion the salient aspects of RPL and 6LoWPAN ND,
+    respectively, that are leveraged in this specification to provide
+    connectivity to a 6LN acting as a RUL across a RPL network.
 </li>
 
 <li>
@@ -235,7 +240,7 @@
 
 
 <section anchor='gloss'><name>Glossary</name>
- <t> This document often uses the following acronyms:
+ <t> This document uses the following acronyms:
     </t><dl  spacing='compact'>
     <dt>AR:</dt><dd>  Address Resolution (aka Address Lookup)  </dd>
     <dt>ARQ:</dt><dd>  Automatic Repeat reQuest</dd>
@@ -323,7 +328,7 @@
 		and Lossy Networks</xref>,
 	    <xref target='RFC8505'>
 		"Registration Extensions for 6LoWPAN Neighbor Discovery"</xref>,
-        and <xref target='I-D.ietf-6lo-ap-nd'>
+        and <xref target='RFC8928'>
         "Address Protected Neighbor Discovery for Low-power and Lossy Networks"
         </xref>.
 	</dd>
@@ -394,6 +399,10 @@
 
 
 <section anchor='lpnd'><name>6LoWPAN Neighbor Discovery</name>
+<t>
+This section goes through the 6LoWPAN ND mechanisms that this specification leverages, as a non-normative reference to the reader.
+The full normative text is to be found in <xref target='RFC6775'/>, <xref target='RFC8505'/>, and <xref target='RFC8928'/>.
+</t>
 <section anchor='R6775'><name>RFC 6775 Address Registration</name>
 
 <t>
@@ -461,7 +470,7 @@
 <xref target='RFC8505'/> introduces the R Flag in the EARO.
    The Registering Node sets the R Flag to indicate whether the 6LR should
    ensure reachability for the Registered Address.
-   If the R Flag is not set, then the Registering Node handles the reachability
+   If the R Flag is set to 0, then the Registering Node handles the reachability
    of the Registered Address by other means. In a RPL network, this means that
    either it is a RAN that injects the route by itself or that it uses another
    RPL Router for reachability services.
@@ -472,16 +481,16 @@
    the R Flag in the NS(EARO) used to register the address to a 6LR acting as
    a RPL border Router. Upon receiving the NS(EARO), the RPL Router
    generates a DAO message for the Registered Address if and only if the R
-   flag is set.
+   flag is set to 1.
 </t><t>
-   <xref target='oper'/> specifies additional operations when R flag is set in an EARO that is placed either in an NS or an NA message.
+   <xref target='oper'/> specifies additional operations when R flag is set to 1 in an EARO that is placed either in an NS or an NA message.
 </t>
 
 </section> <!-- end section "R Flag" -->
 <section anchor='R8505ETID'><name>TID, "I" Field and Opaque Fields</name>
 
 <t>
-   When the T Flag is set, the EARO includes a sequence counter called
+   When the T Flag is set to 1, the EARO includes a sequence counter called
    Transaction ID (TID), that is needed to fill the Path Sequence Field in the
    RPL Transit Option.
    This is the reason why the support of <xref target='RFC8505'/>
@@ -505,7 +514,7 @@
    protection against spoofing.
 </t><t>
 
-   <xref target='I-D.ietf-6lo-ap-nd'>"Address Protected Neighbor Discovery for
+   <xref target='RFC8928'>"Address Protected Neighbor Discovery for
    Low-power and Lossy Networks"</xref> leverages the ROVR field as a
    cryptographic proof of ownership to prevent a rogue third party from
    registering an address that is already owned.
@@ -513,7 +522,7 @@
 </t><t>
 
    This specification does not address how the protection by
-   <xref target='I-D.ietf-6lo-ap-nd'/> could be extended for use in RPL.
+   <xref target='RFC8928'/> could be extended for use in RPL.
    On the other hand, it adds the ROVR to the DAO to build the proxied EDAR at the Root (see <xref target='tgt'/>), which means that nodes that are aware of the Host route are also aware of the ROVR associated to the Target Address.
 </t>
 
@@ -579,9 +588,10 @@
  </figure>
  <t>
 
-    A 6LR that can provide reachability services for a RUL in a RPL network
-    as specified in this document MUST include a 6CIO in its RA messages and
-    set the L, P and E flags as prescribed by <xref target='RFC8505'/>.
+    A 6LR that provides reachability services for a RUL in a RPL network
+    as specified in this document includes a 6CIO in its RA messages and
+    set the L, P and E flags to 1 as prescribed by <xref target='RFC8505'/>,
+    more in <xref target='oper'/>.
  </t>
 
 </section> <!-- end section "RFC 7400 Capability Indication Option" -->
@@ -606,14 +616,13 @@
 <t>
    To obtain routing services from a Router that implements this specification,
    a RUL needs to implement <xref target='RFC8505'/> and set the "R" and "T"
-   flags in the EARO as discussed in <xref target='R8505ER'/> and
-   <xref target='R8505EROVR'/>, respectively. <xref target='ln'/> specifies new behaviors for the RUL, e.g., when the R Flag set in a NS(EARO) is not echoed in the NA(EARO), which indicates that the route injection failed.
+   flags in the EARO to 1 as discussed in <xref target='R8505ER'/> and
+   <xref target='R8505EROVR'/>, respectively. <xref target='ln'/> specifies new behaviors for the RUL, e.g., when the R Flag set to 1 in a NS(EARO) is not echoed in the NA(EARO), which indicates that the route injection failed.
 </t><t>
-   The RUL is expected not to request routing services from a Router that does
-   not originate RA messages with a CIO that has the L, P, and E flags all set
+   The RUL is expected to request routing services from a Router only if that router originates RA messages with a CIO that has the L, P, and E flags all set to 1
    as discussed in <xref target='R7400'/>, unless configured to do so.
    It is suggested that the RUL also implements
-   <xref target='I-D.ietf-6lo-ap-nd'/> to protect the ownership of its addresses.
+   <xref target='RFC8928'/> to protect the ownership of its addresses.
 </t><t>
    A RUL that may attach to multiple 6LRs is expected to prefer those that provide routing services.
    The RUL needs to register to all the 6LRs from which it desires routing services.
@@ -639,14 +648,14 @@
 <t>
    Section 2.1 of <xref target='I-D.ietf-roll-useofrplinfo'/> defines the rules
    for tunneling either to the final destination (e.g., a RUL) or to its
-   attachment Router (designated as 6LR). To terminate the IP-in-IP tunnel,
-   the RUL, as an IPv6 Host, must be able to decapsulate the tunneled packet and
-   either drop the inner packet if it is not the final destination, or pass it
-   to the upper layer for further processing.
-   Unless it is aware by other means that the RUL can handle IP-in-IP properly,
-   which is not mandated by <xref target='RFC8504'/>, the Root terminates the
-   IP-in-IP tunnel at the parent 6LR. It is thus not necessary for a RUL to
-   support IP-in-IP decapsulation.
+   attachment Router (designated as 6LR). In order to terminate the IP-in-IP
+   tunnel, the RUL, as an IPv6 Host, would have to be capable of decapsulating
+   the tunneled packet and either drop the encapsulated packet if it is not the
+   final destination, or pass it to the upper layer for further processing.
+   As indicated in section 4.1 of <xref target='I-D.ietf-roll-useofrplinfo'/>,
+   this is not mandated by <xref target='RFC8504'/>, so the Root typically
+   terminates the IP-in-IP tunnel at the parent 6LR. It is thus not necessary
+   for a RUL to support IP-in-IP decapsulation.
 </t>
 
 </section> <!-- end section "Support of IPv6 Encapsulation" -->
@@ -713,7 +722,7 @@
    transport the ROVR field (see <xref target='R8505EROVR'/>) and the
    IPv6 Address of the prefix advertiser when the Target is a shorter prefix.
    Their use is signaled respectively by a new ROVR Size field being non-zero
-   and a new "Advertiser address in Full" 'F' flag set, more in <xref target='tgt'/>.
+   and a new "Advertiser address in Full" 'F' flag set to 1, more in <xref target='tgt'/>.
 </t><t>
    This specification defines the new "Root Proxies EDAR/EDAC" (P) flag and
    encodes it in one of these reserved flags of the
@@ -741,9 +750,9 @@
     This enables the RPL Root to generate the proxied EDAR message to the 6LBR.
    </t>
    <t>
-   The new 'F' flag is set to indicate that the Target Prefix field contains the IPv6 address of the advertising node, in which case the length of the
+   The new 'F' flag is set to 1 to indicate that the Target Prefix field contains the IPv6 address of the advertising node, in which case the length of the
    Target Prefix field is 128 bits regardless of the value of the Prefix Length field.
-   If the 'F' flag is reset, the Target Prefix field MUST be aligned to
+   If the 'F' flag is set to 0, the Target Prefix field MUST be aligned to
    the next byte boundary after the size (expressed in bits) indicated by the
    Prefix Length field. Padding bits are reserved and set to 0 per
    section 6.7.7 of <xref target='RFC6550'/>.
@@ -796,8 +805,11 @@
 
 
                         </t></dd>
-	<dt>F:</dt><dd> 1-bit flag. Set to indicate that Target Prefix field
+	<dt>F:</dt><dd> 1-bit flag. Set to 1 to indicate that Target Prefix field
     contains the complete (128 bit) IPv6 address of the advertising node. </dd>
+
+	<dt>Flags:</dt><dd>  The 4 bits remaining unused in the Flags field are reserved for flags.  The field MUST be initialized to zero by the sender
+         and MUST be ignored by the receiver. </dd>
 
     <dt>Registration Ownership Verifier (ROVR):</dt><dd>
                   This is the same field as in the EARO,
@@ -844,7 +856,7 @@
    of <xref target='RFC6550'/>.
    </t>
    <t>
-   The 'P' flag is set to indicate that the Root performs the proxy operation,
+   The 'P' flag is set to 1 to indicate that the Root performs the proxy operation,
    which implies that it supports this specification and the updated RPL Target Option (see <xref target='tgt'/>).
    </t>
 
@@ -869,8 +881,8 @@
    is copied unmodified from parents to children.
    <xref target='RFC6550'/> states that "Nodes other than the DODAG Root MUST
    NOT modify this information when propagating the DODAG Configuration option".
-   Therefore, a legacy parent propagates the 'P' Flag as set by the Root, and
-   when the 'P' Flag is set, it is transparently flooded to all the nodes in the DODAG.
+   Therefore, a legacy parent propagates the 'P' Flag as set to 1 by the Root, and
+   when the 'P' Flag is set to 1, it is transparently flooded to all the nodes in the DODAG.
   </t>
 
    </section><!-- New Flag in the RPL DODAG Configuration Option -->
@@ -916,18 +928,18 @@
  </figure>
   <t> This specification updates the RPL Status with subfields as indicated below:
 	</t><dl  spacing='normal'>
-	<dt>E:</dt><dd> 1-bit flag. Set to indicate a rejection. When not set, a Status value of 0
+	<dt>E:</dt><dd> 1-bit flag. set to 1 to indicate a rejection. When set to 0, a Status value of 0
     indicates Success/Unqualified acceptance and other values indicate "not an
     outright rejection" as per RFC 6550.</dd>
 	<dt>A:</dt><dd> 1-bit flag. Indicates the type of the RPL Status value.</dd>
-	<dt>Status Value:</dt><dd> 6-bit unsigned integer. If the 'A' flag is set this
+	<dt>Status Value:</dt><dd> 6-bit unsigned integer. If the 'A' flag is set to 1 this
     field transports a Status value defined for IPv6 ND EARO. When the 'A' flag
-    is not set, the Status value is defined for RPL.</dd>
+    is set to 0, the Status value is defined for RPL.</dd>
 	</dl>
    <t>
    When building a DCO or a DAO-ACK message upon an IPv6 ND NA or a EDAC message,
-   the RPL Root MUST copy the 6LoWPAN ND status code unchanged in the RPL Status value and set the 'A' flag.
-   The RPL Root MUST set the 'E' flag for all rejection and unknown status codes.  The status codes in the 1-10 range <xref target='RFC8505'/> are all considered rejections.
+   the RPL Root MUST copy the 6LoWPAN ND status code unchanged in the RPL Status value and set the 'A' flag to 1.
+   The RPL Root MUST set the 'E' flag to 1 for all rejection and unknown status codes.  The status codes in the 1-10 range <xref target='RFC8505'/> are all considered rejections.
 
    </t>
    <t>
@@ -957,6 +969,8 @@
 This specification extends the use of the DCO message to the Non-Storing MOP, whereby the DCO is sent end-to-end by the Root directly to the RAN that injected the DAO message for the considered target.
 In that case, intermediate nodes do not need to support <xref target='I-D.ietf-roll-efficient-npdao'/>; they forward the DCO message as a plain IPv6 packet between the Root and the RAN.
    </t><t>
+In the case of a RUL, the 6LR that serves the RUL acts as the RAN that receives
+the Non-Storing DCO.
 This specification leverages the Non-Storing DCO between the Root and the 6LR that serves as attachment Router for a RUL. A 6LR and a Root that support this specification MUST implement the Non-Storing DCO.
 </t>
 
@@ -1000,7 +1014,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
   The description below assumes that the Root sets the 'P' flag in the
   DODAG Configuration Option and performs the EDAR proxy operation.
 </t><t>
-  If the 'P' flag is reset, the 6LR MUST generate the periodic EDAR messages and
+  If the 'P' flag is set to 0, the 6LR MUST generate the periodic EDAR messages and
   process the returned status as specified in <xref target='RFC8505'/>.
   If the EDAC indicates success, the rest of the flow takes place as presented
   but without the proxied EDAR/EDAC exchange.
@@ -1105,13 +1119,13 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
     This is what causes the RPL Root to refresh the state in the 6LBR, using an
     EDAC message.
     In case of an error in the proxied EDAR flow, the error is
-    returned in the DAO-ACK using a RPL Status with the 'A' flag set that imbeds
+    returned in the DAO-ACK using a RPL Status with the 'A' flag set to 1 that imbeds
     a 6LoWPAN Status value as discussed in <xref target='stat'/>.
 
  </t> <t>
 
     The 6LR may receive a requested DAO-ACK after it received an asynchronous
-    DCO, but the negative Status in the DCO supersedes a positive
+    Non-Storing DCO, but the negative Status in the DCO supersedes a positive
     Status in the DAO-ACK regardless of the order in which they are received.
     Upon the DAO-ACK - or the DCO if one arrives first - the 6LR responds to the
     RUL with an NA(EARO).
@@ -1119,11 +1133,11 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
  </t> <t>
    An issue may be detected later, e.g., the address moves to a different
    DODAG with the 6LBR attached to a different 6LoWPAN Backbone Router (6BBR),
-   see Figure 5 in section 3.3 of <xref target='I-D.ietf-6lo-backbone-router'/>.
+   see Figure 5 in section 3.3 of <xref target='RFC8929'/>.
    The 6BBR may send a negative ND status, e.g., in an asynchronous NA(EARO)
    to the 6LBR.
  </t> <t>
-   <xref target='I-D.ietf-6lo-backbone-router'/> expects that the 6LBR is collocated with the RPL Root,  but if not, the 6LBR MUST forward the status code to the originator of the EDAR, either the 6LR or the RPL Root that proxies for it.
+   <xref target='RFC8929'/> expects that the 6LBR is collocated with the RPL Root,  but if not, the 6LBR MUST forward the status code to the originator of the EDAR, either the 6LR or the RPL Root that proxies for it.
    The ND status code is mapped in a RPL Status value by the RPL Root, and then back by the 6LR.
 </t><t>
 
@@ -1148,7 +1162,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
 
    If the Root does not proxy, then the EDAC with a negative status reaches the
    6LR directly. In that case, the 6LR MUST clean up the route using a DAO with
-   a Lifetime of zero, and it MUST propagate the status back to the RUL in a NA(EARO) with the R Flag not set.
+   a Lifetime of zero, and it MUST propagate the status back to the RUL in a NA(EARO) with the R Flag set to 0.
  </t><t>
     The RUL may terminate the registration at any time by using a Registration
     Lifetime of 0.
@@ -1170,7 +1184,12 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
   This specification does not alter the operation of a 6LoWPAN ND-compliant
   6LN/RUL, which is expected to operate as follows:
 </t>
-<ol spacing='normal'><li>
+<ol spacing='normal'>
+<li>
+    The 6LN selects a 6LR that provides reachability services for a RUL. This
+    is signaled a 6CIO in the RA messages with the L, P and E flags set to 1
+    as prescribed by <xref target='RFC8505'/>.
+</li><li>
    The 6LN obtains an IPv6 global address, either using Stateless Address Autoconfiguration (SLAAC) <xref target='RFC4862'/> based on a Prefix
    Information Option (PIO) <xref target='RFC4861'/> found in an RA message, or
    some other means, such as DHCPv6 <xref target='RFC8415'/>.
@@ -1179,7 +1198,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
    Once it has formed an address, the 6LN registers its address and refreshes its registration periodically, early enough
    within the Lifetime of the previous Address Registration, as prescribed by
    <xref target='RFC6775'/>, to refresh the NCE before the lifetime indicated
-   in the EARO expires. It MUST set the T Flag.
+   in the EARO expires. It sets the T Flag to 1 as prescribed in <xref target='RFC8505'/>.
    The TID is incremented each time and wraps in a lollipop fashion (see
    section 5.2.1 of <xref target='RFC8505'/>, which is fully compatible with
    section 7.2 of <xref target='RFC6550'/>).
@@ -1212,15 +1231,15 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
    a 6LN acting as a RUL sets the R Flag in the EARO of its registration(s)
    for which it requires routing services. If the R Flag is not echoed in the
    NA, the RUL SHOULD attempt to use another 6LR. The RUL SHOULD send the
-   registration(s) with the R Flag set and ensure that one succeeds
-   before it sends the registrations with the flag reset. In case of a conflict
+   registration(s) with the R Flag set to 1 and ensure that one succeeds
+   before it sends the registrations with the flag set to 0. In case of a conflict
    with the preceding rule on lifetime, the rule on lifetime has precedence.
 -->
 
   Following section 5.1 of <xref target='RFC8505'/>,
   a 6LN acting as a RUL sets the R Flag in the EARO of its registration(s)
   for which it requires routing services. If the R Flag is not echoed in the
-  NA, the RUL SHOULD attempt to use another 6LR.  The RUL SHOULD ensure that one registration succeeds before resetting the R Flag.  In case of a
+  NA, the RUL SHOULD attempt to use another 6LR.  The RUL SHOULD ensure that one registration succeeds before setting the R Flag to 0.  In case of a
   conflict
   with the preceding rule on lifetime, the rule on lifetime has precedence.
 
@@ -1253,7 +1272,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
    RPLInstanceID information provided by the RUL or rewrite it to the selected
    RPLInstanceID for forwarding inside the RPL domain.
    All the flags and the Rank field are set
-   to zero as specified by section 11.2 of <xref target='RFC6550'/>.
+   to 0 as specified by section 11.2 of <xref target='RFC6550'/>.
 </t>
 </section>
 
@@ -1261,16 +1280,20 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
 
 
 <section anchor='lr'><name>Perspective of the 6LR Acting as Border Router</name>
+
 <t>
+    A 6LR that provides reachability services for a RUL in a RPL network
+    as specified in this document MUST include a 6CIO in its RA messages and
+    set the L, P and E flags to 1 as prescribed by <xref target='RFC8505'/>.
+</t><t>
    As prescribed by <xref target='RFC8505'/>,
    the 6LR generates an EDAR message upon reception of a valid NS(EARO)
    message for the registration of a new IPv6 address by a 6LN.
    If the initial EDAR/EDAC exchange succeeds, then the 6LR installs an NCE
    for the Registration Lifetime. For the registration refreshes, if the RPL Root has indicated that it proxies the keep-alive EDAR/EDAC exchange with the 6LBR (see <xref target='upd'/>), the 6LR MUST refrain from sending the keep-alive EDAR.
 </t>
-
 <t>
-   If the R Flag is set in the NS(EARO), the 6LR SHOULD inject the
+   If the R Flag is set to 1 in the NS(EARO), the 6LR SHOULD inject the
    Host route in RPL, unless this is barred for other reasons, such as the saturation of the RPL parents. The 6LR MUST use a RPL Non-Storing Mode
    signaling and the updated Target Option (see <xref target='tgt'/>). The 6LR MUST request a DAO-ACK by setting the 'K' flag in the DAO message. Success
    injecting the route to the RUL's address is indicated by the 'E' flag
@@ -1293,7 +1316,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
   follows:
   </t>
 <ol spacing='normal'>
-  <li>The Registered Address is signaled as the Target Prefix in the updated Target Option in the DAO message; the Prefix Length is set to 128 but the 'F' flag is not set since the advertiser is not the RUL. The ROVR field is copied unchanged from the EARO (see <xref target='tgt'/>).
+  <li>The Registered Address is signaled as the Target Prefix in the updated Target Option in the DAO message; the Prefix Length is set to 128 but the 'F' flag is set to 0 since the advertiser is not the RUL. The ROVR field is copied unchanged from the EARO (see <xref target='tgt'/>).
   </li><li>
   The 6LR indicates one of its global or unique-local IPv6 unicast addresses as the Parent Address in the RPL Transit Information Option (TIO) associated with the Target Option
   </li><li>
@@ -1319,31 +1342,31 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
    Upon receiving or timing out the DAO-ACK after an implementation-specific number of retries, the 6LR MUST send the corresponding NA(EARO) to the RUL. Upon receiving an asynchronous DCO message, if a DAO-ACK is pending then the 6LR MUST wait for the DAO-ACK to send the NA(EARO) and deliver the status found in the DCO, else it MUST send an asynchronous NA(EARO) to the RUL immediately.
 
 </t><t>
-   The 6LR MUST set the R Flag in the NA(EARO) back if and only if the 'E' flag is reset, indicating that the 6LR injected the Registered Address in the RPL routing successfully and that the EDAR proxy operation succeeded.
+   The 6LR MUST set the R Flag to 1 in the NA(EARO) back if and only if the 'E' flag is set to 0, indicating that the 6LR injected the Registered Address in the RPL routing successfully and that the EDAR proxy operation succeeded.
 </t><t>
 
-   If the 'A' flag in the RPL Status is set, the embedded Status value is passed
+   If the 'A' flag in the RPL Status is set to 1, the embedded Status value is passed
    back to the RUL in the EARO Status.
-   If the 'E' flag is also set, the registration failed for
+   If the 'E' flag is also set to 1, the registration failed for
    6LoWPAN ND related reasons, and the NCE is removed.
 </t><t>
 
-   An error injecting the route causes the 'E' flag to be set. If the error is not related to ND, the 'A' flag is not set. In that case, the registration succeeds, but the RPL route is not installed. So the NA(EARO) is returned
-   with a positive status but the R Flag not set, which means that the 6LN
+   An error injecting the route causes the 'E' flag to be set to 1. If the error is not related to ND, the 'A' flag is set to 0. In that case, the registration succeeds, but the RPL route is not installed. So the NA(EARO) is returned
+   with a positive status but the R Flag set to 0, which means that the 6LN
    obtained a binding but no route.
 </t><t>
-   If the 'A' flag is not set in the RPL Status of the DAO-ACK, then the 6LoWPAN
+   If the 'A' flag is set to 0 in the RPL Status of the DAO-ACK, then the 6LoWPAN
    ND operation succeeded, and an EARO Status of 0 (Success) MUST be returned to
    the 6LN. The EARO Status of 0 MUST also be used if the 6LR did not attempt to inject the route but could create the binding after a successful EDAR/EDAC exchange or refresh it.
 </t><t>
-   If the 'E' flag is set in the RPL Status of the DAO-ACK, then the route was not installed and the R flag MUST NOT be set in the NA(EARO). The R flag MUST NOT be set if the 6LR did not attempt to inject the route.
+   If the 'E' flag is set to 1 in the RPL Status of the DAO-ACK, then the route was not installed and the R flag MUST be set to 0 in the NA(EARO). The R flag MUST be set to 0 if the 6LR did not attempt to inject the route.
 
 </t><t>
    In a network where Address Protected Neighbor Discovery (AP-ND) is enabled,
    in case of a DAO-ACK or a DCO indicating transporting an EARO
    Status value of 5 (Validation Requested), the 6LR MUST
    challenge the 6LN for ownership of the address, as described in section
-   6.1 of <xref target='I-D.ietf-6lo-ap-nd'/>, before the Registration is
+   6.1 of <xref target='RFC8928'/>, before the Registration is
    complete. This flow, illustrated in <xref target='Dynamic-fig'/>, ensures that the address is validated before it is injected in the RPL routing.
 </t><t>
    If the challenge succeeds, then the operations continue as normal.
@@ -1396,15 +1419,15 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
 
 
 <t>
-   The 6LR may at any time send a unicast asynchronous NA(EARO) with the R Flag reset to signal that it stops providing routing services, and/or with the EARO Status 2 "Neighbor Cache full" to signal that it removes the NCE. It may also send a final RA, unicast or multicast, with a Router Lifetime field of zero, to signal that it stops serving as Router, as specified in section 6.2.5 of <xref target='RFC4861'/>. This may happen upon a
+   The 6LR may at any time send a unicast asynchronous NA(EARO) with the R Flag set to 0 to signal that it stops providing routing services, and/or with the EARO Status 2 "Neighbor Cache full" to signal that it removes the NCE. It may also send a final RA, unicast or multicast, with a Router Lifetime field of zero, to signal that it stops serving as Router, as specified in section 6.2.5 of <xref target='RFC4861'/>. This may happen upon a
    DCO or a DAO-ACK message indicating the path is already removed; else the
    6LR MUST remove the Host route to the 6LN using a DAO message with a Path
    Lifetime of zero.
 </t><t>
 
-   A valid NS(EARO) message with the R Flag not set and a Registration Lifetime that is not zero signals that the 6LN wishes to maintain the binding but does not require the routing services from the 6LR (any more).
+   A valid NS(EARO) message with the R Flag set to 0 and a Registration Lifetime that is not zero signals that the 6LN wishes to maintain the binding but does not require the routing services from the 6LR (any more).
 
-   Upon this message, if, due to previous NS(EARO) with the R Flag set, the
+   Upon this message, if, due to previous NS(EARO) with the R Flag set to 1, the
    6LR was injecting the Host route to the Registered Address in RPL using DAO
    messages, then the 6LR MUST invalidate the Host route in RPL using a DAO
    with a Path Lifetime of zero.
@@ -1421,7 +1444,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
 <section anchor='Root'><name>Perspective of the RPL Root</name>
 
 <t>
-   A RPL Root MUST set the 'P' flag in the RPL DODAG Configuration Option of
+   A RPL Root MUST set the 'P' flag to 1 in the RPL DODAG Configuration Option of
    the DIO messages that it generates (see <xref target='upd'/>) to signal
    that it proxies the EDAR/EDAC exchange and supports the Updated RPL Target
    option.
@@ -1469,11 +1492,11 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
 </t>
 <t>
    In either case, the EDAC Status is embedded in the RPL Status with the 'A'
-   flag set.
+   flag set to 1.
 </t>
 <t>
    The proxied EDAR/EDAC exchange MUST be protected with a timer of an appropriate duration and a number of retries, that are implementation-dependent, and SHOULD be configurable since the Root and the 6LBR are typically nodes with a higher capacity and manageability than 6LRs.
-   Upon timing out, the Root MUST send an error back to the 6LR as above, either using a DAO-ACK or a DCO, as appropriate, with the 'A' and 'E' flags set in the RPL status, and a RPL Status value of of "6LBR Registry Saturated" <xref target='RFC8505'/>.
+   Upon timing out, the Root MUST send an error back to the 6LR as above, either using a DAO-ACK or a DCO, as appropriate, with the 'A' and 'E' flags set to 1 in the RPL status, and a RPL Status value of of "6LBR Registry Saturated" <xref target='RFC8505'/>.
 
 </t>
 
@@ -1635,11 +1658,11 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
     The Link-Layer security is needed in particular to prevent
     Denial-Of-Service attacks whereby a rogue 6LN creates a high churn in the
     RPL network by constantly registering and deregistering addresses with the
-    R Flag set in the EARO.
+    R Flag set to 1 in the EARO.
 
  </t> <t>
-   <xref target='I-D.ietf-6lo-ap-nd'/> updated 6LoWPAN ND with the called Address-Protected Neighbor Discovery (AP-ND). AP-ND protects the owner of an address against address theft and impersonation attacks in a Low-Power and Lossy Network (LLN). Nodes supporting th extension compute a cryptographic identifier (Crypto-ID), and use it with one or more of their Registered Addresses. The Crypto-ID identifies the owner of the Registered Address and can be used to provide proof of ownership of the Registered Addresses. Once an address is registered with the Crypto-ID and a proof of ownership is provided, only the owner of that address can modify the registration information, thereby enforcing Source Address Validation.
-   <xref target='I-D.ietf-6lo-ap-nd'/>
+   <xref target='RFC8928'/> updated 6LoWPAN ND with the called Address-Protected Neighbor Discovery (AP-ND). AP-ND protects the owner of an address against address theft and impersonation attacks in a Low-Power and Lossy Network (LLN). Nodes supporting th extension compute a cryptographic identifier (Crypto-ID), and use it with one or more of their Registered Addresses. The Crypto-ID identifies the owner of the Registered Address and can be used to provide proof of ownership of the Registered Addresses. Once an address is registered with the Crypto-ID and a proof of ownership is provided, only the owner of that address can modify the registration information, thereby enforcing Source Address Validation.
+   <xref target='RFC8928'/>
    reduces even more the attack perimeter that is available to the edge nodes
    and its use is suggested in this specification.
  </t><t>
@@ -1665,9 +1688,13 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
     allowing the Root to challenge the RUL via the 6LR that serves it.
 
  </t><t>
+   <xref target='tgt'/> indicates that when the length of the ROVR field is unknown, the RPL Target Option must be passed on as received in RPL storing Mode. This creates a possible opening for using DAO messages as a
+   covert channel. Note that DAO messages are rare and the overusing that channel could be detected. An implementation SHOULD notify the network
+   management when a RPL Target Option is receives with an unknown ROVR field size, to ensure that the situation is known to the network administrator.
+ </t><t>
      <xref target='I-D.ietf-roll-efficient-npdao'/> introduces the ability for
      a rogue common ancestor node to invalidate a route on behalf of the target
-     node. In this case, the RPL Status in the DCO has the 'A' flag not set, and a NA(EARO) is returned to the 6LN with the R flag not set. This encourages the 6LN to try another 6LR. If a 6LR exists that does not use
+     node. In this case, the RPL Status in the DCO has the 'A' flag set to 0, and a NA(EARO) is returned to the 6LN with the R flag set to 0. This encourages the 6LN to try another 6LR. If a 6LR exists that does not use
      the rogue common ancestor, then the 6LN will eventually succeed gaining
      reachability over the RPL network in spite of the rogue node.
 
@@ -1721,6 +1748,10 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
       <tr><td>1 (suggested)</td><td>Root Proxies EDAR/EDAC (P)</td><td>THIS RFC</td></tr>
    </tbody>
    </table>
+   <t>
+   It is suggested to IANA to indicate that the Flag fields in RPL options are
+   indexed starting counting from bit 0 as the most significant bit.
+   </t>
 
 </section><!-- New RPL DODAG Configuration Option Flag -->
 <section anchor="iana-full"><name>RPL Target Option Registry</name>
@@ -1740,7 +1771,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
    <thead>
       <tr><td>Bit Number</td><td>Capability Description</td><td>Reference</td></tr>
    </thead><tbody>
-      <tr><td>1 (suggested)</td><td>Advertiser address in Full (F)</td><td>THIS RFC</td></tr>
+      <tr><td>0 (suggested)</td><td>Advertiser address in Full (F)</td><td>THIS RFC</td></tr>
    </tbody>
    </table>
 
@@ -1749,7 +1780,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
 
 <section anchor='iana-stats-nonrej'><name>New Subregistry for RPL Non-Rejection Status values </name>
  <t>
-	This specification creates a new Subregistry for the RPL Non-Rejection Status values for use in the RPL DAO-ACK, DCO, and DCO-ACK messages with the 'A' flag reset, under the RPL registry.
+	This specification creates a new Subregistry for the RPL Non-Rejection Status values for use in the RPL DAO-ACK, DCO, and DCO-ACK messages with the 'A' flag set to 0, under the RPL registry.
 </t>
 <ul spacing='normal'>
   <li> Possible values are 6-bit unsigned integers (0..63).</li>
@@ -1779,7 +1810,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
 
 <section anchor='iana-stats-rej'><name>New Subregistry for RPL Rejection Status values </name>
  <t>
-	This specification creates a new Subregistry for the RPL Rejection Status values for use in the RPL DAO-ACK and DCO messages with the 'A' flag reset, under the RPL registry.
+	This specification creates a new Subregistry for the RPL Rejection Status values for use in the RPL DAO-ACK and DCO messages with the 'A' flag set to 0, under the RPL registry.
 </t><ul spacing='normal'>
   <li> Possible values are 6-bit unsigned integers (0..63).</li>
   <li> Registration procedure is "IETF Review" <xref target='RFC8126'/>.</li>
@@ -1805,6 +1836,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
    The authors wish to thank Ines Robles, Georgios Papadopoulos and
    especially Rahul Jadhav and Alvaro Retana
    for their reviews and contributions to this document.
+   Also many thanks to Peter Van der Stok and Carl Wallace for their reviews and useful comments during the IETF Last Call and the IESG review sessions.
   </t>
 
 </section>
@@ -1814,10 +1846,12 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
 
  <back>
 
-
-      <displayreference   target="I-D.ietf-6lo-ap-nd"           to="AP-ND"/>
-      <displayreference   target="I-D.ietf-6lo-backbone-router"     to="6BBR"/>
-      <displayreference   target="I-D.ietf-roll-useofrplinfo"       to="USEofRPLinfo"/>
+<!--
+      <displayreference   target="RFC8928"           to="AP-ND"/>
+      <displayreference   target="RFC8929"     to="6BBR"/>
+-->
+      <displayreference   target="I-D.ietf-roll-useofrplinfo"
+ to="USEofRPLinfo"/>
       <displayreference   target="I-D.ietf-roll-efficient-npdao"           to="EFFICIENT-NPDAO"/>
 
  <references><name>Normative References</name>
@@ -1833,10 +1867,11 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
    <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml'/>
    <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8200.xml'/>
 
-	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8504.xml'/>
-	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8505.xml'/>
-   <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-6lo-ap-nd.xml'/>
-   <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-roll-useofrplinfo.xml'/>
+   <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8504.xml'/>
+   <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8505.xml'/>
+   <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8928.xml'/>
+
+<xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-roll-useofrplinfo.xml'/>
    <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-roll-efficient-npdao.xml'/>
 
 
@@ -1854,7 +1889,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
 	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6687.xml'/>
       <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7416.xml'/>
 	  <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8025.xml'/>
-      <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-6lo-backbone-router.xml'/>
+      <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8929.xml'/>
  </references>
 
 
@@ -1894,9 +1929,9 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
     <t>
      In <xref target='rtghc'/>, the source of the IP-in-IP encapsulation is
           the Root, so it is elided in the IP-in-IP 6LoRH. The destination is
-          the parent 6LR of the destination of the inner packet so it cannot be
-          elided. If the DODAG is operated in Storing Mode, it is the single
-          entry in the SRH-6LoRH and the SRH-6LoRH Size is encoded as 0.
+          the parent 6LR of the destination of the encapsulated packet so it
+          cannot be elided. If the DODAG is operated in Storing Mode, it is the
+          single entry in the SRH-6LoRH and the SRH-6LoRH Size is encoded as 0.
           The SRH-6LoRH is the first 6LoRH in the chain.
           In this particular example, the 6LR address can
           be compressed to 2 bytes so a Type of 1 is used.
@@ -1919,8 +1954,8 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
           The Paging Dispatch <xref target='RFC8025'/> may also be removed if
           there was no previous Page change to a Page other than 0 or 1, since
           the LOWPAN_IPHC is encoded in the same fashion in the default Page 0
-          and in Page 1. The resulting packet to the destination is the inner
-          packet compressed with <xref target='RFC6282'/>.
+          and in Page 1. The resulting packet to the destination is the
+          encapsulated packet compressed with <xref target='RFC6282'/>.
        </t>
 </section>
  </back>
