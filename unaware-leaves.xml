@@ -57,8 +57,9 @@
 <t>
   This specification updates RFC6550, RFC6775, and RFC8505,
   <!-- , RFC6775, and RFC8505 draft-ietf-roll-efficient-npdao -->
-  to provide routing services to RPL Unaware Leaves
-  that implement 6LoWPAN Neighbor Discovery and the extensions therein.
+  to provide routing services to IPv6 Nodes
+  that implement RFC6775, RFC8505, and their extensions therein,
+  but do not support RFC6550.
   <!--This specification
   enables the RPL Root to proxy the 6LoWPAN keep-alive flows in its DODAG.
   -->
@@ -770,9 +771,9 @@ The full normative text is to be found in <xref target='RFC6775'/>, <xref target
    This specification defines the new 'F' flag that is set to 1 to indicate that
    the Target Prefix field is extended to 128 bits and contains an IPv6 address
    of the advertising node taken from the advertised Prefix. When it is set, the
-   Target Prefix field carries contain 2 distinct information, a route that can
-   be a Host route or a Prefix route depending on the Prefix Length, and an IPv6
-   address of the advertiser.
+   Target Prefix field carries two distinct pieces of information: a route that
+   can be a Host route or a Prefix route depending on the Prefix Length, and an
+   IPv6 address of the advertiser.
    </t>
    <t>
    If the 'F' flag is set to 0, the Target Prefix field can be shorter than

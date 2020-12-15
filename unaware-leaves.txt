@@ -15,8 +15,8 @@ Expires: 17 June 2021                                   14 December 2020
 Abstract
 
    This specification updates RFC6550, RFC6775, and RFC8505, to provide
-   routing services to RPL Unaware Leaves that implement 6LoWPAN
-   Neighbor Discovery and the extensions therein.
+   routing services to IPv6 Nodes that implement RFC6775, RFC8505, and
+   their extensions therein, but do not support RFC6550.
 
 Status of This Memo
 
@@ -767,9 +767,9 @@ Internet-Draft             RPL Unaware Leaves              December 2020
    indicate that the Target Prefix field is extended to 128 bits and
    contains an IPv6 address of the advertising node taken from the
    advertised Prefix.  When it is set, the Target Prefix field carries
-   contain 2 distinct information, a route that can be a Host route or a
-   Prefix route depending on the Prefix Length, and an IPv6 address of
-   the advertiser.
+   two distinct pieces of information: a route that can be a Host route
+   or a Prefix route depending on the Prefix Length, and an IPv6 address
+   of the advertiser.
 
    If the 'F' flag is set to 0, the Target Prefix field can be shorter
    than 128 bits and it MUST be aligned to the next byte boundary after
