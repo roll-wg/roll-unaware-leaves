@@ -844,8 +844,8 @@ The full normative text is to be found in <xref target='RFC6775'/>, <xref target
  <t> New fields:
 	</t><dl  spacing='normal'>
 	<dt>ROVRsz (ROVR Size):</dt><dd><t> Indicates the Size of the ROVR.
-                        It SHOULD be 1, 2, 3, or 4, indicating a ROVR size of
-                        64, 128, 192, or 256 bits, respectively.
+                        It MUST be set to 1, 2, 3, or 4, indicating a ROVR size
+                        of 64, 128, 192, or 256 bits, respectively.
                         If a legacy Target Option is used, then the value must
                         remain 0, as specified in <xref target='RFC6550'/>.
                         In case of a value above 4, the size of the ROVR is
@@ -1722,9 +1722,9 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
    reduces even more the attack perimeter that is available to the edge nodes
    and its use is suggested in this specification.
  </t><t>
-    Additionally, the trust model could include a role validation
-    to ensure that the node that claims to be a 6LBR or a RPL Root is entitled
-    to do so.
+    Additionally, the trust model could include a role validation (e.g., using a
+    role-based authorization) to ensure that the node that
+    claims to be a 6LBR or a RPL Root is entitled to do so.
  </t><t>
     The Opaque field in the EARO enables the RUL to suggest a RPLInstanceID
     where its traffic is placed. It is also possible for an attacker RUL to
