@@ -10,7 +10,7 @@ Expires: 19 June 2021                                   16 December 2020
 
 
                          Routing for RPL Leaves
-                   draft-ietf-roll-unaware-leaves-26
+                   draft-ietf-roll-unaware-leaves-27
 
 Abstract
 
@@ -440,7 +440,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
    such, the RUL is expected to ignore the RPL artifacts that may be
    left over, either an SRH with zero Segments Left or a RPL Option in
    the Hop-by-Hop Header, which can be skipped when not recognized, see
-   Section 5.
+   Section 5 for more.
 
 
 
@@ -2228,7 +2228,7 @@ Appendix A.  Example Compression
    to that represented in Figure 13 with possibly more hops in the SRH-
    6LoRH and possibly multiple SRH-6LoRHs if the various addresses in
    the routing header are not compressed to the same format.  Note that
-   on the last hop to the parent 6LR, the RH3 is consumed and removed
+   on the last hop to the parent 6LR, the SRH is consumed and removed
    from the compressed form, so the use of Non-Storing Mode vs.  Storing
    Mode is indistinguishable from the packet format.
 

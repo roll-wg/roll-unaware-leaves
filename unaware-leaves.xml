@@ -13,7 +13,7 @@
 <?rfc subcompact="no"?>
 <?rfc authorship="yes"?>
 <?rfc tocappendix="yes"?>
-<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="std" ipr='trust200902' tocInclude="true" updates='6550,6775,8505' obsoletes="" consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-roll-unaware-leaves-26" >
+<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="std" ipr='trust200902' tocInclude="true" updates='6550,6775,8505' obsoletes="" consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-roll-unaware-leaves-27" >
 
 <!-- updates='draft-ietf-roll-efficient-npdao,6550, 8505' consensus="true" submissionType="IETF" -->
 
@@ -413,7 +413,8 @@
    the mandates in Sections 4.2 and 4.4 of <xref target='RFC8200'/>. As such,
    the RUL is expected to ignore the RPL artifacts that may be left over, either
    an SRH with zero Segments Left or a RPL Option in the Hop-by-Hop Header,
-   which can be skipped when not recognized, see <xref target='prereq'/>.
+   which can be skipped when not recognized, see <xref target='prereq'/> for
+   more.
    <!--
       The inner packet that is forwarded to the RUL may carry some RPL
    artifacts, e.g., an RPI if the original packet was generated with it,
