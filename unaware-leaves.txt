@@ -14,9 +14,11 @@ Expires: 19 June 2021                                   16 December 2020
 
 Abstract
 
-   This specification updates RFC6550, RFC6775, and RFC8505, to provide
-   routing services to IPv6 Nodes that implement RFC6775, RFC8505, and
-   their extensions therein, but do not support RFC6550.
+   This specification updates RFC6550, RFC6775, and RFC8505.  It
+   provides a mechanism for a host that implements a routing-agnostic
+   interface based on 6LoWPAN Neighbor Discovery to obtain reachability
+   services across a network that leverages RFC6550 for its routing
+   operations.
 
 Status of This Memo
 
@@ -48,8 +50,6 @@ Copyright Notice
    extracted from this document must include Simplified BSD License text
    as described in Section 4.e of the Trust Legal Provisions and are
    provided without warranty as described in the Simplified BSD License.
-
-
 
 
 
@@ -435,12 +435,12 @@ Internet-Draft             RPL Unaware Leaves              December 2020
    The inner packet that is forwarded to the RUL may carry some RPL
    artifacts, e.g., an RPI if the original packet was generated with it,
    and an SRH in a Non-Storing Mode DODAG.  [USEofRPLinfo] expects the
-   RUL to support the basic "IPv6 Node Requirements" [RFC8504].  In
-   particular the RUL is expected to ignore the RPL artifacts that are
-   either consumed or not applicable to a host.
-
-
-
+   RUL to support the basic "IPv6 Node Requirements" [RFC8504] and in
+   particular the mandates in Sections 4.2 and 4.4 of [RFC8200].  As
+   such, the RUL is expected to ignore the RPL artifacts that may be
+   left over, either an SRH with zero Segments Left or a RPL Option in
+   the Hop-by-Hop Header, which can be skipped when not recognized, see
+   Section 5.
 
 
 

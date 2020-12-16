@@ -55,14 +55,10 @@
 
 <abstract>
 <t>
-  This specification updates RFC6550, RFC6775, and RFC8505,
-  <!-- , RFC6775, and RFC8505 draft-ietf-roll-efficient-npdao -->
-  to provide routing services to IPv6 Nodes
-  that implement RFC6775, RFC8505, and their extensions therein,
-  but do not support RFC6550.
-  <!--This specification
-  enables the RPL Root to proxy the 6LoWPAN keep-alive flows in its DODAG.
-  -->
+  This specification updates RFC6550, RFC6775, and RFC8505. It provides a
+  mechanism for a host that implements a routing-agnostic interface based
+  on 6LoWPAN Neighbor Discovery to obtain reachability services across a
+  network that leverages RFC6550 for its routing operations.
 </t>
 </abstract>
 
@@ -413,10 +409,19 @@
    e.g., an RPI if the original packet was generated with it, and an SRH in a
    Non-Storing Mode DODAG.
    <xref target='I-D.ietf-roll-useofrplinfo'/> expects the RUL to support the
-   basic <xref target='RFC8504'>"IPv6 Node Requirements"</xref>.
-   In particular the RUL is expected to ignore the RPL artifacts that are
-   either consumed or not applicable to a host.
+   basic <xref target='RFC8504'>"IPv6 Node Requirements"</xref> and in particular
+   the mandates in Sections 4.2 and 4.4 of <xref target='RFC8200'/>. As such,
+   the RUL is expected to ignore the RPL artifacts that may be left over, either
+   an SRH with zero Segments Left or a RPL Option in the Hop-by-Hop Header,
+   which can be skipped when not recognized, see <xref target='prereq'/>.
    <!--
+      The inner packet that is forwarded to the RUL may carry some RPL
+   artifacts, e.g., an RPI if the original packet was generated with it,
+   and an SRH in a Non-Storing Mode DODAG.  [USEofRPLinfo] expects the
+   RUL to support the basic "IPv6 Node Requirements" [RFC8504].  In
+   particular the RUL is expected to ignore the RPL artifacts that are
+   either consumed  or not applicable to a host (e.g., a Hop-by-Hop Option).
+
    Such a host may not necessarily ignore IPv6-in-IPv6 encapsulation, which is
    dealt with below.
    -->
