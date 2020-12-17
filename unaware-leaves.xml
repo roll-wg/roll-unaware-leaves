@@ -265,8 +265,6 @@
 <section anchor='gloss'><name>Glossary</name>
  <t> This document uses the following acronyms:
     </t><dl  spacing='compact'>
-    <dt>AR:</dt><dd>  Address Resolution (aka Address Lookup)  </dd>
-    <dt>ARQ:</dt><dd>  Automatic Repeat reQuest</dd>
     <dt>6CIO:</dt><dd> 6LoWPAN Capability Indication Option</dd>
     <dt>6LN:</dt><dd> 6LoWPAN Node (a Low Power host or router) </dd>
     <dt>6LR:</dt><dd> 6LoWPAN router </dd>
@@ -275,9 +273,9 @@
     <dt>(E)DAR:</dt><dd> (Extended) Duplicate Address Request  </dd>
     <dt>(E)DAC:</dt><dd> (Extended) Duplicate Address Confirmation </dd>
     <dt>DAD:</dt><dd> Duplicate Address Detection </dd>
+    <dt>DAD:</dt><dd> Duplicate Address Detection </dd>
     <dt>DAO:</dt><dd> Destination Advertisement Object (a RPL message) </dd>
     <dt>DCO:</dt><dd> Destination Cleanup Object (a RPL message) </dd>
-    <dt>DIS:</dt><dd> DODAG Information solicitation (a RPL message) </dd>
     <dt>DIO:</dt><dd> DODAG Information Object (a RPL message) </dd>
     <dt>DODAG:</dt><dd> Destination-Oriented Directed Acyclic Graph </dd>
     <dt>LLN:</dt><dd> Low-Power and Lossy Network </dd>
@@ -323,7 +321,7 @@
    information that RPL defines to be placed in data packets, e.g., as the RPL
    Option <xref target='RFC6553'/> within the IPv6 Hop-By-Hop Header.
    By extension, the term "RPI" is often used to refer to the RPL Option itself.
-   The DODAG Information solicitation (DIS), Destination Advertisement Object
+   The Destination Advertisement Object
    (DAO) and DODAG Information Object (DIO) messages are also specified in
    <xref target='RFC6550'/>. The Destination Cleanup Object (DCO) message
    is defined in <xref target='I-D.ietf-roll-efficient-npdao'/>.
@@ -1899,8 +1897,11 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
    The authors wish to thank Ines Robles, Georgios Papadopoulos and
    especially Rahul Jadhav and Alvaro Retana
    for their reviews and contributions to this document.
-   Also many thanks to Elwyn Davies, Eric Vyncke,
-   Peter Van der Stok and Carl Wallace for their reviews and useful comments
+   Also many thanks to Eric Vyncke, Erik Kline, Murray Kucherawy,
+   Peter Van der Stok, Carl Wallace,
+   and especially Benjamin Kaduk and Elwyn Davies,
+
+   for their reviews and useful comments
    during the IETF Last Call and the IESG review sessions.
   </t>
 
