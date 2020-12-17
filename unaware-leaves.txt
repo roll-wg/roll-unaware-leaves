@@ -6,7 +6,7 @@ ROLL                                                     P. Thubert, Ed.
 Internet-Draft                                             Cisco Systems
 Updates: 6550, 6775, 8505 (if approved)                    M. Richardson
 Intended status: Standards Track                               Sandelman
-Expires: 19 June 2021                                   16 December 2020
+Expires: 20 June 2021                                   17 December 2020
 
 
                          Routing for RPL Leaves
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 June 2021.
+   This Internet-Draft will expire on 20 June 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Thubert & Richardson      Expires 19 June 2021                  [Page 1]
+Thubert & Richardson      Expires 20 June 2021                  [Page 1]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Thubert & Richardson      Expires 19 June 2021                  [Page 2]
+Thubert & Richardson      Expires 20 June 2021                  [Page 2]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -165,7 +165,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                  [Page 3]
+Thubert & Richardson      Expires 20 June 2021                  [Page 3]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -221,7 +221,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                  [Page 4]
+Thubert & Richardson      Expires 20 June 2021                  [Page 4]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -277,7 +277,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                  [Page 5]
+Thubert & Richardson      Expires 20 June 2021                  [Page 5]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -333,7 +333,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                  [Page 6]
+Thubert & Richardson      Expires 20 June 2021                  [Page 6]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -381,15 +381,15 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
    6LoWPAN ND:  Neighbor Discovery Optimization for Low-Power and Lossy
       Networks [RFC6775], "Registration Extensions for 6LoWPAN Neighbor
-      Discovery" [RFC8505], and "Address Protected Neighbor Discovery
-      for Low-power and Lossy Networks" [RFC8928].
+      Discovery" [RFC8505], "Address Protected Neighbor Discovery for
+      Low-power and Lossy Networks" [RFC8928], and "IPv6 Backbone
+      Router" [RFC8929].
 
 
 
 
 
-
-Thubert & Richardson      Expires 19 June 2021                  [Page 7]
+Thubert & Richardson      Expires 20 June 2021                  [Page 7]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -445,7 +445,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                  [Page 8]
+Thubert & Richardson      Expires 20 June 2021                  [Page 8]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -501,7 +501,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                  [Page 9]
+Thubert & Richardson      Expires 20 June 2021                  [Page 9]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -557,7 +557,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 10]
+Thubert & Richardson      Expires 20 June 2021                 [Page 10]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -613,7 +613,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 11]
+Thubert & Richardson      Expires 20 June 2021                 [Page 11]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -669,7 +669,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 12]
+Thubert & Richardson      Expires 20 June 2021                 [Page 12]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -717,15 +717,15 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
    A RUL is expected to process an unknown Routing Header Type as
    prescribed by section 4.4 of [RFC8200].  This implies that the Source
-   Routing Header with a Routing Type of 3 [RFC6554] is ignored when the
-   Segments Left is zero.
+   Routing Header, which has a Routing Type of 3 [RFC6554], is ignored
+   when the Segments Left is zero.  When the Segments Left is non-zero,
+   the RUL discards the packet and send an ICMP Parameter Problem, Code
+   0, message to the packet's Source Address, pointing to the
+   unrecognized Routing Type.
 
 
 
-
-
-
-Thubert & Richardson      Expires 19 June 2021                 [Page 13]
+Thubert & Richardson      Expires 20 June 2021                 [Page 13]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -781,7 +781,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 14]
+Thubert & Richardson      Expires 20 June 2021                 [Page 14]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -837,7 +837,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 15]
+Thubert & Richardson      Expires 20 June 2021                 [Page 15]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -893,7 +893,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 16]
+Thubert & Richardson      Expires 20 June 2021                 [Page 16]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -949,7 +949,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 17]
+Thubert & Richardson      Expires 20 June 2021                 [Page 17]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1005,7 +1005,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 18]
+Thubert & Richardson      Expires 20 June 2021                 [Page 18]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1061,7 +1061,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 19]
+Thubert & Richardson      Expires 20 June 2021                 [Page 19]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1117,7 +1117,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 20]
+Thubert & Richardson      Expires 20 June 2021                 [Page 20]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1134,10 +1134,10 @@ Internet-Draft             RPL Unaware Leaves              December 2020
    creates an NCE and injects the Registered Address in the RPL routing
    using a DAO/DAO-ACK exchange with the RPL DODAG Root.
 
-   An Address Registration refresh is performed by the 6LN to maintain
-   the NCE in the 6LR alive before the lifetime expires.  Upon the
-   refresh of a registration, the 6LR reinjects the corresponding route
-   in RPL before it expires, as illustrated in Figure 8.
+   An Address Registration refresh is performed by the 6LN to keep the
+   NCE in the 6LR alive before the lifetime expires.  Upon the refresh
+   of a registration, the 6LR reinjects the corresponding route in RPL
+   before it expires, as illustrated in Figure 8.
 
           6LN/RUL   <-ND->   6LR   <-RPL->  Root   <-ND->      6LBR
              |                |              |                   |
@@ -1173,7 +1173,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 21]
+Thubert & Richardson      Expires 20 June 2021                 [Page 21]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1229,7 +1229,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 22]
+Thubert & Richardson      Expires 20 June 2021                 [Page 22]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1237,7 +1237,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 9.2.  Detailed Operation
 
    The following section specify respectively the behaviour of the 6LN
-   Acting as RUL, the 6LR Acting as Border router ad serving the 6LN,
+   Acting as RUL, the 6LR Acting as Border router and serving the 6LN,
    the RPL Root and the 6LBR in the control flows that enable RPL
    routing back to the RUL.
 
@@ -1247,7 +1247,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
    compliant 6LN/RUL, which is expected to operate as follows:
 
    1.  The 6LN selects a 6LR that provides reachability services for a
-       RUL.  This is signaled a 6CIO in the RA messages with the L, P
+       RUL.  This is signaled by a 6CIO in the RA messages with the L, P
        and E flags set to 1 as prescribed by [RFC8505].
 
    2.  The 6LN obtains an IPv6 global address, either using Stateless
@@ -1285,7 +1285,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 23]
+Thubert & Richardson      Expires 20 June 2021                 [Page 23]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1341,7 +1341,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 24]
+Thubert & Richardson      Expires 20 June 2021                 [Page 24]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1397,7 +1397,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 25]
+Thubert & Richardson      Expires 20 June 2021                 [Page 25]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1453,7 +1453,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 26]
+Thubert & Richardson      Expires 20 June 2021                 [Page 26]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1509,7 +1509,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 27]
+Thubert & Richardson      Expires 20 June 2021                 [Page 27]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1565,7 +1565,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 28]
+Thubert & Richardson      Expires 20 June 2021                 [Page 28]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1621,7 +1621,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 29]
+Thubert & Richardson      Expires 20 June 2021                 [Page 29]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1677,7 +1677,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 30]
+Thubert & Richardson      Expires 20 June 2021                 [Page 30]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1733,7 +1733,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 31]
+Thubert & Richardson      Expires 20 June 2021                 [Page 31]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1789,7 +1789,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 32]
+Thubert & Richardson      Expires 20 June 2021                 [Page 32]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1845,7 +1845,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 33]
+Thubert & Richardson      Expires 20 June 2021                 [Page 33]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1901,7 +1901,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 34]
+Thubert & Richardson      Expires 20 June 2021                 [Page 34]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -1957,7 +1957,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 35]
+Thubert & Richardson      Expires 20 June 2021                 [Page 35]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -2013,7 +2013,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 36]
+Thubert & Richardson      Expires 20 June 2021                 [Page 36]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -2069,7 +2069,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 37]
+Thubert & Richardson      Expires 20 June 2021                 [Page 37]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -2125,7 +2125,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 38]
+Thubert & Richardson      Expires 20 June 2021                 [Page 38]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -2181,7 +2181,7 @@ Internet-Draft             RPL Unaware Leaves              December 2020
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 39]
+Thubert & Richardson      Expires 20 June 2021                 [Page 39]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -2228,7 +2228,7 @@ Appendix A.  Example Compression
    to that represented in Figure 13 with possibly more hops in the SRH-
    6LoRH and possibly multiple SRH-6LoRHs if the various addresses in
    the routing header are not compressed to the same format.  Note that
-   on the last hop to the parent 6LR, the SRH is consumed and removed
+   on the last hop to the parent 6LR, the RH3 is consumed and removed
    from the compressed form, so the use of Non-Storing Mode vs.  Storing
    Mode is indistinguishable from the packet format.
 
@@ -2237,7 +2237,7 @@ Appendix A.  Example Compression
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 40]
+Thubert & Richardson      Expires 20 June 2021                 [Page 40]
 
 Internet-Draft             RPL Unaware Leaves              December 2020
 
@@ -2293,4 +2293,4 @@ Authors' Addresses
 
 
 
-Thubert & Richardson      Expires 19 June 2021                 [Page 41]
+Thubert & Richardson      Expires 20 June 2021                 [Page 41]

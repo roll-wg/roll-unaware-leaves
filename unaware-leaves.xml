@@ -355,9 +355,9 @@
 		and Lossy Networks</xref>,
 	    <xref target='RFC8505'>
 		"Registration Extensions for 6LoWPAN Neighbor Discovery"</xref>,
-        and <xref target='RFC8928'>
+        <xref target='RFC8928'>
         "Address Protected Neighbor Discovery for Low-power and Lossy Networks"
-        </xref>.
+        </xref>, and <xref target='RFC8929'>"IPv6 Backbone Router"</xref>.
 	</dd>
 	</dl>
 </section>	<!-- end section "References" -->
@@ -715,9 +715,14 @@ The full normative text is to be found in <xref target='RFC6775'/>, <xref target
 <t>
    A RUL is expected to process an unknown Routing Header Type as
    prescribed by section 4.4 of <xref target='RFC8200'/>.
-   This implies that the Source Routing Header with a Routing Type of 3
-   <xref target='RFC6554'/> is ignored when the Segments Left is zero.
+   This implies that the Source Routing Header, which has a Routing Type of 3
+   <xref target='RFC6554'/>, is ignored when the Segments Left is zero.
+   When the Segments Left is non-zero, the RUL discards the packet and
+   send an ICMP Parameter Problem, Code 0, message to the packet's
+   Source Address, pointing to the unrecognized Routing Type.
 </t>
+
+
 
 </section><!-- end section "Support of the Routing Header" -->
 
@@ -1153,7 +1158,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
    Root.
 </t>
  <t>
-    An Address Registration refresh is performed by the 6LN to maintain the NCE
+    An Address Registration refresh is performed by the 6LN to keep the NCE
     in the 6LR alive before the lifetime expires. Upon the refresh of a
     registration, the 6LR reinjects the corresponding route in RPL before it expires, as illustrated in <xref target='fReg2'/>.
  </t>
@@ -1238,7 +1243,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
 <section anchor='oper'><name>Detailed Operation</name>
 <t>
    The following section specify respectively the behaviour of the 6LN Acting
-   as RUL, the 6LR Acting as Border router ad serving the 6LN, the RPL Root and
+   as RUL, the 6LR Acting as Border router and serving the 6LN, the RPL Root and
    the 6LBR in the control flows that enable RPL routing back to the RUL.
 </t>
 <section anchor='ln'><name>Perspective of the 6LN Acting as RUL</name>
@@ -1249,7 +1254,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
 <ol spacing='normal'>
 <li>
     The 6LN selects a 6LR that provides reachability services for a RUL. This
-    is signaled a 6CIO in the RA messages with the L, P and E flags set to 1
+    is signaled by a 6CIO in the RA messages with the L, P and E flags set to 1
     as prescribed by <xref target='RFC8505'/>.
 </li><li>
    The 6LN obtains an IPv6 global address, either using Stateless Address Autoconfiguration (SLAAC) <xref target='RFC4862'/> based on a Prefix
