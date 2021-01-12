@@ -1429,7 +1429,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
   <t>
   The Path Lifetime in the TIO is computed from the Registration Lifetime in the EARO. This operation converts seconds to the Lifetime Units used in the RPL operation. This creates the deployment constraint that the Lifetime Unit is reasonably compatible with the expression of the Registration Lifetime; e.g., a Lifetime Unit of 0x4000 maps the most significant byte of the Registration Lifetime to the Path Lifetime.
     </t>  <t>
-  In that operation, the Path Lifetime must be rounded, if needed, to the upper value to ensure that the path has a longer lifetime than the registration.
+  In that operation, the Path Lifetime must be set to ensure that the path has a longer lifetime than the registration and covers in addition the round trip time to the Root.
     </t>  <t>
   Note that if the Registration Lifetime is 0, then the Path Lifetime is also 0 and the DAO message becomes a No-Path DAO, which cleans up the routes down to the RUL's address; this also causes the Root as a proxy to send an EDAR message to the 6LBR with a Lifetime of 0.
   </t>
@@ -1939,7 +1939,8 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
       <tr><td>Value</td><td>Meaning</td><td>Reference</td></tr>
    </thead><tbody>
       <tr><td>0</td><td>Unqualified rejection</td><td>THIS RFC</td></tr>
-      <tr><td>1..63</td><td>Unassigned</td><td></td></tr>
+      <tr><td>1</td><td>No routing entry</td><td><xref target='I-D.ietf-roll-efficient-npdao'/></td></tr>
+      <tr><td>2..63</td><td>Unassigned</td><td></td></tr>
    </tbody>
 
    </table>
