@@ -545,8 +545,8 @@ The full normative text is to be found in <xref target='RFC6775'/>, <xref target
    Transaction ID (TID), that is needed to fill the Path Sequence Field in the
    RPL Transit Option.
    This is the reason why the support of <xref target='RFC8505'/>
-   by the RUL, as opposed to only <xref target='RFC6775'/> is a prerequisite for
-   this specification)/; this requirement is fully explained in
+   by the RUL, as opposed to only <xref target='RFC6775'/>, is a prerequisite for
+   this specification); this requirement is fully explained in
    <xref target='prereq6lp'/>. The EARO also
    transports an Opaque field and an associated "I" field that describes what
    the Opaque field transports and how to use it.
@@ -1807,7 +1807,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
 
  </t><t>
    <xref target='tgt'/> indicates that when the length of the ROVR field is unknown, the RPL Target Option must be passed on as received in RPL storing Mode. This creates a possible opening for using DAO messages as a
-   covert channel. Note that DAO messages are rare and the overusing that channel could be detected. An implementation SHOULD notify the network
+   covert channel. Note that DAO messages are rare and overusing that channel could be detected. An implementation SHOULD notify the network
    management when a RPL Target Option is receives with an unknown ROVR field size, to ensure that the situation is known to the network administrator.
  </t><t>
      <xref target='I-D.ietf-roll-efficient-npdao'/> introduces the ability for
@@ -1939,7 +1939,7 @@ This specification leverages the Non-Storing DCO between the Root and the 6LR th
       <tr><td>Value</td><td>Meaning</td><td>Reference</td></tr>
    </thead><tbody>
       <tr><td>0</td><td>Unqualified rejection</td><td>THIS RFC</td></tr>
-      <tr><td>1</td><td>No routing entry</td><td><xref target='I-D.ietf-roll-efficient-npdao'/></td></tr>
+      <tr><td>1 (suggested in <xref target='I-D.ietf-roll-efficient-npdao'/>)</td><td>No routing entry</td><td><xref target='I-D.ietf-roll-efficient-npdao'/></td></tr>
       <tr><td>2..63</td><td>Unassigned</td><td></td></tr>
    </tbody>
 
